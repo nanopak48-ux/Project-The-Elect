@@ -11,6 +11,11 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Content\texture\NewFolder\**" />
+    <EmbeddedResource Remove="Content\texture\NewFolder\**" />
+    <None Remove="Content\texture\NewFolder\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Content\dialoguedata\chapter01.json" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />

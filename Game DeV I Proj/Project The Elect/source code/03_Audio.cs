@@ -98,6 +98,7 @@ namespace Project_The_Elect.source_code
                 }
             }
         }
+
         public void PlayBGM(int bgmIndex)
         {
             if (bgmIndex >= 0 && bgmIndex < _BGM.Count)
@@ -106,7 +107,6 @@ namespace Project_The_Elect.source_code
                 MediaPlayer.Play(_BGM[bgmIndex]);
                 MediaPlayer.IsRepeating = true;
             }
-
         }
 
         public void LowBGM(bool decision)
@@ -118,23 +118,18 @@ namespace Project_The_Elect.source_code
 
         public void PlayVoicelines(int voicelineIndex)
         {
-            if (_noneVCIndex.Contains(voicelineIndex))
-            {
-                _currentVoiceline?.Stop();
-                return;
-            }
-
+            _currentVoiceline?.Stop();
+            if (_noneVCIndex.Contains(voicelineIndex)) return;
             int skipped = 0;
+
             foreach (int noneIndex in _noneVCIndex)
             {
                 if (noneIndex < voicelineIndex)
                     skipped++;
             }
 
-            int voiceIndex = voicelineIndex - 1 - skipped;
-            if (voiceIndex < 0 || voiceIndex >= _Voicelines.Count) return;
-
-            _currentVoiceline?.Stop();
+            int voiceIndex = voicelineIndex - skipped;
+            if (voiceIndex < 0 || voiceIndex >= _Voicelines.Count) return;            
 
             _currentVoiceline = _Voicelines[voiceIndex].CreateInstance();
             _currentVoiceline.Volume = volume_vc;

@@ -82,7 +82,6 @@ namespace Project_The_Elect.source_code
 
             if (spr_profile == null || dialogue.character != spr_profile.TextureRegion.Name || spr_profile.TextureRegion.Name != previousCharacter)
             {
-
                 spr_profile = new Sprite(spr_dialogueprofile.GetRegion(dialogue.character));
                 previousCharacter = spr_profile.TextureRegion.Name;
                 spr_profilePos = new Vector2(108, 560);

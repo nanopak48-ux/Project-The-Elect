@@ -28,9 +28,11 @@ namespace Project_The_Elect
 
         private ChapterData chapter;
         private DialogueData current;
-        private GameFontManager _fontManager;
+        private GameTextManager _fontManager;
         private GameAudioManager _audioManager;
         private GameStateManager _gameStateManager;
+
+        private GameButtonGuide _gameButtonGuide;
         private int screenWidth;
         private int screenHeight;
 
@@ -40,14 +42,15 @@ namespace Project_The_Elect
         private bool _isPlayedVoiceline = false;
         private ContentManager contentManager;
 
-        public StateDialogue(ContentManager content, GameStateManager gameStateManager, SpriteBatch spriteBatch, GameAudioManager audioManager,int chapterIndex, int screenWidth, int screenHeight)
+        public StateDialogue(ContentManager _contentManager, GameStateManager gameStateManager, SpriteBatch spriteBatch, GameAudioManager audioManager,int chapterIndex, int screenWidth, int screenHeight)
         {
-            _dialogueManager = new DialogueManager(content);
-            _dialoguesprite = new DialogueSprite(content, spriteBatch, audioManager, screenWidth, screenHeight);
+            _dialogueManager = new DialogueManager(_contentManager);
+            _dialoguesprite = new DialogueSprite(_contentManager, spriteBatch, audioManager, screenWidth, screenHeight);
+            _gameButtonGuide = new GameButtonGuide(gameStateManager, _contentManager,spriteBatch);
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
             _gameStateManager = gameStateManager;
-            _fontManager = new GameFontManager(content, spriteBatch);
+            _fontManager = new GameTextManager(_contentManager, spriteBatch);
             _spriteBatch = spriteBatch;
             _audioManager = audioManager;
             _gameStateManager = gameStateManager;
@@ -61,19 +64,19 @@ namespace Project_The_Elect
                 _dialogueManager._dialogues = chapter.dialogues;
             }
             current = _dialogueManager.GetDialogue(_currentDialogueIndex);
-            _audioManager.LoadDialogueVoicelines(chapter, content);
+            _audioManager.LoadDialogueVoicelines(chapter, _contentManager);
 
             _isPlayingBGM = false;
-            contentManager = content;
+            contentManager = _contentManager;
         }    
 
         public void Update(GameTime gameTime)
         {
-            current = _dialogueManager.GetDialogue(_currentDialogueIndex);
+            _gameButtonGuide.Update(gameTime, _gameStateManager);
 
+            current = _dialogueManager.GetDialogue(_currentDialogueIndex);
             _fontManager.Update(gameTime, current, _isNextDialogue);
             if(_isNextDialogue) {_isNextDialogue = false;}
-
             InputHandler(gameTime);
             AudioHandler(gameTime);
         }
@@ -86,11 +89,13 @@ namespace Project_The_Elect
 
             //DRAW TEXT
             _fontManager.DrawDialogue(gameTime, current);
-            
+
             //DRAW BUTTONS
+            _gameButtonGuide.DrawBtnGuide(gameTime, _gameStateManager);
 
             _spriteBatch.End();
 
+            
         }
 
         public void InputHandler(GameTime gametime)

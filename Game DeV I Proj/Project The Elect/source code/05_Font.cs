@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Project_The_Elect.source_code
 {
-    public class GameFontManager
+    public class GameTextManager
     {
         public SpriteFont MainFont { get; private set; }
         public SpriteFont DialogueFont { get; private set; }
@@ -33,7 +33,7 @@ namespace Project_The_Elect.source_code
 
         private DialogueData _dialogueData;
 
-        public GameFontManager(ContentManager content, SpriteBatch spriteBatch)
+        public GameTextManager(ContentManager content, SpriteBatch spriteBatch)
         {
             _spriteBatch = spriteBatch;
             ProfileFont = content.Load<SpriteFont>("font/zh-cn");
@@ -78,6 +78,12 @@ namespace Project_The_Elect.source_code
             //DRAW TEXT 
             _spriteBatch.DrawString(DialogueFont, new string(_dialoguedisplay.ToArray()), _dialoguePos, Color.White,0f, Vector2.Zero, _dialogueScale,SpriteEffects.None,0f);
             _spriteBatch.DrawString(ProfileFont, current.character.ToUpper(),_profilePos, Color.White, 0f, Vector2.Zero, _profileScale, SpriteEffects.None, 0f);
+        }
+
+        public void Draw(List<string> TextList)
+        {
+            for (int i = 0; i < TextList.Count; i++)
+                _spriteBatch.DrawString(DialogueFont, TextList[i], new Vector2(1818-(i*108), 1038),Color.White);
         }
     }
 }
