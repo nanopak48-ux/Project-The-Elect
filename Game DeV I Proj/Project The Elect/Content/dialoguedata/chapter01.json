@@ -35,6 +35,16 @@
       "character": "Columbina",
       "text": "I don't like this place.",
       "voiceline": "chap01_v07"
+    },
+    {
+      "character": "Jamakuz",
+      "text": "E bah",
+      "voiceline": "chap01_08"
+    },
+    {
+      "character": "Fishu",
+      "text": "Ku khor thod",
+      "voiceline": "chap01_09"
     }
   ]
 }

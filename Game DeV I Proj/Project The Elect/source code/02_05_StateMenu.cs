@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Project_The_Elect.source_code
 {
-    public class StateMenu : GameState
+    public class StateMenu : IGameState
     {
         private ContentManager _content;
         private GameStateManager _gameStateManager;
@@ -21,36 +21,65 @@ namespace Project_The_Elect.source_code
 
         private int screenWidth;
         private int screenHeight;
+        private bool _isLoadedContent = false;
 
-        public StateMenu(string InputState,ContentManager content, GameStateManager gameStateManager, SpriteBatch spriteBatch, GameAudioManager audioManager, int screenWidth, int screenHeight)
+        public StateMenu(ContentManager content, GameStateManager gameStateManager, SpriteBatch spriteBatch, GameAudioManager audioManager, int screenWidth, int screenHeight)
         {
-
-            _returnState = InputState;
             _content = content;
             _gameStateManager = gameStateManager;
             _spriteBatch = spriteBatch;
             _audioManager = audioManager;
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
+
+            LoadContentMenu();
+            _audioManager.PlaySFX("menuentry"); 
         }
+        private Texture2D background;
+        public void LoadContentMenu()
+        {
+            background = _content.Load<Texture2D>("texture/05_menu/01_menuBG");
+        }
+
         public void Update(GameTime gameTime)
         {
+
             InputHandler(gameTime);
         }
 
         public void Draw(GameTime gameTime)
         {
 
+            _spriteBatch.Begin();
+            // Draw menu items
+            _spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
+
+            _spriteBatch.End();
         }
+
+        private KeyboardState _previousKeyboardState;
+        private MouseState _previousMouseState;
+        private bool _isMenuOpen = true;
 
         public void InputHandler(GameTime gameTime)
         {
             KeyboardState currentKeyboardState = Keyboard.GetState();
+            MouseState currentMouseState = Mouse.GetState();
 
-            if (currentKeyboardState.IsKeyUp(Keys.M))
+            bool keyMPressed = currentKeyboardState.IsKeyDown(Keys.Escape) && _previousKeyboardState.IsKeyUp(Keys.Escape);
+
+            if (keyMPressed)
             {
-                _gameStateManager.StateSetTo(new StateDialogue(_content, _gameStateManager, _spriteBatch, _audioManager, screenWidth, screenHeight));
+                _isMenuOpen = !_isMenuOpen;
+                if(_isMenuOpen)
+                {
+                    _gameStateManager.StateReturn();
+                    _audioManager.PlaySFX("menuentry");
+                }
             }
+
+            _previousKeyboardState = currentKeyboardState;
+            _previousMouseState = currentMouseState;
         }
 
         public void AudioHandler(GameTime gameTime)

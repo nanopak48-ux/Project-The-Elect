@@ -42,6 +42,20 @@
 /processorParam:Version=3.8.5.1
 /build:audio/02_sfx/sfx_01_selected.mp3
 
+#begin audio/02_sfx/sfx_02_menuentry.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/02_sfx/sfx_02_menuentry.mp3
+
+#begin audio/02_sfx/sfx_03_exit.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/02_sfx/sfx_03_exit.mp3
+
 #begin audio/03_voiceline/dialogue/chap01_v01.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -82,14 +96,28 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /processorParam:Version=3.8.5.1
-/build:audio/03_voiceline/dialogue/chap01_v06.mp3
+/build:audio/03_voiceline/dialogue/chap01_v06.mp3;audio/03_voiceline/dialogue/chap01_v06
 
 #begin audio/03_voiceline/dialogue/chap01_v07.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /processorParam:Version=3.8.5.1
-/build:audio/03_voiceline/dialogue/chap01_v07.mp3
+/build:audio/03_voiceline/dialogue/chap01_v07.mp3;audio/03_voiceline/dialogue/chap01_v07
+
+#begin audio/03_voiceline/dialogue/chap01_v08.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/03_voiceline/dialogue/chap01_v08.mp3;audio/03_voiceline/dialogue/chap01_v08
+
+#begin audio/03_voiceline/dialogue/chap01_v09.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/03_voiceline/dialogue/chap01_v09.mp3;audio/03_voiceline/dialogue/chap01_v09
 
 #begin dialoguedata/chapter01.json
 /copy:dialoguedata/chapter01.json

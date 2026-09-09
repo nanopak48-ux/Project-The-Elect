@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Project_The_Elect.source_code
 {
-    public class StateCutscene : GameState
+    public class StateCutscene : IGameState
     {
         private bool Isnextscene = false;
         public void Update(Microsoft.Xna.Framework.GameTime gameTime)

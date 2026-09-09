@@ -9,25 +9,40 @@ using System.Threading.Tasks;
 
 namespace Project_The_Elect
 {
-    public interface GameState
+    public interface IGameState
     {
         void Update(GameTime gameTime);
         void Draw(GameTime gameTime);
         void InputHandler(GameTime gameTime);
         void AudioHandler(GameTime gameTime);
     }
-    public class GameStateManager : GameState
+    public class GameStateManager : IGameState
     {
         private SpriteBatch _spriteBatch;
-        public GameState CurrentState 
-        { 
-            get; 
-            private set;
+
+        private Stack<IGameState> _stateStack = new Stack<IGameState>();
+
+        public IGameState CurrentState
+        {
+            get
+            {
+                return _stateStack.Peek();
+            }
+        }
+        public void StatePush(IGameState newState)
+        {
+            _stateStack.Push(newState);
         }
 
-        public void StateSetTo(GameState newState)
+        public void StateReturn()
         {
-            CurrentState = newState;
+            _stateStack.Pop();
+        }
+
+        public void StateSetTo(IGameState newState)
+        {
+            _stateStack.Clear();
+            _stateStack.Push(newState);
         }
 
         public void Update(GameTime gameTime)

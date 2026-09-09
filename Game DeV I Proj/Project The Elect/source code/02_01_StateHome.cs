@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Project_The_Elect.source_code
 {
-    public class StateHome : GameState
+    public class StateHome : IGameState
     {
         private bool IsLoadedContent = false;
         private bool IsPlayingBGM = false;
@@ -45,6 +45,7 @@ namespace Project_The_Elect.source_code
             background = new List<Texture2D>();
             background.Add(_content.Load<Texture2D>("texture/01_home/01_homeBG"));
         }
+
         public void Update(GameTime gameTime)
         {
             if (!IsLoadedContent)
@@ -70,7 +71,7 @@ namespace Project_The_Elect.source_code
         {
             if(Keyboard.GetState().IsKeyDown(Keys.Enter))
             {  
-                _audioManager.PlaySFX(1);
+                _audioManager.PlaySFX("selected");
                 _gameStateManager.StateSetTo(new StateDialogue(_content, _gameStateManager, _spriteBatch, _audioManager, screenWidth, screenHeight));
             }
         }

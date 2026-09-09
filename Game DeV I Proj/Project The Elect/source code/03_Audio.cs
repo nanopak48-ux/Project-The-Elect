@@ -21,13 +21,16 @@ namespace Project_The_Elect.source_code
     {
         private float volume_bgm = 30f;
         private float volume_sfx = 100f;
+        private float volume_vc = 1f;
         private float volume_fadeStep;
         private float volume_fadeDuration = 2f;
 
         private string[] _sfxIndex = new string[]
         {
             "proceed",
-            "selected"
+            "selected",
+            "menuentry",
+            "exit"
         };
         
         private string[] _bgmIndex = new string[]
@@ -90,9 +93,10 @@ namespace Project_The_Elect.source_code
         {
             if (bgmIndex >= 0 && bgmIndex < _BGM.Count)
             {
-                MediaPlayer.Play(_BGM[bgmIndex]);
+                //MediaPlayer.Play(_BGM[bgmIndex]);
                 MediaPlayer.IsRepeating = true;
             }
+
         }
 
 
@@ -101,19 +105,25 @@ namespace Project_The_Elect.source_code
             _currentVoiceline?.Stop();
 
             _currentVoiceline = _Voicelines[voicelineIndex].CreateInstance();
+            _currentVoiceline.Volume = volume_vc;
 
             _currentVoiceline.Play();
         }
 
-        public void PlaySFX(int sfxIndex)
+        public void PlaySFX(string sfxName)
         {
-            _SFX[sfxIndex].Play();
+            int index = Array.IndexOf(_sfxIndex, sfxName);
+            if (index != -1)
+            {
+                _SFX[index].Play();
+            }
         }
 
         public void VolumeControl(float bgmVolume, float sfxVolume)
         {
-            volume_bgm = bgmVolume;
-            volume_sfx = sfxVolume;
+            volume_bgm += bgmVolume;
+            volume_sfx += sfxVolume;
+            volume_vc += sfxVolume;
             MediaPlayer.Volume = volume_bgm;
         }
     }

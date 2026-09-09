@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Project_The_Elect
 {
-    public class StateDialogue : GameState
+    public class StateDialogue : IGameState
     {
         private SpriteBatch _spriteBatch;
         private DialogueManager _dialogueManager;
@@ -61,6 +61,7 @@ namespace Project_The_Elect
             _audioManager.LoadDialogueVoicelines(chapter.dialogues.Count, content);
 
             _isPlayingBGM = false;
+            contentManager = content;
         }    
 
         public void Update(GameTime gameTime)
@@ -81,7 +82,7 @@ namespace Project_The_Elect
             _dialoguesprite.Draw(gameTime, current);
 
             //DRAW TEXT
-            _fontManager.Draw(gameTime, current);
+            _fontManager.DrawDialogue(gameTime, current);
             
             //DRAW BUTTONS
 
@@ -95,7 +96,10 @@ namespace Project_The_Elect
             MouseState currentMouseState = Mouse.GetState();
 
             bool spacePressed = currentKeyboardState.IsKeyDown(Keys.Space) && _previousKeyboardState.IsKeyUp(Keys.Space);
+            bool keyEscapePressed = currentKeyboardState.IsKeyDown(Keys.Escape) && _previousKeyboardState.IsKeyUp(Keys.Escape);
             bool mouseClicked = currentMouseState.LeftButton == ButtonState.Pressed && _previousMouseState.LeftButton == ButtonState.Released;
+            bool keyDownPresed = currentKeyboardState.IsKeyDown(Keys.Down) && _previousKeyboardState.IsKeyUp(Keys.Down);
+            bool keyUpPressed = currentKeyboardState.IsKeyDown(Keys.Up) && _previousKeyboardState.IsKeyUp(Keys.Up);
 
             if (spacePressed || mouseClicked)
             {
@@ -104,17 +108,28 @@ namespace Project_The_Elect
                     _currentDialogueIndex++;
                     _isNextDialogue = true;
                     _isPlayedVoiceline = false;
-                    _audioManager.PlaySFX(0);
+                    _audioManager.PlaySFX("proceed");
                 }
             }
 
+            if (keyEscapePressed)
+            {
+                _gameStateManager.StatePush(new StateMenu(contentManager, _gameStateManager, _spriteBatch, _audioManager, screenWidth, screenHeight));
+            }
+
+            if(keyUpPressed)
+            {
+                _audioManager.VolumeControl(10f, 0);
+            }
+
+            if(keyDownPresed)
+            {
+                _audioManager.VolumeControl(-10f, 0);
+            }
+
+
             _previousKeyboardState = currentKeyboardState;
             _previousMouseState = currentMouseState;
-
-            if (currentKeyboardState.IsKeyUp(Keys.M))
-            {
-                //_gameStateManager.StateSetTo(new StateMenu("StateDialogue",contentManager, _gameStateManager, _spriteBatch, _audioManager, screenWidth, screenHeight));
-            }
 
         }
         public void AudioHandler(GameTime gameTime)

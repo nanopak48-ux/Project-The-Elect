@@ -35,6 +35,8 @@ namespace Project_The_Elect.source_code
             "Columbina",
             "Furina",
             "Tanjiro",
+            "Jamakuz",
+            "Fishu"
         };
 
         //----------------------------------------------------------------------------//

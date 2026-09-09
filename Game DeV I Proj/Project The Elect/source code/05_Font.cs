@@ -73,7 +73,7 @@ namespace Project_The_Elect.source_code
             }
         }
 
-        public void Draw(GameTime gametime, DialogueData current)
+        public void DrawDialogue(GameTime gametime, DialogueData current)
         {
             //DRAW TEXT 
             _spriteBatch.DrawString(DialogueFont, new string(_dialoguedisplay.ToArray()), _dialoguePos, Color.White,0f, Vector2.Zero, _dialogueScale,SpriteEffects.None,0f);

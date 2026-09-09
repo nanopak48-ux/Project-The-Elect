@@ -47,8 +47,13 @@ namespace Project_The_Elect
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.P))
+            {
+                _audioManager.PlaySFX("exit");
                 Exit();
+
+            }
+
             StateManager.Update(gameTime);
             base.Update(gameTime);
         }
