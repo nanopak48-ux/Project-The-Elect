@@ -19,8 +19,8 @@ namespace Project_The_Elect.source_code
 {
     public class GameAudioManager
     {
-        private float volume_bgm = 30f;
-        private float volume_sfx = 100f;
+        private float volume_bgm = 0.2f;
+        private float volume_sfx = 0.8f;
         private float volume_vc = 1f;
         private float volume_fadeStep;
         private float volume_fadeDuration = 2f;
@@ -76,37 +76,68 @@ namespace Project_The_Elect.source_code
 
         }
 
-        public void LoadDialogueVoicelines(int dialoguelineIndex, ContentManager content)
+        private List<int> _noneVCIndex;
+        public void LoadDialogueVoicelines(ChapterData chapter, ContentManager content)
         {
             prefix = "audio/03_voiceline/dialogue/chap01_v0";
             _Voicelines = new List<SoundEffect>();
-            for (int i = 1; i < dialoguelineIndex+1; i++)
+            _noneVCIndex = new List<int>();
+            for (int i = 1; i < chapter.dialogues.Count+1; i++)
             {
-                string voicelinePath = prefix + i.ToString();
+                DialogueData dialogues = chapter.dialogues[i-1];
+                if (dialogues.voiceline != "none")
+                {
+                    string voicelinePath = prefix + i.ToString();
 
-                SoundEffect voiceline = content.Load<SoundEffect>(voicelinePath);
-                _Voicelines.Add(voiceline);
-
+                    SoundEffect voiceline = content.Load<SoundEffect>(voicelinePath);
+                    _Voicelines.Add(voiceline);
+                }
+                else
+                {
+                    _noneVCIndex.Add(i);
+                }
             }
         }
         public void PlayBGM(int bgmIndex)
         {
             if (bgmIndex >= 0 && bgmIndex < _BGM.Count)
             {
-                //MediaPlayer.Play(_BGM[bgmIndex]);
+                MediaPlayer.Volume = volume_bgm;
+                MediaPlayer.Play(_BGM[bgmIndex]);
                 MediaPlayer.IsRepeating = true;
             }
 
         }
 
+        public void LowBGM(bool decision)
+        {
+            if (decision) MediaPlayer.Volume = 0.05f;
+            else MediaPlayer.Volume = volume_bgm;
+
+        }
 
         public void PlayVoicelines(int voicelineIndex)
         {
+            if (_noneVCIndex.Contains(voicelineIndex))
+            {
+                _currentVoiceline?.Stop();
+                return;
+            }
+
+            int skipped = 0;
+            foreach (int noneIndex in _noneVCIndex)
+            {
+                if (noneIndex < voicelineIndex)
+                    skipped++;
+            }
+
+            int voiceIndex = voicelineIndex - 1 - skipped;
+            if (voiceIndex < 0 || voiceIndex >= _Voicelines.Count) return;
+
             _currentVoiceline?.Stop();
 
-            _currentVoiceline = _Voicelines[voicelineIndex].CreateInstance();
+            _currentVoiceline = _Voicelines[voiceIndex].CreateInstance();
             _currentVoiceline.Volume = volume_vc;
-
             _currentVoiceline.Play();
         }
 
@@ -115,7 +146,9 @@ namespace Project_The_Elect.source_code
             int index = Array.IndexOf(_sfxIndex, sfxName);
             if (index != -1)
             {
-                _SFX[index].Play();
+                SoundEffectInstance sfx = _SFX[index].CreateInstance();
+                sfx.Volume = volume_sfx;
+                sfx.Play();
             }
         }
 

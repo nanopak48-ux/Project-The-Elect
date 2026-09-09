@@ -40,25 +40,28 @@ namespace Project_The_Elect
         private bool _isPlayedVoiceline = false;
         private ContentManager contentManager;
 
-        public StateDialogue(ContentManager content, GameStateManager gameStateManager, SpriteBatch spriteBatch, GameAudioManager audioManager, int screenWidth, int screenHeight)
+        public StateDialogue(ContentManager content, GameStateManager gameStateManager, SpriteBatch spriteBatch, GameAudioManager audioManager,int chapterIndex, int screenWidth, int screenHeight)
         {
             _dialogueManager = new DialogueManager(content);
             _dialoguesprite = new DialogueSprite(content, spriteBatch, audioManager, screenWidth, screenHeight);
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
             _gameStateManager = gameStateManager;
+            _fontManager = new GameFontManager(content, spriteBatch);
+            _spriteBatch = spriteBatch;
+            _audioManager = audioManager;
+            _gameStateManager = gameStateManager;
 
-            chapter = _dialogueManager.LoadChapter("Content/dialoguedata/chapter01.json");
+
+            if (chapterIndex < 10) chapter = _dialogueManager.LoadChapter("Content/dialoguedata/chapter0"+ chapterIndex +".json");
+            else chapter = _dialogueManager.LoadChapter("Content/dialoguedata/chapter" + chapterIndex + ".json");
+
             if (chapter?.dialogues != null && chapter.dialogues.Count > 0)
             {
                 _dialogueManager._dialogues = chapter.dialogues;
             }
             current = _dialogueManager.GetDialogue(_currentDialogueIndex);
-            _fontManager = new GameFontManager(content, spriteBatch);
-            _spriteBatch = spriteBatch;
-            _audioManager = audioManager;
-
-            _audioManager.LoadDialogueVoicelines(chapter.dialogues.Count, content);
+            _audioManager.LoadDialogueVoicelines(chapter, content);
 
             _isPlayingBGM = false;
             contentManager = content;

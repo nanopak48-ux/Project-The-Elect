@@ -72,7 +72,7 @@ namespace Project_The_Elect.source_code
             if(Keyboard.GetState().IsKeyDown(Keys.Enter))
             {  
                 _audioManager.PlaySFX("selected");
-                _gameStateManager.StateSetTo(new StateDialogue(_content, _gameStateManager, _spriteBatch, _audioManager, screenWidth, screenHeight));
+                _gameStateManager.StateSetTo(new StateDialogue(_content, _gameStateManager, _spriteBatch, _audioManager, 1 , screenWidth, screenHeight));
             }
         }
 

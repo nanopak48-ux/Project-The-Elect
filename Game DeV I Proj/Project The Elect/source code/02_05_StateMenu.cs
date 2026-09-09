@@ -34,6 +34,7 @@ namespace Project_The_Elect.source_code
 
             LoadContentMenu();
             _audioManager.PlaySFX("menuentry"); 
+            _audioManager.LowBGM(true);
         }
         private Texture2D background;
         public void LoadContentMenu()
@@ -72,9 +73,10 @@ namespace Project_The_Elect.source_code
             {
                 _isMenuOpen = !_isMenuOpen;
                 if(_isMenuOpen)
-                {
-                    _gameStateManager.StateReturn();
+                {         
                     _audioManager.PlaySFX("menuentry");
+                    _audioManager.LowBGM(false);
+                    _gameStateManager.StateReturn();
                 }
             }
 

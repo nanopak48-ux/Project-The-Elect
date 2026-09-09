@@ -12,9 +12,6 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Animations;
 using Project_The_Elect.source_code;
 
-
-
-
 namespace Project_The_Elect.source_code
 {
     public class DialogueSprite
@@ -38,9 +35,10 @@ namespace Project_The_Elect.source_code
             "Jamakuz",
             "Fishu"
         };
+        //----------------------------------------------------------------------------//
+        //----------------------------------------------------------------------------//
 
-        //----------------------------------------------------------------------------//
-        //----------------------------------------------------------------------------//
+
         private bool EaseInActive = false;
         private float EaseSpeed = 15f;
 
@@ -113,6 +111,7 @@ namespace Project_The_Elect.source_code
                 }
             }
         }
+
     }
 }
 
