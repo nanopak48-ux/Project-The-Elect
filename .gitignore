@@ -362,14 +362,3 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# ========================================== 
-# MonoGame Build Outputs & IDE Rules
-# ========================================== 
-bin/ 
-obj/ 
-Content/bin/ 
-Content/obj/ 
-*.mgcontent 
-.vs/ 
-*.user 
-*.suo 
