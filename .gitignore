@@ -363,7 +363,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # ========================================== 
-# Personal IDE & Temp (Added by Member) 
+# Personal IDE & Temp (Added by Johnny) 
 # ========================================== 
 bin/ 
 obj/ 
