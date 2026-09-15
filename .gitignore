@@ -361,6 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+<<<<<<< HEAD
 
 # ========================================== 
 # Personal IDE & Temp (Added by Plub) AC
@@ -370,3 +371,5 @@ obj/
 .vs/ 
 *.user 
 *.suo 
+=======
+>>>>>>> origin/dev
