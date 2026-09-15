@@ -363,7 +363,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # ========================================== 
-# Project Build Outputs & IDE Rules  Plub
+# Project Build Outputs & IDE Rules 
 # ========================================== 
 bin/ 
 obj/ 
