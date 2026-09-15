@@ -361,6 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
 # ========================================== 
 # Project Build Outputs & IDE Rules 
 # ========================================== 
