@@ -361,3 +361,12 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# ========================================== 
+# Personal IDE & Temp (Added by JALAJOHNNY) 
+# ========================================== 
+bin/ 
+obj/ 
+.vs/ 
+*.user 
+*.suo 
