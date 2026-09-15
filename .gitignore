@@ -364,7 +364,7 @@ FodyWeavers.xsd
 
 
 # ========================================== 
-# Project Build Outputs & IDE Rules 
+# Project Build Outputs & IDE Rules
 # ========================================== 
 bin/ 
 obj/ 
