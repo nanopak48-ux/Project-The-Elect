@@ -363,10 +363,13 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # ========================================== 
-# Personal IDE & Temp (Added by JALAJOHNNY) 
+# MonoGame Build Outputs & IDE Rules
 # ========================================== 
 bin/ 
 obj/ 
+Content/bin/ 
+Content/obj/ 
+*.mgcontent 
 .vs/ 
 *.user 
 *.suo 
