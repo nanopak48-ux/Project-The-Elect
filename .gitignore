@@ -363,7 +363,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # ========================================== 
-# MonoGame Build Outputs (Added by Dev Lead) 
+# MonoGame Build Outputs (Added by Plub) 
 # ========================================== 
 bin/ 
 obj/ 
