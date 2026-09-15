@@ -5,22 +5,21 @@
 
 ## รายงานความคืบหน้าประจำสัปดาห์ (3 คำถามหลัก)
 
-| Johnny Programmer | อาทิตย์ที ่ผ่านมาท าอะไรมาบ้าง (Done) | อาทิตย์นี จะท าอะไร (Plan) |
-
-| สมาชิก (Domain)   | อาทิตย์ที่ผ่านมาทำอะไรมาบ้าง (Done) | อาทิตย์นี้จะทำอะไร (Plan) | ปัญหา/อุปสรรคที่พบ (Blockers)   |
-| ----------------------- | --------------------------------------------------------------- | ------------------------------------------- | ------------------------------------------------ |
-| Johnny (Programmer)     | ระบบ Dialogue                                               | ระบบ animation และ logic เดิน    | ใช้เวลาแก้บัคค่อนข้างนาน |
-| Looktaw (Artist)        | ออกแบบตัวละครผู้เล่น                        | Sprite ตัวละครผู้เล่น         | โปรแกรมหมดอายุ                     |
-| Plub (Artist)           | ออกแบบตัวละครมอนสเตอร์                    | Sprite Monster                              | อยู่ๆ ไฟล์หาย                        |
-| Kaowniew (Level Design) | ออกแบบแผนที่                                        | เริ่มทำ Assets                       | แผนที่กว่างเกินไป               |
+| สมาชิก (Domain) | อาทิตย์ที่ผ่านมาทาอะไรมาบ้าง (Done)                             | อาทิตย์นี้จะทำอะไร (Plan)                                | ปัญหา/อุปสรรคที่พบ (Blockers)               |
+| --------------------- | ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| Johny (Programmer)    | เขียนโค้ดเดินซ้าย-ขวาเสร็จ และทดสอบ Import Sprite เข้า | ทาระบบกระโดดและตรวจการชนกับพื้น (Collision) | ตัวละครตกทะลุพื้นเป็นบางจังหวะ |
+| สมขาย (Artist)  | วาดตัว monster ที่หลากหลายเพื่อใช้เทคนิค closing door       | เลือก monster และลงรายละเอียด                          | monster อาจยังไม่น่ากลัวพอ                 |
+| Kaowniew (Designer)   | ร่าง Layout Tilemap ของแต่ละห้อง                                            | ลงมือทำ Tilemap พื้นของแต่ละห้อง                    | สีของ tile ยังไม่สัมพันธ์กัน           |
+| Looktaw (Artist)     | ออกแบบตัวละคร Main Character                                                   | วาดตัวละคร Main Character                                        | สัดส่วนของตัวละครยังไม่เหมาะสม |
 
 ## Action Items & Blockers Resolution
 
-- [ ] [ช่วยสมชายแก้สมการ Gravity และ Jump Physics] [status:: doing]
-  [owner:: สมศักดิ ์] [due:: 2026-09-10] - [ ] [ยืนยันขนาด Tile Size ให้สมหญิง] [status:: done] [owner:: สมชาย]
-  [due:: 2026-09-08] - [ ] [ทดสอบ Cross-platform Font บน Windows/macOS] [status:: todo]
-  [owner:: สมศักดิ ์] [due:: 2026-09-12]
+- [ ] [ช่วยสมชายเลือกหน้าตาของมอนให้เหมาะสม] [status:: todo] [owner:: สมชาย] [due:: 2026-09-12]
+- [ ] [ทดสอบโปรแกรมที่ต้องใช้กับ Monogame] [status:: todo] [owner:: Kaowniew] [due:: 2026-09-15]
 
 ---
 
-## Related Documents - [[docs/agile/sprint-plan-01|Sprint 1 Plan]] - [[docs/agile/02-sprint-backlog|Sprint Backlog]]
+## Related Documents
+
+- [[docs/agile/sprint-plan-01|Sprint 1 Plan]]
+- [[docs/agile/02-sprint-backlog|Sprint Backlog]]
