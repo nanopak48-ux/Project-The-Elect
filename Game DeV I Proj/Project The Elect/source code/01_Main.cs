@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
@@ -10,15 +11,19 @@ using System.Collections.Generic;
 
 namespace Project_The_Elect
 {
+
+    public static class GameConfig
+    {
+        public const int ScreenWidth = 1920;
+        public const int ScreenHeight = 1080;
+    }
     public class Game1 : Game
     {
         public GraphicsDeviceManager _graphics;
         public SpriteBatch _spriteBatch;
         public GameStateManager StateManager = new GameStateManager();
         public GameAudioManager _audioManager;
-
-        public int ScreenWidth = 1920;
-        public int ScreenHeight = 1080;
+        public GameFlowManager _gameFlow;
 
         public Game1()
         {
@@ -30,12 +35,10 @@ namespace Project_The_Elect
         protected override void Initialize()
         {
             _graphics.IsFullScreen = true;
-            _graphics.PreferredBackBufferWidth = ScreenWidth;
-            _graphics.PreferredBackBufferHeight = ScreenHeight;
+            _graphics.PreferredBackBufferWidth = GameConfig.ScreenWidth;
+            _graphics.PreferredBackBufferHeight = GameConfig.ScreenHeight;
             _graphics.ApplyChanges();
-            base.Initialize();
-            
-            StateManager.StateSetTo(new StateHome(Content, StateManager, _spriteBatch, _audioManager, ScreenWidth, ScreenHeight));
+            base.Initialize();  
         }
 
         protected override void LoadContent()
@@ -43,6 +46,9 @@ namespace Project_The_Elect
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _audioManager = new GameAudioManager();
             _audioManager.LoadContent(Content);
+
+            _gameFlow = new GameFlowManager(StateManager,_spriteBatch,Content,_audioManager);
+            _gameFlow.ChangeFlow(GameFlow.Home);
         }
 
         protected override void Update(GameTime gameTime)
@@ -51,10 +57,14 @@ namespace Project_The_Elect
             {
                 _audioManager.PlaySFX("exit");
                 Exit();
-
             }
 
             StateManager.Update(gameTime);
+
+            StateManager.InputHandler(gameTime);
+
+            StateManager.AudioHandler(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -66,5 +76,7 @@ namespace Project_The_Elect
 
             base.Draw(gameTime);
         }
+
+        
     }
 }

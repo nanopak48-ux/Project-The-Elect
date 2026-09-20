@@ -16,6 +16,7 @@ namespace Project_The_Elect
         void InputHandler(GameTime gameTime);
         void AudioHandler(GameTime gameTime);
     }
+
     public class GameStateManager : IGameState
     {
         private SpriteBatch _spriteBatch;

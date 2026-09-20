@@ -23,21 +23,29 @@ namespace Project_The_Elect.source_code
         public GraphicsDeviceManager _graphics;
         private ContentManager _content;
         private List<Texture2D> background;
-        private GameAudioManager _audioManager;
+        private GameAudioManager _audio;
         private GameStateManager _gameStateManager;
 
-        private int screenWidth;
-        private int screenHeight;
+        private GameFlowManager _gameFlow;
+
+        private int screenWidth = GameConfig.ScreenWidth;
+        private int screenHeight = GameConfig.ScreenHeight;
 
 
-        public StateHome(ContentManager content,GameStateManager gameStateManager,SpriteBatch spriteBatch,GameAudioManager audioManager,int screenWidth,int screenHeight)
+        public StateHome
+            (
+            GameStateManager _stateManager,
+            GameFlowManager _gameflow,
+            SpriteBatch _spritebatch,
+            ContentManager _content,
+            GameAudioManager _audio
+            )
         {
-            _spriteBatch = spriteBatch;
-            _gameStateManager = gameStateManager;
-            _content = content;
-            _audioManager = audioManager;
-            this.screenWidth = screenWidth;
-            this.screenHeight = screenHeight;
+            _gameStateManager = _stateManager;
+            this._gameFlow = _gameflow;
+            this._spriteBatch = _spritebatch;
+            this._content = _content;
+            this._audio = _audio;
         }
 
         public void LoadContent()
@@ -53,9 +61,6 @@ namespace Project_The_Elect.source_code
                 LoadContent();
                 IsLoadedContent = true;
             }
-
-            InputHandler(gameTime);
-            AudioHandler(gameTime);
         }
 
         public void Draw(GameTime gameTime)
@@ -67,12 +72,15 @@ namespace Project_The_Elect.source_code
             _spriteBatch.End();
         }
 
+        
+
         public void InputHandler(GameTime gameTime)
         {
             if(Keyboard.GetState().IsKeyDown(Keys.Enter))
             {  
-                _audioManager.PlaySFX("selected");
-                _gameStateManager.StateSetTo(new StateDialogue(_content, _gameStateManager, _spriteBatch, _audioManager, 1 , screenWidth, screenHeight));
+                _audio.PlaySFX("selected");
+                //_gameStateManager.StateSetTo(new StateDialogue(_content, _gameStateManager, _spriteBatch, _audioManager, 1 , screenWidth, screenHeight));
+                _gameFlow.ChangeFlow(GameFlow.Chapter01);
             }
         }
 
@@ -80,7 +88,7 @@ namespace Project_The_Elect.source_code
         {
             if(!IsPlayingBGM)
             {
-                _audioManager.PlayBGM(0);
+                _audio.PlayBGM(0);
                 IsPlayingBGM = true;
             }
             

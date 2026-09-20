@@ -175,7 +175,7 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /processorParam:Version=3.8.5.1
-/build:texture/02_cutscene/01_scene_00.png
+/build:texture/02_cutscene/01_scene_00.png;texture/02_cutscene/01_scene_00
 
 #begin texture/02_cutscene/01_scene_00.png
 /importer:TextureImporter
@@ -201,7 +201,7 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /processorParam:Version=3.8.5.1
-/build:texture/02_cutscene/01_scene_01.png
+/build:texture/02_cutscene/01_scene_01.png;texture/02_cutscene/01_scene_01
 
 #begin texture/02_cutscene/01_scene_01.png
 /importer:TextureImporter
@@ -306,4 +306,30 @@
 /processorParam:TextureFormat=Color
 /processorParam:Version=3.8.5.1
 /build:texture/07_buttonguide/01_buttonSpriteSheet.png;texture/07_buttonguide/01_buttonSpriteSheet
+
+#begin texture/07_buttonguide/01_buttonSpriteSheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/07_buttonguide/01_buttonSpriteSheet.png;texture/07_buttonguide/01_buttonSpriteSheet
+
+#begin texture/08_player/00_spritesheet_player.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/08_player/00_spritesheet_player.png;texture/08_player/00_spritesheet_player
 
