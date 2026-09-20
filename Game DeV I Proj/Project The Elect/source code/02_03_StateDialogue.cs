@@ -44,7 +44,17 @@ namespace Project_The_Elect
         private bool _isPlayedVoiceline = false;
         private ContentManager contentManager;
 
-        public StateDialogue(int _chapterIndex,ContentManager _contentManager, GameStateManager gameStateManager, SpriteBatch spriteBatch, GameAudioManager audioManager,int chapterIndex, int screenWidth, int screenHeight)
+        public StateDialogue
+            (
+            int _chapterIndex,
+            ContentManager _contentManager, 
+            GameStateManager gameStateManager, 
+            SpriteBatch spriteBatch, 
+            GameAudioManager audioManager,
+            GameFlowManager gameflow,
+            int screenWidth, 
+            int screenHeight
+            )
         {
             _dialogueManager = new DialogueManager(_contentManager);
             _dialoguesprite = new DialogueSprite(_contentManager, spriteBatch, audioManager, screenWidth, screenHeight);
@@ -53,6 +63,7 @@ namespace Project_The_Elect
             this.screenHeight = screenHeight;
             _gameStateManager = gameStateManager;
             _fontManager = new GameTextManager(_contentManager, spriteBatch);
+            _gameFlow = gameflow;
             _spriteBatch = spriteBatch;
             _audioManager = audioManager;
             _gameStateManager = gameStateManager;
@@ -115,7 +126,8 @@ namespace Project_The_Elect
                     _isNextDialogue = true;
                     _isPlayedVoiceline = false;
                     _audioManager.PlaySFX("proceed");
-                }else if (_currentDialogueIndex == _dialogueManager._dialogues.Count)
+                }
+                else 
                 {
                     _gameFlow.DialogueEnd();
                 }

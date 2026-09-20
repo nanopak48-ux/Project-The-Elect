@@ -1,0 +1,28 @@
+{
+  "animations": [
+    {
+      "name": "WalkDown",
+      "loop": true,
+      "frameDuration": 0.1,
+      "frames": [ 0, 1, 2, 3 ]
+    },
+    {
+      "name": "WalkUp",
+      "loop": true,
+      "frameDuration": 0.1,
+      "frames": [ 4, 5, 6, 7 ]
+    },
+    {
+      "name": "WalkRight",
+      "loop": true,
+      "frameDuration": 0.1,
+      "frames": [ 8, 9, 10, 11 ]
+    },
+    {
+      "name": "WalkLeft",
+      "loop": true,
+      "frameDuration": 0.1,
+      "frames": [ 12, 13, 14, 15 ]
+    }
+  ]
+}

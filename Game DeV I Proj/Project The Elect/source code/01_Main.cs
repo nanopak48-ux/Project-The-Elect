@@ -16,6 +16,10 @@ namespace Project_The_Elect
     {
         public const int ScreenWidth = 1920;
         public const int ScreenHeight = 1080;
+
+        public const int CameraWidth = ScreenWidth;
+        public const int CameraHeight = ScreenHeight;
+
     }
     public class Game1 : Game
     {
@@ -47,7 +51,7 @@ namespace Project_The_Elect
             _audioManager = new GameAudioManager();
             _audioManager.LoadContent(Content);
 
-            _gameFlow = new GameFlowManager(StateManager,_spriteBatch,Content,_audioManager);
+            _gameFlow = new GameFlowManager(StateManager,_spriteBatch,Content,_audioManager, _graphics, Window);
             _gameFlow.ChangeFlow(GameFlow.Home);
         }
 
@@ -59,6 +63,11 @@ namespace Project_The_Elect
                 Exit();
             }
 
+            if (Keyboard.GetState().IsKeyUp(Keys.N) && Keyboard.GetState().IsKeyDown(Keys.N))
+            {
+                _gameFlow.SkipState();
+            }
+
             StateManager.Update(gameTime);
 
             StateManager.InputHandler(gameTime);
@@ -68,11 +77,21 @@ namespace Project_The_Elect
             base.Update(gameTime);
         }
 
+        private float frames = 0f;
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
 
             StateManager.Draw(gameTime);
+            frames += 0.5f;
+
+            if (frames % 7 == 0)
+            {
+
+                Console.WriteLine(StateManager.CurrentState);
+                Console.WriteLine(_gameFlow.CurrentFlow);
+            }
+
 
             base.Draw(gameTime);
         }
