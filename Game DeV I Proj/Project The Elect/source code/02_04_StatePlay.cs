@@ -23,10 +23,11 @@ namespace Project_The_Elect.source_code
         private GameWindow _window;
         private MinigameManager _minigame;
 
-        private Player player;
+        private Player _player;
         private GraphicsDevice _graphicDevice;
+        private GameMapManager _map;
 
-        private OrthographicCamera camera;
+        private OrthographicCamera _camera;
         private Vector2 lookAtPos;
         public StatePlay
             (
@@ -58,18 +59,21 @@ namespace Project_The_Elect.source_code
             _graphics.ApplyChanges();
 
             ViewportAdapter viewportAdapter = new BoxingViewportAdapter(_window, _graphicDevice, GameConfig.CameraWidth, GameConfig.CameraHeight);
-            camera = new OrthographicCamera(viewportAdapter);
+            _camera = new OrthographicCamera(viewportAdapter);
             viewportAdapter.Reset();
 
             _minigame = new MinigameManager();
+            _map = new GameMapManager(_content,_graphics.GraphicsDevice,_spriteBatch);
         }
 
         private Texture2D map;
         public void LoadContent()
         {
             Texture2D texture = _content.Load<Texture2D>("texture/08_player/00_spritesheet_player");  
-            player = new Player(_spriteBatch, new Vector2(500, 500), _content, texture);
+            _player = new Player(_spriteBatch, new Vector2(500, 500), _content, texture);
             map = _content.Load<Texture2D>("texture/04_play/00_map");
+
+            _map.LoadContent();
         }
 
         public Vector2 currentCenter;
@@ -77,7 +81,8 @@ namespace Project_The_Elect.source_code
         public void Update(GameTime gameTime)
         {
 
-            player.Update(gameTime);
+            _player.Update(gameTime);
+            _map.Update(gameTime);
 
             if (_minigame.IsPlaying)
             {
@@ -85,9 +90,9 @@ namespace Project_The_Elect.source_code
                 return;
             }
 
-            Vector2 lookAtPos = player.Position;
-            currentCenter = camera.Position + camera.Origin;
-            camera.LookAt(Vector2.Lerp(currentCenter, lookAtPos, 0.1f));
+            Vector2 lookAtPos = _player.Position;
+            currentCenter = _camera.Position + _camera.Origin;
+            _camera.LookAt(Vector2.Lerp(currentCenter, lookAtPos, 0.1f));
         }
 
         public void InputHandler(GameTime gameTime)
@@ -101,12 +106,14 @@ namespace Project_The_Elect.source_code
 
         public void Draw(GameTime gameTime)
         {
-            Matrix transformMatrix = camera.GetViewMatrix();
+            Matrix transformMatrix = _camera.GetViewMatrix();
 
             _spriteBatch.Begin(transformMatrix: transformMatrix);
 
-            _spriteBatch.Draw(map, new Vector2(0, 0), Color.White);
-            player.Draw();
+
+            _map.Draw(gameTime, _camera);
+            //_spriteBatch.Draw(map, new Vector2(0, 0), Color.White);
+            _player.Draw();
             if (_minigame.IsPlaying) _minigame.Draw(gameTime);
 
             _spriteBatch.End();
@@ -114,7 +121,7 @@ namespace Project_The_Elect.source_code
 
         public void AudioHandler(GameTime gameTime)
         {
-            player.Audio(gameTime);
+            _player.Audio(gameTime);
         }
     }
 }

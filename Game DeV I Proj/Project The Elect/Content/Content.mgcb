@@ -258,3 +258,10 @@
 /processorParam:Version=3.8.5.1
 /build:texture/08_player/00_spritesheet_player.png;texture/08_player/00_spritesheet_player
 
+#begin texture/10_map/01_tile/floor.tmx
+/importer:TiledTilemapImporter
+/processor:TilemapProcessor
+/processorParam:LevelName=
+/processorParam:Version=6.1.1.0
+/build:texture/10_map/01_tile/floor.tmx
+
