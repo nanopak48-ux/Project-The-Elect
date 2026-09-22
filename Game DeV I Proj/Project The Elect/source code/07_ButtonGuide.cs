@@ -16,16 +16,26 @@ namespace Project_The_Elect.source_code
 {
     public class GameButtonGuide
     {
-        private string[] _buttonGuideIndex = new string[] 
-        { 
+        private string[] _buttonGuideIndex = new string[]
+        {
             "E",
             "P",
             "ESC",
             "ENTER",
             "RMB",
-            "LMB",
-
+            "LMB"
         };
+        private string[] _buttonGuideTo = new string[]
+        {
+            "INTERACT",
+            "EXIT",
+            "MENU",
+            "PROCEED",
+            "NO",
+            "YES"
+        };
+
+        private List<string> _dfbtnDialogue = new List<string>();
         private Vector2 _buttonSize = new Vector2(90, 90);
 
         private GameStateManager _gameStateManager;
@@ -46,6 +56,7 @@ namespace Project_The_Elect.source_code
             _spriteBatch = spriteBatch;
 
             _buttonDisplayList = new List<string>();
+            _buttonDisplayTxtList = new List<string>();
             _gameTxtManager = new GameTextManager(gameContentmanager, spriteBatch);
             LoadContent();
         }
@@ -62,16 +73,18 @@ namespace Project_The_Elect.source_code
 
         private bool _addedDefaultBtn = false;
         private GameStateManager _previousState;
+        private List<string> _buttonDisplayTxtList;
         public void Update(GameTime gametime, GameStateManager gameStateManager)
         {
             //SET DEFAULT FOR STATE CHANGE
                 if (!_addedDefaultBtn)
                 {
                         _buttonDisplayList.Add("ENTER");
-                _buttonDisplayList.Add("E");
+                        _buttonDisplayList.Add("E");
+                    _buttonDisplayTxtList.Add("PROCEED");
+                    _buttonDisplayTxtList.Add("INTERACT");
                         _addedDefaultBtn = true;
                 }
-
         }
         private GameTextManager _gameTxtManager; 
         public void DrawBtnGuide(GameTime gametime, GameStateManager gameStateManager)
@@ -82,7 +95,7 @@ namespace Project_The_Elect.source_code
                 Sprite sprite = new Sprite(spr_button.GetRegion(_buttonDisplayList[i]));
                _spriteBatch.Draw(sprite,new Vector2(1800-(108 * i),936));
             }
-            _gameTxtManager.Draw(_buttonDisplayList);
+            _gameTxtManager.Draw(_buttonDisplayTxtList);
             
         }
     }

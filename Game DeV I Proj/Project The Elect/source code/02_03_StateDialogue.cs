@@ -32,6 +32,8 @@ namespace Project_The_Elect
         private GameAudioManager _audioManager;
         private GameStateManager _gameStateManager;
 
+        private GameFlowManager _gameFlow;
+
         private GameButtonGuide _gameButtonGuide;
         private int screenWidth;
         private int screenHeight;
@@ -42,7 +44,17 @@ namespace Project_The_Elect
         private bool _isPlayedVoiceline = false;
         private ContentManager contentManager;
 
-        public StateDialogue(ContentManager _contentManager, GameStateManager gameStateManager, SpriteBatch spriteBatch, GameAudioManager audioManager,int chapterIndex, int screenWidth, int screenHeight)
+        public StateDialogue
+            (
+            int _chapterIndex,
+            ContentManager _contentManager, 
+            GameStateManager gameStateManager, 
+            SpriteBatch spriteBatch, 
+            GameAudioManager audioManager,
+            GameFlowManager gameflow,
+            int screenWidth, 
+            int screenHeight
+            )
         {
             _dialogueManager = new DialogueManager(_contentManager);
             _dialoguesprite = new DialogueSprite(_contentManager, spriteBatch, audioManager, screenWidth, screenHeight);
@@ -51,21 +63,22 @@ namespace Project_The_Elect
             this.screenHeight = screenHeight;
             _gameStateManager = gameStateManager;
             _fontManager = new GameTextManager(_contentManager, spriteBatch);
+            _gameFlow = gameflow;
             _spriteBatch = spriteBatch;
             _audioManager = audioManager;
             _gameStateManager = gameStateManager;
 
 
-            if (chapterIndex < 10) chapter = _dialogueManager.LoadChapter("Content/dialoguedata/chapter0"+ chapterIndex +".json");
-            else chapter = _dialogueManager.LoadChapter("Content/dialoguedata/chapter" + chapterIndex + ".json");
+            if (_chapterIndex < 10) chapter = _dialogueManager.LoadChapter("Content/dialoguedata/chapter0"+ _chapterIndex +".json");
+            else chapter = _dialogueManager.LoadChapter("Content/dialoguedata/chapter" + _chapterIndex + ".json");
 
             if (chapter?.dialogues != null && chapter.dialogues.Count > 0)
             {
                 _dialogueManager._dialogues = chapter.dialogues;
             }
             current = _dialogueManager.GetDialogue(_currentDialogueIndex);
-            _audioManager.LoadDialogueVoicelines(chapter, _contentManager);
 
+            _audioManager.LoadDialogueVoicelines(chapter, _contentManager);
             _isPlayingBGM = false;
             contentManager = _contentManager;
         }    
@@ -77,8 +90,6 @@ namespace Project_The_Elect
             current = _dialogueManager.GetDialogue(_currentDialogueIndex);
             _fontManager.Update(gameTime, current, _isNextDialogue);
             if(_isNextDialogue) {_isNextDialogue = false;}
-            InputHandler(gameTime);
-            AudioHandler(gameTime);
         }
 
         public void Draw(GameTime gameTime)
@@ -94,8 +105,6 @@ namespace Project_The_Elect
             _gameButtonGuide.DrawBtnGuide(gameTime, _gameStateManager);
 
             _spriteBatch.End();
-
-            
         }
 
         public void InputHandler(GameTime gametime)
@@ -117,6 +126,10 @@ namespace Project_The_Elect
                     _isNextDialogue = true;
                     _isPlayedVoiceline = false;
                     _audioManager.PlaySFX("proceed");
+                }
+                else 
+                {
+                    _gameFlow.DialogueEnd();
                 }
             }
 

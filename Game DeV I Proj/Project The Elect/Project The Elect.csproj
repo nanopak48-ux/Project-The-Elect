@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
     <RollForward>Major</RollForward>
     <PublishReadyToRun>false</PublishReadyToRun>
@@ -39,5 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Content\dialoguedata\chapter01.json" />
+	  <Page Include="Content\dialoguedata\chapter02.json" />
+	  <Page Include="Content\playerdata\player_animation.json" />
   </ItemGroup>
 </Project>
