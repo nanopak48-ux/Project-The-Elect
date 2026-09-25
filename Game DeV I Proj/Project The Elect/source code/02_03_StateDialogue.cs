@@ -135,7 +135,7 @@ namespace Project_The_Elect
 
             if (keyEscapePressed)
             {
-                _gameStateManager.StatePush(new StateMenu(contentManager, _gameStateManager, _spriteBatch, _audioManager, screenWidth, screenHeight));
+                _gameStateManager.StatePush(new StateMenu(contentManager, _gameStateManager, _spriteBatch, _audioManager));
             }
 
             if(keyUpPressed)

@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,8 @@ namespace Project_The_Elect.source_code
         public bool IsClosed { get; protected set; }
 
         public abstract void Initialize();
+
+        public abstract void LoadContent();
 
         public abstract void Update(GameTime gameTime);
 

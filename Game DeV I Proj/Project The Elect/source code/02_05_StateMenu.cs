@@ -23,14 +23,14 @@ namespace Project_The_Elect.source_code
         private int screenHeight;
         private bool _isLoadedContent = false;
 
-        public StateMenu(ContentManager content, GameStateManager gameStateManager, SpriteBatch spriteBatch, GameAudioManager audioManager, int screenWidth, int screenHeight)
+        public StateMenu(ContentManager content, GameStateManager gameStateManager, SpriteBatch spriteBatch, GameAudioManager audioManager)
         {
             _content = content;
             _gameStateManager = gameStateManager;
             _spriteBatch = spriteBatch;
             _audioManager = audioManager;
-            this.screenWidth = screenWidth;
-            this.screenHeight = screenHeight;
+            this.screenWidth = GameConfig.ScreenWidth;
+            this.screenHeight = GameConfig.ScreenHeight;
 
             LoadContentMenu();
             _audioManager.PlaySFX("menuentry"); 

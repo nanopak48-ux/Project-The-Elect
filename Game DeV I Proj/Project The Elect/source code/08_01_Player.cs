@@ -17,7 +17,8 @@ namespace Project_The_Elect.source_code
         public Vector2 Position;
         public Vector2 Velocity = new(5,5);
 
-        private int size = 16;
+        public Vector2 Size = new(16,16);
+        public Rectangle HitBox;
 
         public float Speed = 300f;
         public float JumpForce = 500f;
@@ -61,8 +62,9 @@ namespace Project_The_Elect.source_code
         {
             this.spriteBatch = spriteBatch;
             Position = position;
+            HitBox = new((int)Position.X, (int)Position.Y/2, (int)Size.X, (int)Size.Y/2);
 
-            Texture2DAtlas atlas = Texture2DAtlas.Create("Atlas/playerAtlas", texture, size, size);
+            Texture2DAtlas atlas = Texture2DAtlas.Create("Atlas/playerAtlas", texture, (int)Size.X, (int)Size.Y);
             spriteSheet = new SpriteSheet("SpriteSheet/player", atlas);
             DefineAnimation(content);
 

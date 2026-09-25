@@ -16,6 +16,7 @@ namespace Project_The_Elect.source_code
 {
     public class GameMapManager
     {
+        public CollisionManager Collision { get; private set; }
         private ContentManager _content;
         private GraphicsDevice _graphic;
         private SpriteBatch _spriteBatch;
@@ -35,9 +36,12 @@ namespace Project_The_Elect.source_code
         
         public void LoadContent()
         {
-            _tilemap = _content.Load<Tilemap>("texture/10_map/01_tile/floor");
+            _tilemap = _content.Load<Tilemap>("texture/10_map/01_tile/OperationCenterVI");
             _renderer = new TilemapSpriteBatchRenderer();
+
             _renderer.LoadTilemap(_tilemap);
+
+            //Collision = new CollisionManager(_tilemap);
 
             _spriteBatch = new SpriteBatch(_graphic);
         }
@@ -47,17 +51,13 @@ namespace Project_The_Elect.source_code
             _renderer.Update(gameTime);
         }
 
-        public void Draw(GameTime gameTimem, OrthographicCamera _camera)
+        public void Draw(GameTime gameTime, OrthographicCamera _camera)
         {
             _graphic.Clear(Color.Black);
 
-            // Draw background layers
-            _renderer.DrawLayers(_spriteBatch, _camera,"Tile Layer 1");
+            _renderer.DrawLayers(_spriteBatch, _camera,"background");
 
-            // Draw your entities here with a separate SpriteBatch
-            //DrawEntities();
-
-            // Draw foreground layers on top
         }
+
     }
 }

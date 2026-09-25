@@ -1,0 +1,67 @@
+{
+    "activeFile": "OperationCenterVI.tmx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "00_00_floor.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "01_00_taskAsset.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "C:/Users/user/Downloads/MICROSCOPE_00.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/user/Downloads/MICROSCOPE_01.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/user/Downloads/MICROSCOPE_02.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/user/Downloads/floor_05.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/user/Downloads/test.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": -2052,
+                "y": 1576
+            }
+        },
+        "C:/Users/user/Downloads/wall_00.tsx": {
+            "scaleInDock": 1
+        },
+        "OperationCenterVI.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3210,
+                "y": 947
+            }
+        }
+    },
+    "last.imagePath": "C:/Users/user/source/repos/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/00_source",
+    "map.fixedSize": false,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 64,
+    "map.tileWidth": 64,
+    "openFiles": [
+        "OperationCenterVI.tmx"
+    ],
+    "project": "OperationCenterVI.tiled-project",
+    "recentFiles": [
+        "OperationCenterVI.tmx",
+        "00_00_floor.tsx",
+        "01_00_taskAsset.tsx",
+        "C:/Users/user/Downloads/test.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 64,
+        "width": 64
+    }
+}

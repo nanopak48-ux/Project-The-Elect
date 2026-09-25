@@ -258,10 +258,23 @@
 /processorParam:Version=3.8.5.1
 /build:texture/08_player/00_spritesheet_player.png;texture/08_player/00_spritesheet_player
 
-#begin texture/10_map/01_tile/floor.tmx
+#begin texture/09_minigame/01_scan/00_bar.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/09_minigame/01_scan/00_bar.png;texture/09_minigame/01_scan/00_bar
+
+#begin texture/10_map/01_tile/OperationCenterVI.tmx
 /importer:TiledTilemapImporter
 /processor:TilemapProcessor
 /processorParam:LevelName=
 /processorParam:Version=6.1.1.0
-/build:texture/10_map/01_tile/floor.tmx
+/build:texture/10_map/01_tile/OperationCenterVI.tmx
 

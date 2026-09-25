@@ -1,19 +1,39 @@
 {
-    "activeFile": "floor.tmx",
+    "activeFile": "OperationCenterVI.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "fileStates": {
+        "00_00_floor.tsx": {
+            "scaleInDock": 1
+        },
+        "00_00_wall.tsx": {
+            "scaleInDock": 1
+        },
         "00_background_00_floor.tsx": {
             "scaleInDock": 0.25,
             "scaleInEditor": 0.0625
         },
-        "floor.tmx": {
-            "scale": 0.25,
-            "selectedLayer": 0,
+        "01_00_taskAsset.tsx": {
+            "scaleInDock": 1
+        },
+        "OperationCenterVI.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 186,
-                "y": -10
+                "x": 3348,
+                "y": 3416
+            }
+        },
+        "floor.tmx": {
+            "expandedGroupLayers": [
+                3
+            ],
+            "scale": 0.25,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 962,
+                "y": 638
             }
         }
     },
@@ -24,12 +44,14 @@
     "map.tileWidth": 64,
     "openFiles": [
         "floor.tmx",
-        "00_background_00_floor.tsx"
+        "00_background_00_floor.tsx",
+        "OperationCenterVI.tmx"
     ],
     "project": "00_base.tiled-project",
     "recentFiles": [
+        "floor.tmx",
         "00_background_00_floor.tsx",
-        "floor.tmx"
+        "OperationCenterVI.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

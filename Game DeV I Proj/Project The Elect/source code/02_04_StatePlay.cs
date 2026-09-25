@@ -1,14 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended;
+using MonoGame.Extended.Input;
+using MonoGame.Extended.ViewportAdapters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MonoGame.Extended;
-using MonoGame.Extended.ViewportAdapters;
-using MonoGame.Extended.Input;
 
 namespace Project_The_Elect.source_code
 {
@@ -22,6 +23,8 @@ namespace Project_The_Elect.source_code
         private GraphicsDeviceManager _graphics;
         private GameWindow _window;
         private MinigameManager _minigame;
+
+        private CollisionManager Collision;
 
         private Player _player;
         private GraphicsDevice _graphicDevice;
@@ -54,11 +57,11 @@ namespace Project_The_Elect.source_code
         }
         public void Initialize()
         {
-            _graphics.PreferredBackBufferWidth = GameConfig.CameraWidth;
-            _graphics.PreferredBackBufferHeight = GameConfig.CameraHeight;
+            _graphics.PreferredBackBufferWidth = GameConfig.ScreenWidth;
+            _graphics.PreferredBackBufferHeight = GameConfig.ScreenHeight;
             _graphics.ApplyChanges();
 
-            ViewportAdapter viewportAdapter = new BoxingViewportAdapter(_window, _graphicDevice, GameConfig.CameraWidth, GameConfig.CameraHeight);
+            ViewportAdapter viewportAdapter = new BoxingViewportAdapter(_window, _graphicDevice, GameConfig.CameraWidth*3, GameConfig.CameraHeight*3);
             _camera = new OrthographicCamera(viewportAdapter);
             viewportAdapter.Reset();
 
@@ -70,7 +73,7 @@ namespace Project_The_Elect.source_code
         public void LoadContent()
         {
             Texture2D texture = _content.Load<Texture2D>("texture/08_player/00_spritesheet_player");  
-            _player = new Player(_spriteBatch, new Vector2(500, 500), _content, texture);
+            _player = new Player(_spriteBatch, new Vector2(37*64, 22*64), _content, texture);
             map = _content.Load<Texture2D>("texture/04_play/00_map");
 
             _map.LoadContent();
@@ -80,9 +83,12 @@ namespace Project_The_Elect.source_code
 
         public void Update(GameTime gameTime)
         {
-
             _player.Update(gameTime);
             _map.Update(gameTime);
+
+            Console.WriteLine(_player.Position);
+
+            //Collision.Update(_player,_camera);
 
             if (_minigame.IsPlaying)
             {
@@ -97,11 +103,14 @@ namespace Project_The_Elect.source_code
 
         public void InputHandler(GameTime gameTime)
         {
+            KeyboardExtended.Update();
+            CheckEscape();
             if (_minigame.IsPlaying)
             {
                 _minigame.InputHandler(gameTime);
                 return;
             }
+            else InputHandlerMinigame();
         }
 
         public void Draw(GameTime gameTime)
@@ -112,16 +121,52 @@ namespace Project_The_Elect.source_code
 
 
             _map.Draw(gameTime, _camera);
-            //_spriteBatch.Draw(map, new Vector2(0, 0), Color.White);
             _player.Draw();
-            if (_minigame.IsPlaying) _minigame.Draw(gameTime);
 
+            _spriteBatch.End();
+
+            _spriteBatch.Begin();
+            if (_minigame.IsPlaying) _minigame.Draw(gameTime);
             _spriteBatch.End();
         }
 
         public void AudioHandler(GameTime gameTime)
         {
             _player.Audio(gameTime);
+        }
+        private void InputHandlerMinigame()
+        {
+            KeyboardStateExtended keyboardState = KeyboardExtended.GetState();
+
+
+            if (keyboardState.WasKeyPressed(Keys.U))
+            {
+                _minigame.Start(new MinigameScan(_spriteBatch,_camera, _content, _audio));
+            }
+            else if (keyboardState.WasKeyPressed(Keys.I))
+            {
+                _minigame.Start(new MinigameLens(_spriteBatch, _camera, _content, _audio));
+            }
+            else if (keyboardState.WasKeyPressed(Keys.O))
+            {
+                
+            }
+            else if (keyboardState.WasKeyPressed(Keys.P))
+            {
+               
+            }
+
+
+        }
+
+        private void CheckEscape()
+        {
+            KeyboardStateExtended keyboardState = KeyboardExtended.GetState();
+
+            if (keyboardState.WasKeyPressed(Keys.Escape))
+            {
+                _gameState.StatePush(new StateMenu(_content, _gameState, _spriteBatch, _audio));
+            }
         }
     }
 }

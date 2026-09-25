@@ -17,8 +17,8 @@ namespace Project_The_Elect
         public const int ScreenWidth = 1920;
         public const int ScreenHeight = 1080;
 
-        public const int CameraWidth = ScreenWidth;
-        public const int CameraHeight = ScreenHeight;
+        public const int CameraWidth = ScreenWidth/2;
+        public const int CameraHeight = ScreenHeight/2;
 
     }
     public class Game1 : Game
@@ -39,6 +39,7 @@ namespace Project_The_Elect
         protected override void Initialize()
         {
             _graphics.IsFullScreen = true;
+            Window.IsBorderless = true;
             _graphics.PreferredBackBufferWidth = GameConfig.ScreenWidth;
             _graphics.PreferredBackBufferHeight = GameConfig.ScreenHeight;
             _graphics.ApplyChanges();
