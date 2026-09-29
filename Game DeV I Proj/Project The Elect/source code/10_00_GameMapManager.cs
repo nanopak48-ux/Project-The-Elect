@@ -33,10 +33,13 @@ namespace Project_The_Elect.source_code
             _graphic = graphic;
             _spriteBatch = spriteBatch;
         }
-        
+        TilemapObject _objects;
         public void LoadContent()
         {
             _tilemap = _content.Load<Tilemap>("texture/10_map/01_tile/OperationCenterVI");
+
+            //_objects = _content.Load<TilemapObject>("texture/10_map/01_tile/OperationCenterVI");
+
             _renderer = new TilemapSpriteBatchRenderer();
 
             _renderer.LoadTilemap(_tilemap);

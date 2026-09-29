@@ -119,8 +119,46 @@
 /processorParam:Version=3.8.5.1
 /build:audio/03_voiceline/dialogue/chap01_v09.mp3;audio/03_voiceline/dialogue/chap01_v09
 
-#begin dialoguedata/chapter01.json
-/copy:dialoguedata/chapter01.json
+#begin data/dataDialogue/chapter01.json
+/copy:data/dataDialogue/chapter01.json;data/dataDialogue/chapter01
+
+#begin data/dataDialogue/chapter02.json
+/copy:data/dataDialogue/chapter02.json;data/dataDialogue/chapter02
+
+#begin data/dataPlayer/player_animation.json
+/copy:data/dataPlayer/player_animation.json;data/dataPlayer/player_animation
+
+#begin font/fontGenshin_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:font/fontGenshin_0.png
+
+#begin font/fontGenshin_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:font/fontGenshin_1.png
+
+#begin font/fontGenshin.fnt
+/importer:BitmapFontImporter
+/processor:BitmapFontProcessor
+/processorParam:Version=6.1.1.0
+/build:font/fontGenshin.fnt
 
 #begin font/IBMPlexSansThaiLooped-SemiBold.ttf
 /importer:FontImporter
@@ -137,9 +175,6 @@
 /processorParam:TextureFormat=Compressed
 /processorParam:Version=3.8.5.1
 /build:font/zh-cn.ttf
-
-#begin playerdata/player_animation.json
-/copy:playerdata/player_animation.json
 
 #begin texture/01_home/01_homeBG.png
 /importer:TextureImporter

@@ -19,10 +19,10 @@
         },
         "OperationCenterVI.tmx": {
             "scale": 0.125,
-            "selectedLayer": 2,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 3348,
-                "y": 3416
+                "x": 6684,
+                "y": 2520
             }
         },
         "floor.tmx": {

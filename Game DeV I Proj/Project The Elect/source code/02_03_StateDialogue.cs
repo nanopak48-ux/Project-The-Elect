@@ -69,8 +69,12 @@ namespace Project_The_Elect
             _gameStateManager = gameStateManager;
 
 
-            if (_chapterIndex < 10) chapter = _dialogueManager.LoadChapter("Content/dialoguedata/chapter0"+ _chapterIndex +".json");
-            else chapter = _dialogueManager.LoadChapter("Content/dialoguedata/chapter" + _chapterIndex + ".json");
+            if (_chapterIndex < 10) chapter = _dialogueManager.LoadChapter("Content/data/dataDialogue/chapter0" + _chapterIndex + ".json");
+            else chapter = _dialogueManager.LoadChapter("Content/data/dataDialogue/chapter" + _chapterIndex + ".json");
+
+
+
+
 
             if (chapter?.dialogues != null && chapter.dialogues.Count > 0)
             {

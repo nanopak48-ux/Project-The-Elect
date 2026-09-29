@@ -5,6 +5,7 @@ using MonoGame.Extended.BitmapFonts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,15 +14,15 @@ namespace Project_The_Elect.source_code
     public class GameTextManager
     {
         public SpriteFont MainFont { get; private set; }
-        public SpriteFont DialogueFont { get; private set; }
-        public SpriteFont ProfileFont { get; private set; }
+        //public SpriteFont DialogueFont { get; private set; }
+        //public SpriteFont ProfileFont { get; private set; }
 
         private SpriteBatch _spriteBatch;
 
         private Vector2 _profilePos;
 
         private Vector2 _dialoguePos;
-        private float _dialogueScale = 1.5f;
+        private float _dialogueScale = 1.2f;
         private float _profileScale = 2.0f;
 
         private List<char> _dialogueline = new List<char>();
@@ -33,11 +34,17 @@ namespace Project_The_Elect.source_code
 
         private DialogueData _dialogueData;
 
+        private BitmapFont DialogueFont;
+        private BitmapFont ProfileFont;
+
         public GameTextManager(ContentManager content, SpriteBatch spriteBatch)
         {
             _spriteBatch = spriteBatch;
-            ProfileFont = content.Load<SpriteFont>("font/zh-cn");
-            DialogueFont = content.Load<SpriteFont>("font/IBMPlexSansThaiLooped-SemiBold");
+            //ProfileFont = content.Load<SpriteFont>("font/zh-cn");
+            //DialogueFont = content.Load<SpriteFont>("font/IBMPlexSansThaiLooped-SemiBold");
+
+            DialogueFont = content.Load<BitmapFont>("font/fontGenshin");
+            ProfileFont = DialogueFont;
 
             _dialoguePos = new Vector2(270, 820);
         }
@@ -78,6 +85,7 @@ namespace Project_The_Elect.source_code
             //DRAW TEXT 
             _spriteBatch.DrawString(DialogueFont, new string(_dialoguedisplay.ToArray()), _dialoguePos, Color.White,0f, Vector2.Zero, _dialogueScale,SpriteEffects.None,0f);
             _spriteBatch.DrawString(ProfileFont, current.character.ToUpper(),_profilePos, Color.White, 0f, Vector2.Zero, _profileScale, SpriteEffects.None, 0f);
+
         }
 
         public void Draw(List<string> TextList)

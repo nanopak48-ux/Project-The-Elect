@@ -79,7 +79,6 @@ namespace Project_The_Elect.source_code
             if(Keyboard.GetState().IsKeyDown(Keys.Enter))
             {  
                 _audio.PlaySFX("selected");
-                //_gameStateManager.StateSetTo(new StateDialogue(_content, _gameStateManager, _spriteBatch, _audioManager, 1 , screenWidth, screenHeight));
                 _gameFlow.ChangeFlow(GameFlow.Chapter01);
             }
         }

@@ -11,12 +11,17 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Content\dialoguedata\**" />
+    <Compile Remove="Content\playerdata\**" />
     <Compile Remove="Content\texture\NewFolder\**" />
+    <EmbeddedResource Remove="Content\dialoguedata\**" />
+    <EmbeddedResource Remove="Content\playerdata\**" />
     <EmbeddedResource Remove="Content\texture\NewFolder\**" />
+    <None Remove="Content\dialoguedata\**" />
+    <None Remove="Content\playerdata\**" />
     <None Remove="Content\texture\NewFolder\**" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Content\dialoguedata\chapter01.json" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>
@@ -38,8 +43,14 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Content\dialoguedata\chapter01.json" />
-	  <Page Include="Content\dialoguedata\chapter02.json" />
-	  <Page Include="Content\playerdata\player_animation.json" />
+    <None Update="Content\data\dataDialogue\chapter01.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\data\dataDialogue\chapter02.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\data\dataPlayer\player_animation.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

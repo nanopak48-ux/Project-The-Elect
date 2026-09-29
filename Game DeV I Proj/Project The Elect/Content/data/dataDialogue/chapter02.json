@@ -1,0 +1,50 @@
+﻿{
+  "chapter": 2,
+  "dialogues": [
+    {
+      "character": "Fishu",
+      "text": "Where am I?",
+      "voiceline": "chap02_v01"
+    },
+    {
+      "character": "Furina",
+      "text": "In hell.",
+      "voiceline": "chap02_v02"
+    },
+    {
+      "character": "Tanjiro",
+      "text": "Dont cry bitch.",
+      "voiceline": "chap02_v03"
+    },
+    {
+      "character": "Columbina",
+      "text": "YAHHHH",
+      "voiceline": "chap02_v04"
+    },
+    {
+      "character": "Tanjiro",
+      "text": "Karn and Fishe are gay.",
+      "voiceline": "chap02_v05"
+    },
+    {
+      "character": "Columbina",
+      "text": "gkalu;jfgh;lghl'asfgj'lvkbjaspfvjpuerijfghikajkhkgwriughfipuashgpiuashgfpiuhsaoufdhpsaupifu",
+      "voiceline": "chap02_v06"
+    },
+    {
+      "character": "Columbina",
+      "text": "I don't like this place.",
+      "voiceline": "chap02_v07"
+    },
+    {
+      "character": "Jamakuz",
+      "text": "E bah",
+      "voiceline": "chap02_08"
+    },
+    {
+      "character": "Fishu",
+      "text": "Ku khor thod",
+      "voiceline": "chap02_09"
+    }
+  ]
+}

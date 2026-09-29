@@ -61,7 +61,7 @@ namespace Project_The_Elect.source_code
             _graphics.PreferredBackBufferHeight = GameConfig.ScreenHeight;
             _graphics.ApplyChanges();
 
-            ViewportAdapter viewportAdapter = new BoxingViewportAdapter(_window, _graphicDevice, GameConfig.CameraWidth*3, GameConfig.CameraHeight*3);
+            ViewportAdapter viewportAdapter = new BoxingViewportAdapter(_window, _graphicDevice, GameConfig.CameraWidth, GameConfig.CameraHeight);
             _camera = new OrthographicCamera(viewportAdapter);
             viewportAdapter.Reset();
 

@@ -17,7 +17,7 @@ namespace Project_The_Elect.source_code
         public Vector2 Position;
         public Vector2 Velocity = new(5,5);
 
-        public Vector2 Size = new(16,16);
+        public Vector2 Size = new(16,32);
         public Rectangle HitBox;
 
         public float Speed = 300f;
@@ -142,7 +142,7 @@ namespace Project_The_Elect.source_code
 
         private void DefineAnimation(ContentManager content)
         {
-            string path = Path.Combine(content.RootDirectory,"playerdata","player_animation.json");
+            string path = Path.Combine(content.RootDirectory,"data/dataPlayer","player_animation.json");
 
             string json = File.ReadAllText(path);
 
