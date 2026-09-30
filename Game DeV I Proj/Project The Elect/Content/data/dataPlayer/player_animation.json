@@ -29,25 +29,25 @@
       "name": "IdleDown",
       "loop": true,
       "frameDuration": 0.1,
-      "frames": [ 24 ]
+      "frames": [ 24 , 25 , 26 , 27]
     },
     {
       "name": "IdleRight",
       "loop": true,
       "frameDuration": 0.1,
-      "frames": [ 25 ]
-    },
-    {
-      "name": "IdleUp",
-      "loop": true,
-      "frameDuration": 0.1,
-      "frames": [ 26 ]
+      "frames": [ 30 , 31 , 32 , 33 ]
     },
     {
       "name": "IdleLeft",
       "loop": true,
       "frameDuration": 0.1,
-      "frames": [ 27 ]
+      "frames": [ 36, 37, 38, 39 ]
+    },
+    {
+      "name": "IdleUp",
+      "loop": true,
+      "frameDuration": 0.1,
+      "frames": [ 42, 43, 44, 45 ]
     }
   ]
 }

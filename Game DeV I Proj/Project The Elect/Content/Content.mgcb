@@ -28,6 +28,20 @@
 /processorParam:Version=3.8.5.1
 /build:audio/01_bgm/bgm_01_dialogue.mp3
 
+#begin audio/01_bgm/bgm_02_bgscary.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/01_bgm/bgm_02_bgscary.mp3
+
+#begin audio/01_bgm/bgm_03_scan_start.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/01_bgm/bgm_03_scan_start.mp3
+
 #begin audio/02_sfx/sfx_00_proceed.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -55,6 +69,20 @@
 /processorParam:Quality=Best
 /processorParam:Version=3.8.5.1
 /build:audio/02_sfx/sfx_03_exit.mp3
+
+#begin audio/02_sfx/sfx_04_scan_start.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/02_sfx/sfx_04_scan_start.mp3
+
+#begin audio/02_sfx/sfx_05_scan_collision.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/02_sfx/sfx_05_scan_collision.mp3
 
 #begin audio/03_voiceline/dialogue/chap01_v01.mp3
 /importer:Mp3Importer
@@ -228,6 +256,19 @@
 /processorParam:Version=3.8.5.1
 /build:texture/03_dialogue/01_dialogueBG.png;texture/03_dialogue/01_dialogueBG
 
+#begin texture/03_dialogue/01_dialogueBG2.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/03_dialogue/01_dialogueBG2.PNG;texture/03_dialogue/01_dialogueBG2
+
 #begin texture/03_dialogue/02_dialogueProfileSheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -292,6 +333,58 @@
 /processorParam:TextureFormat=Color
 /processorParam:Version=3.8.5.1
 /build:texture/08_player/00_spritesheet_player.png;texture/08_player/00_spritesheet_player
+
+#begin texture/08_player/00_spritesheet_player2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/08_player/00_spritesheet_player2.png
+
+#begin texture/08_player/00_spritesheet_player3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/08_player/00_spritesheet_player3.png
+
+#begin texture/08_player/00_spritesheet_player4.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/08_player/00_spritesheet_player4.png
+
+#begin texture/08_player/00_spritesheet_player5.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/08_player/00_spritesheet_player5.png
 
 #begin texture/09_minigame/01_scan/00_bar.png
 /importer:TextureImporter

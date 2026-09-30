@@ -38,7 +38,7 @@ namespace Project_The_Elect
 
         protected override void Initialize()
         {
-            _graphics.IsFullScreen = true;
+            _graphics.IsFullScreen = false;
             Window.IsBorderless = true;
             _graphics.PreferredBackBufferWidth = GameConfig.ScreenWidth;
             _graphics.PreferredBackBufferHeight = GameConfig.ScreenHeight;

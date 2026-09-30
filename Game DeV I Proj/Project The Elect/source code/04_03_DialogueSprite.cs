@@ -29,8 +29,8 @@ namespace Project_The_Elect.source_code
         private Vector2 spr_profilePos = new Vector2(108, 560);
         private string[] profileIndex = new string[]
         {
-            "Columbina",
-            "Furina",
+            "Unknown",
+            "Vier",
             "Tanjiro",
             "Jamakuz",
             "Fishu"
@@ -63,7 +63,7 @@ namespace Project_The_Elect.source_code
         {
             // Load content for dialogue state
             string prefix = "texture/03_dialogue/";
-            txtr_dialogueBG = _content.Load<Texture2D>(prefix + "01_dialogueBG");
+            txtr_dialogueBG = _content.Load<Texture2D>(prefix + "01_dialogueBG2");
 
             spr_dialogueProfileSheet = _content.Load<Texture2D>(prefix + "02_dialogueProfileSheet");
 

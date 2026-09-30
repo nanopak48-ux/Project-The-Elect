@@ -5,180 +5,198 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using MonoGame.Extended.Input;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project_The_Elect.source_code
 {
+    /// <summary>
+    /// มินิเกมจับจังหวะ: กด Space เมื่อตัวชี้สีแดงซ้อนกับเป้า
+    /// โดน = ความคืบหน้าเพิ่ม, พลาด = ลด, ครบ 100 = จบ
+    /// </summary>
     public class MinigameScan : Minigame
     {
-        //====================== MINIGAME CONFIG ======================//
-        private int BarWidth = 1200;
-        private int BarHeight = 180;
+        //====================== CONFIG: ขนาดและความเร็ว ======================//
+        private const int BarWidth = 1200;          // ความยาวรางแนวนอน
+        private const int BarHeight = 180;          // ความสูงราง (และความสูงของเป้า)
+        private const int TargetWidth = 120;        // ความกว้างเป้า 
 
-        private Rectangle Pointer;
-        private float PointerX = 0f;
-        private int PointerY = 0;
-        private int PointerWidth = 30;
-        private int PointerHeight = 136;
-        private float PointerIncrement = 15f;
+        private const int PointerWidth = 30;        // ตัวชี้สีแดง
+        private const int PointerHeight = 136;
 
-        private float BarIncrement = 10f;
+        private const float PointerIncrement = 15f; // ความเร็วตัวชี้ (พิกเซลต่อเฟรม)
+        private const float BarIncrement = 10f;     // ความเร็วเป้า (พิกเซลต่อเฟรม)
 
-        private float GreenBar = 0f;
-        private bool PointerReverse = false;
-        private bool BarReverse = false;
+        private const int BarHitboxPadding = 30;     // ยิ่งมาก เป้ายิ่งกดโดนง่าย
+        private const int PointerHitboxPadding = 15; // ยิ่งมาก ตัวชี้ยิ่งกดโดนง่าย
 
-        private float MinigameProgress = 0f;
-        private float BaseProgressPoint = 30f;
-        //=============================================================//
+        private const float BaseProgressPoint = 20f;              // โดน +30
+        private const float MissPenalty = BaseProgressPoint * 0.2f; // พลาด -6
+        //=====================================================================//
 
-        public bool IsContentLoaded = false;
-        public bool IsCompleted { get; protected set; }
-        private OrthographicCamera _camera;
-        private SpriteBatch _spriteBatch;
-        private ContentManager _content;
-        private Texture2D bar;
+        //====================== CONFIG: ตำแหน่งบนหน้าจอ ======================//
+        // รางแนวนอน: กึ่งกลางจอตามแนวนอน, อยู่ที่ 1/4 ของความสูงจอ
+        private static int TrackX => (GameConfig.ScreenWidth - BarWidth) / 2;
+        private static int TrackY => GameConfig.ScreenHeight / 2 + 250;
 
-        private GameAudioManager _audio;
+        // ตัวชี้อยู่กึ่งกลางแนวตั้งของราง (ถ้าอยากชิดขอบบนแบบเดิม ให้เปลี่ยนเป็น => TrackY)
+        private static int PointerY => TrackY + (BarHeight - PointerHeight) / 2;
 
-        public MinigameScan
-            (
+        // แท่งความคืบหน้าแนวตั้งด้านซ้าย (ออกแบบไว้สำหรับจอสูง 1080)
+        private const int ProgressX = 47;
+        private const int ProgressY = 75;
+        private const int ProgressWidth = 120;
+        private const int ProgressHeight = 905;
+        //=====================================================================//
+
+        /// <summary>เปิดเพื่อวาดกรอบ hitbox (ม่วง = เป้า, ส้ม = ตัวชี้) ตอนปรับความง่าย</summary>
+        public bool ShowDebugHitboxes = false;
+
+        private readonly SpriteBatch _spriteBatch;
+        private readonly ContentManager _content;
+        private readonly GameAudioManager _audio;
+
+        private Texture2D _barTexture;
+
+        private float _pointerX;
+        private float _targetX;
+        private float _pointerSpeed;
+        private float _targetSpeed;
+
+        private float _progress; 
+
+        // camera ยังรับเข้ามาเพื่อให้ตัวที่เรียก (StatePlay) ไม่ต้องแก้ แต่มินิเกมนี้ไม่ได้ใช้
+        public MinigameScan(
             SpriteBatch spriteBatch,
             OrthographicCamera camera,
             ContentManager content,
-            GameAudioManager audio
-            )
+            GameAudioManager audio)
         {
             _spriteBatch = spriteBatch;
             _content = content;
             _audio = audio;
-
         }
+
+        // ---------- Hitbox / สี่เหลี่ยมที่ใช้ซ้ำ ----------
+
+        private Rectangle TrackRect => new(TrackX, TrackY, BarWidth, BarHeight);
+        private Rectangle TargetRect => new((int)_targetX, TrackY, TargetWidth, BarHeight);
+        private Rectangle PointerRect => new((int)_pointerX, PointerY, PointerWidth, PointerHeight);
+
+        private Rectangle TargetHitbox => new(
+            (int)_targetX - BarHitboxPadding,
+            TrackY,
+            TargetWidth + BarHitboxPadding * 2,
+            BarHeight);
+
+        private Rectangle PointerHitbox => new(
+            (int)_pointerX - PointerHitboxPadding,
+            PointerY - PointerHitboxPadding,
+            PointerWidth + PointerHitboxPadding * 2,
+            PointerHeight + PointerHitboxPadding * 2);
+
+        // ---------- วงจรชีวิตของมินิเกม ----------
 
         public override void Initialize()
         {
             IsClosed = false;
-            PointerX = (GameConfig.ScreenWidth - BarWidth)/ 2;
-            PointerY = (GameConfig.ScreenHeight) / 4;
-            Pointer = new Rectangle((int)PointerX, PointerY,PointerWidth,PointerHeight);
+            IsCompleted = false;
 
-            GreenBar = (GameConfig.ScreenWidth - BarWidth) / 2;
+            _progress = 0f;
+            _pointerX = TrackX;
+            _targetX = TrackX;
+            _pointerSpeed = PointerIncrement;
+            _targetSpeed = BarIncrement;
         }
 
         public override void LoadContent()
         {
             string prefix = "texture/09_minigame/01_scan/";
-            bar = _content.Load<Texture2D>(prefix + "00_bar");
+            _barTexture = _content.Load<Texture2D>(prefix + "00_bar");
 
-            _audio.PlaySFX("exit");
+            _audio.PlaySFX("scan_start");
         }
+
         public override void Update(GameTime gameTime)
         {
-            Console.WriteLine($"Progress: {MinigameProgress}");
+            if (IsClosed) return;
 
-            if (PointerX < (GameConfig.ScreenWidth - BarWidth) / 2 ||
-                PointerX > ((GameConfig.ScreenWidth - BarWidth) / 2) + BarWidth)
+            // ตัวชี้และเป้าวิ่งไปกลับภายในรางพอดี (ไม่ยื่นเลยปลายราง)
+            _pointerX = Bounce(_pointerX, ref _pointerSpeed, TrackX, TrackX + BarWidth - PointerWidth);
+            _targetX = Bounce(_targetX, ref _targetSpeed, TrackX, TrackX + BarWidth - TargetWidth);
+
+            if (_progress >= 100f)
             {
-                PointerReverse = true;
-            }
-
-            if (PointerReverse)
-            {
-                PointerIncrement *= -1;
-                PointerReverse = false;
-            }
-
-            PointerX += PointerIncrement;
-
-            if (GreenBar < (GameConfig.ScreenWidth - BarWidth) / 2 ||
-                GreenBar > ((GameConfig.ScreenWidth - BarWidth) / 2) + BarWidth)
-            {
-                BarReverse = true;
-            }
-
-            if (BarReverse)
-            {
-                BarIncrement *= -1;
-                BarReverse = false;
-            }
-
-            GreenBar += BarIncrement;
-
-            if (MinigameProgress >= 100)
-            {
-                Console.WriteLine(">>> CALLING CLOSE()");
+                IsCompleted = true;
                 Close();
+            }
+        }
+
+        public override void InputHandler(GameTime gameTime)
+        {
+            if (IsClosed) return;
+
+            KeyboardStateExtended keyboardState = KeyboardExtended.GetState();
+            if (!keyboardState.WasKeyPressed(Keys.Space)) return;
+
+            if (TargetHitbox.Intersects(PointerHitbox))
+            {
+                _progress = MathHelper.Clamp(_progress + BaseProgressPoint, 0f, 100f);
+                _audio.PlaySFX("scan_collision");
+            }
+            else
+            {
+                _progress = MathHelper.Clamp(_progress - MissPenalty, 0f, 100f);
             }
         }
 
         public override void Draw(GameTime gameTime)
         {
-            int bottomY = 905+75;
-            int maxHeight = 905;
+            _spriteBatch.DrawRectangle(TrackRect, Color.Green);
+            _spriteBatch.Draw(_barTexture, TargetRect, Color.White);
+            _spriteBatch.DrawRectangle(PointerRect, Color.Red);
 
-            int height = (int)(MinigameProgress / 100f * maxHeight);
-            int y = bottomY - height;
+            _spriteBatch.DrawRectangle(
+                new Rectangle(ProgressX, ProgressY, ProgressWidth, ProgressHeight),
+                Color.Green);
 
-            _spriteBatch.DrawRectangle(new Rectangle((GameConfig.ScreenWidth - BarWidth) / 2, (GameConfig.ScreenHeight) / 4, BarWidth, BarHeight), Color.Green);
+            int fillHeight = (int)(_progress / 100f * ProgressHeight);
+            int fillY = ProgressY + ProgressHeight - fillHeight;
+            _spriteBatch.Draw(
+                _barTexture,
+                new Rectangle(ProgressX, fillY, ProgressWidth, fillHeight),
+                Color.White);
 
-            _spriteBatch.Draw(bar, new Rectangle((int)GreenBar, (GameConfig.ScreenHeight) / 4, 120, BarHeight), Color.White);
-
-            _spriteBatch.DrawRectangle(new Rectangle((int)PointerX, PointerY, PointerWidth, PointerHeight), Color.Red); 
-
-            _spriteBatch.DrawRectangle(new Rectangle(47, 75, 120, 905),Color.Green);
-
-            _spriteBatch.DrawRectangle(new Rectangle((int)GreenBar - BarHitboxPadding,
-                                        GameConfig.ScreenHeight / 4,
-                                        120 + BarHitboxPadding * 2,
-                                        BarHeight), Color.Purple);
-            _spriteBatch.Draw(bar,new Rectangle(47, y, 120, height),Color.White);
-        }
-
-        private int BarHitboxPadding = 30;
-        private int PointerHitboxPadding = 15;
-
-        public override void InputHandler(GameTime gameTime)
-        {
-            KeyboardStateExtended keyboardState = KeyboardExtended.GetState();
-
-            Rectangle bar = new Rectangle((int)GreenBar-20, (GameConfig.ScreenHeight) / 4, 60+20, BarHeight);
-            Rectangle Pointer = new Rectangle((int)PointerX, PointerY, PointerWidth, PointerHeight);
-
-            Rectangle barHitbox = new Rectangle((int)GreenBar - BarHitboxPadding,
-                                        GameConfig.ScreenHeight / 4,
-                                        120 + BarHitboxPadding * 2,
-                                        BarHeight);
-
-            Rectangle pointerHitbox = new Rectangle(
-                (int)PointerX - PointerHitboxPadding,
-                PointerY - PointerHitboxPadding,
-                PointerWidth + PointerHitboxPadding * 2,
-                PointerHeight + PointerHitboxPadding * 2
-            );
-
-            if (keyboardState.WasKeyPressed(Keys.Space))
+            if (ShowDebugHitboxes)
             {
-                if (barHitbox.Intersects(pointerHitbox))
-                {
-                    MinigameProgress += BaseProgressPoint;
-                    _audio.PlaySFX("selected");
-                }
-                else if (MinigameProgress > 0)
-                {
-                    MinigameProgress -= (int)(BaseProgressPoint * 0.2);
-                }
+                _spriteBatch.DrawRectangle(TargetHitbox, Color.Purple);
+                _spriteBatch.DrawRectangle(PointerHitbox, Color.Orange);
             }
         }
 
         public override void Close()
         {
-            _audio.PlaySFX("proceed");
-            IsClosed = true;
+            if (IsClosed) return; 
+
+            _audio.PlaySFX("scan_start");
+            base.Close();
         }
 
+
+        private static float Bounce(float position, ref float speed, float min, float max)
+        {
+            position += speed;
+
+            if (position < min)
+            {
+                position = min;
+                speed = Math.Abs(speed);
+            }
+            else if (position > max)
+            {
+                position = max;
+                speed = -Math.Abs(speed);
+            }
+
+            return position;
+        }
     }
 }

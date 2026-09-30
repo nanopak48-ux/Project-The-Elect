@@ -27,7 +27,7 @@ namespace Project_The_Elect.source_code
                 if (group.Name != "GameCollision")
                     continue;
 
-                foreach (var Childlayers in group.ChildLayers)
+                /*foreach (var Childlayers in group.ChildLayers)
                 {
                     CollisionObjects.Add(new Rectangle((int)Childlayers.Bounds.X, (int)Childlayers.Bounds.Y, (int)Childlayers.Bounds.Width, (int)Childlayers.Bounds.Height));
                 }

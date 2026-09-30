@@ -1,15 +1,31 @@
 {
     "activeFile": "OperationCenterVI.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "": {
+            "scaleInDock": 0.75
+        },
         "00_00_floor.tsx": {
             "scaleInDock": 0.5,
             "scaleInEditor": 1
         },
+        "00_00_light.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "00_00_wall.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
         "01_00_taskAsset.tsx": {
             "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "C:/Users/user/Downloads/01_00_taskAsset.tsx": {
+            "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "C:/Users/user/Downloads/MICROSCOPE_00.tsx": {
@@ -21,44 +37,68 @@
         "C:/Users/user/Downloads/MICROSCOPE_02.tsx": {
             "scaleInDock": 1
         },
+        "C:/Users/user/Downloads/TEST/00_00_wall.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "C:/Users/user/Downloads/TEST/wall_out.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
         "C:/Users/user/Downloads/floor_05.tsx": {
             "scaleInDock": 1
         },
         "C:/Users/user/Downloads/test.tmx": {
             "scale": 0.125,
-            "selectedLayer": 0,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": -2052,
-                "y": 1576
+                "x": -2484,
+                "y": 2072
             }
+        },
+        "C:/Users/user/Downloads/test.tmx#wall_out": {
+            "scaleInDock": 0.75
         },
         "C:/Users/user/Downloads/wall_00.tsx": {
             "scaleInDock": 1
         },
+        "C:/Users/user/Downloads/wall_out.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
         "OperationCenterVI.tmx": {
-            "scale": 0.5,
-            "selectedLayer": 0,
+            "scale": 0.33,
+            "selectedLayer": 5,
             "viewCenter": {
-                "x": 3210,
-                "y": 947
+                "x": 2274.242424242424,
+                "y": 112.12121212121224
             }
         }
     },
+    "last.externalTilesetPath": "C:/Users/user/Downloads/TEST",
     "last.imagePath": "C:/Users/user/source/repos/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/00_source",
     "map.fixedSize": false,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 64,
     "map.tileWidth": 64,
     "openFiles": [
-        "OperationCenterVI.tmx"
+        "OperationCenterVI.tmx",
+        "00_00_light.tsx"
     ],
     "project": "OperationCenterVI.tiled-project",
     "recentFiles": [
+        "00_00_light.tsx",
         "OperationCenterVI.tmx",
+        "C:/Users/user/Downloads/TEST/wall_out.tsx",
+        "C:/Users/user/Downloads/test.tmx",
+        "C:/Users/user/Downloads/wall_out.tsx",
+        "C:/Users/user/Downloads/TEST/00_00_wall.tsx",
+        "C:/Users/user/Downloads/01_00_taskAsset.tsx",
+        "00_00_wall.tsx",
         "00_00_floor.tsx",
-        "01_00_taskAsset.tsx",
-        "C:/Users/user/Downloads/test.tmx"
+        "01_00_taskAsset.tsx"
     ],
+    "tileset.lastUsedFilter": "All Files (*)",
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
         "height": 64,

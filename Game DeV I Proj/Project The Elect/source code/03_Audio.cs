@@ -30,13 +30,18 @@ namespace Project_The_Elect.source_code
             "proceed",
             "selected",
             "menuentry",
-            "exit"
+            "exit",
+            "scan_start",
+            "scan_collision"
         };
         
         private string[] _bgmIndex = new string[]
         {
             "home",
-            "dialogue"
+            "dialogue",
+            "bgscary",
+            "scan_start"
+
         };
 
         private List<SoundEffect> _SFX;

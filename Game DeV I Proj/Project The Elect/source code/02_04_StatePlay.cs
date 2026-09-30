@@ -66,14 +66,14 @@ namespace Project_The_Elect.source_code
             viewportAdapter.Reset();
 
             _minigame = new MinigameManager();
-            _map = new GameMapManager(_content,_graphics.GraphicsDevice,_spriteBatch);
+            _map = new GameMapManager(_content, _graphics.GraphicsDevice, _spriteBatch);
         }
 
         private Texture2D map;
         public void LoadContent()
         {
-            Texture2D texture = _content.Load<Texture2D>("texture/08_player/00_spritesheet_player");  
-            _player = new Player(_spriteBatch, new Vector2(37*64, 22*64), _content, texture);
+            Texture2D texture = _content.Load<Texture2D>("texture/08_player/00_spritesheet_player5");
+            _player = new Player(_spriteBatch, new Vector2(44 * 64 + 16, 58 * 64), _content, texture);
             map = _content.Load<Texture2D>("texture/04_play/00_map");
 
             _map.LoadContent();
@@ -88,11 +88,12 @@ namespace Project_The_Elect.source_code
 
             Console.WriteLine(_player.Position);
 
-            //Collision.Update(_player,_camera);
 
             if (_minigame.IsPlaying)
             {
                 _minigame.Update(gameTime);
+
+                if (!_minigame.IsPlaying) _player.Unfreeze();
                 return;
             }
 
@@ -117,10 +118,15 @@ namespace Project_The_Elect.source_code
         {
             Matrix transformMatrix = _camera.GetViewMatrix();
 
-            _spriteBatch.Begin(transformMatrix: transformMatrix);
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix);
 
-
-            _map.Draw(gameTime, _camera);
+            _map.Draw(gameTime, _camera, "floor");
+            _map.Draw(gameTime, _camera, "background");
+            _map.Draw(gameTime, _camera, "middleground");
+            _map.Draw(gameTime, _camera, "foreground");
+            _map.Draw(gameTime, _camera, "wall_side");
+            _map.Draw(gameTime, _camera, "wall_upper");
+            _map.Draw(gameTime, _camera, "wall_lower");
             _player.Draw();
 
             _spriteBatch.End();
@@ -141,22 +147,29 @@ namespace Project_The_Elect.source_code
 
             if (keyboardState.WasKeyPressed(Keys.U))
             {
-                _minigame.Start(new MinigameScan(_spriteBatch,_camera, _content, _audio));
+                StartMinigame(new MinigameScan(_spriteBatch, _camera, _content, _audio));
             }
             else if (keyboardState.WasKeyPressed(Keys.I))
             {
-                _minigame.Start(new MinigameLens(_spriteBatch, _camera, _content, _audio));
+                StartMinigame(new MinigameLens(_spriteBatch, _camera, _content, _audio));
             }
             else if (keyboardState.WasKeyPressed(Keys.O))
             {
-                
+
             }
             else if (keyboardState.WasKeyPressed(Keys.P))
             {
-               
+
             }
 
 
+        }
+
+        // ล็อกผู้เล่นก่อนเริ่มมินิเกมทุกครั้ง (ปลดล็อกใน Update เมื่อมินิเกมจบ)
+        private void StartMinigame(Minigame minigame)
+        {
+            _player.Freeze();
+            _minigame.Start(minigame);
         }
 
         private void CheckEscape()

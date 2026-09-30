@@ -2,53 +2,83 @@
   "chapter": 1,
   "dialogues": [
     {
-      "character": "Columbina",
-      "text": "Hello I'm Minerva สวัสดี",
-      "voiceline": "chap01_v01"
+      "character": "Vier",
+      "text": "โอ้ย...ที่นี่ที่ไหนหน่อ...เจ็บหูจัง",
+      "voiceline": "none"
     },
     {
-      "character": "Furina",
-      "text": "In hell.",
-      "voiceline": "chap01_v02"
+      "character": "Unknown",
+      "text": "ตื่นแล้วสินะไอ่โง้",
+      "voiceline": "none"
     },
     {
-      "character": "Tanjiro",
-      "text": "Dont cry bitch.",
-      "voiceline": "chap01_v03"
+      "character": "Vier",
+      "text": "แกเป็นใคร แล้วทำไมฉันถึงมาอยู๋ที่นี่",
+      "voiceline": "none"
     },
     {
-      "character": "Columbina",
-      "text": "YAHHHH",
-      "voiceline": "chap01_v04"
+      "character": "Unknown",
+      "text": "ถามมากจังนะไอ่โง้",
+      "voiceline": "none"
     },
     {
-      "character": "Tanjiro",
-      "text": "Karn and Fishe are gay.",
-      "voiceline": "chap01_v05"
+      "character": "Unknown",
+      "text": "เพราะความสอดรู้สอดเห็นของแก ดันไปเห็นสิ่งที่ไม่ควรเห็นเข้า แกเลยถูกจับมาที่นี่ไงไอ่ทึ่ม",
+      "voiceline": "none"
     },
     {
-      "character": "Columbina",
-      "text": "gkalu;jfgh;lghl'asfgj'lvkbjaspfvjpuerijfghikajkhkgwriughfipuashgpiuashgfpiuhsaoufdhpsaupifu",
-      "voiceline": "chap01_v06"
+      "character": "Vier",
+      "text": "อะไรกัน! แกเป็นใคร? แล้วพูดจากตรงไหนเนี้ย?",
+      "voiceline": "none"
     },
     {
-      "character": "Columbina",
-      "text": "I don't like this place.",
-      "voiceline": "chap01_v07"
+      "character": "Unknown",
+      "text": "อ๋อ! อันนั้นคือชิปควบคมสัญญาณปราสาท",
+      "voiceline": "none"
     },
     {
-      "character": "Jamakuz",
-      "text": "E bah",
-      "voiceline": "chap01_08"
+      "character": "Unknown",
+      "text": "มันสามารถส่งเสียงของฉันเข้าไปในระบบประสาทของแกได้โดยตรงเลยไงหล่ะ",
+      "voiceline": "none"
     },
     {
-      "character": "Fishu",
-      "text": "Ku khor thod",
-      "voiceline": "chap01_09"
+      "character": "Vier",
+      "text": "โอ้ย...เจ็บชะมัด แกต้องการอะไร? ทำแบบนี้ทำไม?",
+      "voiceline": "none"
     },
     {
-      "character": "Jamakuz",
-      "text": "ARE YOUGAY || GAY YOUARE",
+      "character": "Unknown",
+      "text": "เข้าประเด่นเร็วดีนิไอ่โง้ แบบนี้ค่อยคุยกันง่ายหน่อย",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "ฉันอยากให้แกช่วยทำอะไรสักอย่าง นิดหน่อยแล้วแกจะได้รับการปล่อยตัว ไอ่โง้",
+      "voiceline": "none"
+    },
+    {
+      "character": "Vier",
+      "text": "แล้วถ้าฉันไม่ทำหล่ะ",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "กูจะใช้ชิปควมคุมระบบประสาทฆ่ามึงตอนนี้เลย",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "แค่ทำงานง่ายๆ เล็กๆ น้อยๆ เพื่ออิสรภาพมันจะไปยากอะไร หรือว่าแกจะตายตรงนี้ไปเลย?",
+      "voiceline": "none"
+    },
+    {
+      "character": "Vier",
+      "text": "โอเคๆ ใจเย็นก่อน ฉันเข้าใจแล้ว",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "ดี! งั้นก็มาเริ่มกันเลย",
       "voiceline": "none"
     }
   ]

@@ -54,12 +54,12 @@ namespace Project_The_Elect.source_code
             _renderer.Update(gameTime);
         }
 
-        public void Draw(GameTime gameTime, OrthographicCamera _camera)
+        public void Draw(GameTime gameTime, OrthographicCamera _camera , string layer)
         {
-            _graphic.Clear(Color.Black);
+            //_graphic.Clear(Color.Black);
 
-            _renderer.DrawLayers(_spriteBatch, _camera,"background");
-
+            _renderer.DrawLayers(_spriteBatch, _camera, layer);
+            
         }
 
     }

@@ -161,7 +161,7 @@ namespace Project_The_Elect
         {
             if (!_isPlayingBGM)
             {
-                _audioManager.PlayBGM(1);
+                _audioManager.PlayBGM(2);
                 _isPlayingBGM = true;
             }
 
