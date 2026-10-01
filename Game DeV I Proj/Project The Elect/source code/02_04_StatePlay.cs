@@ -83,11 +83,14 @@ namespace Project_The_Elect.source_code
 
         public void Update(GameTime gameTime)
         {
-            _player.Update(gameTime);
             _map.Update(gameTime);
 
             Console.WriteLine(_player.Position);
+            
+            List<RectangleF> walls = _map.GetWallCollisions();
+            _player.Update(gameTime, walls);
 
+            _map.Update(gameTime);
 
             if (_minigame.IsPlaying)
             {
@@ -127,6 +130,7 @@ namespace Project_The_Elect.source_code
             _map.Draw(gameTime, _camera, "wall_side");
             _map.Draw(gameTime, _camera, "wall_upper");
             _map.Draw(gameTime, _camera, "wall_lower");
+
             _player.Draw();
 
             _spriteBatch.End();

@@ -2,8 +2,10 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended;
 using MonoGame.Extended.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
@@ -11,47 +13,27 @@ namespace Project_The_Elect.source_code
 {
     public class Player
     {
-        public enum PlayerState
-        {
-            Ready,  // ควบคุมได้
-            Busy    // ถูกล็อก (คุยอยู่ / คัตซีน)
-        }
-
-        public enum PlayerAnimState
-        {
-            Idle,
-            Walk,
-            Interact
-        }
-
-        // ชื่อต้องตรงกับส่วนท้ายของชื่อ animation ใน player_animation.json
-        // เช่น WalkDown, IdleLeft
-        public enum Direction
-        {
-            Down,
-            Left,
-            Right,
-            Up
-        }
+        public enum PlayerState { Ready, Busy }
+        public enum PlayerAnimState { Idle, Walk, Interact }
+        public enum Direction { Down, Left, Right, Up }
 
         public Vector2 Position;
-        public Vector2 FrameSize = new(16, 32);   
-        public float Scale = 2.5f;                  
-        public Vector2 Size => FrameSize * Scale; 
-        public Rectangle HitBox;
+        public Vector2 FrameSize = new(16, 32);
+        public float Scale = 2.5f;
+        public Vector2 Size => FrameSize * Scale;
 
-        public float Speed = 300f; 
+        public RectangleF HitBox { get; private set; }
+
+        public float Speed = 300f;
         public int Health = 100;
 
         public PlayerState State { get; private set; }
         public PlayerAnimState AnimState { get; private set; }
         public Direction Facing { get; private set; } = Direction.Down;
 
-        
         public bool InteractPressed { get; private set; }
 
         private KeyboardState previousKeyboard;
-
         private readonly SpriteBatch spriteBatch;
         private SpriteSheet spriteSheet;
         private AnimatedSprite playerSprite;
@@ -71,17 +53,11 @@ namespace Project_The_Elect.source_code
             UpdateHitBox();
         }
 
-        
         public void Freeze() => State = PlayerState.Busy;
-
-        
         public void Unfreeze() => State = PlayerState.Ready;
 
-        
-
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, List<RectangleF> walls)
         {
-            
             KeyboardState keyboard = Keyboard.GetState();
 
             InteractPressed = State == PlayerState.Ready
@@ -92,10 +68,9 @@ namespace Project_The_Elect.source_code
                 ? ReadMovementInput(keyboard)
                 : Vector2.Zero;
 
-            Move(direction, gameTime);
+            Move(direction, gameTime, walls);
             UpdateState(direction);
             UpdateAnimation(gameTime);
-            UpdateHitBox();
 
             previousKeyboard = keyboard;
         }
@@ -105,12 +80,7 @@ namespace Project_The_Elect.source_code
             spriteBatch.Draw(playerSprite, Position, 0f, new Vector2(Scale));
         }
 
-        
-        public void Audio(GameTime gameTime)
-        {
-        }
-
-        
+        public void Audio(GameTime gameTime) { }
 
         private static Vector2 ReadMovementInput(KeyboardState keyboard)
         {
@@ -124,15 +94,70 @@ namespace Project_The_Elect.source_code
             return direction;
         }
 
-        private void Move(Vector2 direction, GameTime gameTime)
+        private void Move(Vector2 direction, GameTime gameTime, List<RectangleF> walls)
         {
             if (direction == Vector2.Zero) return;
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            
             direction.Normalize();
-            Position += direction * Speed * deltaTime;
+
+            Vector2 velocity = direction * Speed * deltaTime;
+
+            // เช็คแยกแกน X
+            Vector2 testPosX = Position + new Vector2(velocity.X, 0);
+            RectangleF testHitBoxX = GetHitBoxAtPosition(testPosX);
+
+            bool collideX = false;
+            if (walls != null)
+            {
+                foreach (var wall in walls)
+                {
+                    if (testHitBoxX.Intersects(wall))
+                    {
+                        collideX = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!collideX) Position.X = testPosX.X;
+
+            // เช็คแยกแกน Y
+            Vector2 testPosY = Position + new Vector2(0, velocity.Y);
+            RectangleF testHitBoxY = GetHitBoxAtPosition(testPosY);
+
+            bool collideY = false;
+            if (walls != null)
+            {
+                foreach (var wall in walls)
+                {
+                    if (testHitBoxY.Intersects(wall))
+                    {
+                        collideY = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!collideY) Position.Y = testPosY.Y;
+
+            UpdateHitBox();
+        }
+
+        private RectangleF GetHitBoxAtPosition(Vector2 pos)
+        {
+            Vector2 topLeft = pos - Size / 2f;
+            return new RectangleF(
+                topLeft.X,
+                topLeft.Y + Size.Y / 2f,
+                Size.X,
+                Size.Y / 2f
+            );
+        }
+
+        private void UpdateHitBox()
+        {
+            HitBox = GetHitBoxAtPosition(Position);
         }
 
         private void UpdateState(Vector2 direction)
@@ -145,7 +170,6 @@ namespace Project_The_Elect.source_code
 
             AnimState = PlayerAnimState.Walk;
 
-           
             if (direction.X != 0)
                 Facing = direction.X < 0 ? Direction.Left : Direction.Right;
             else
@@ -157,28 +181,14 @@ namespace Project_The_Elect.source_code
             string prefix = AnimState == PlayerAnimState.Walk ? "Walk" : "Idle";
             string animationName = prefix + Facing;
 
-            
             if (playerSprite.CurrentAnimation != animationName)
                 playerSprite.SetAnimation(animationName);
 
             playerSprite.Update(gameTime);
         }
 
-        private void UpdateHitBox()
-        {
-            
-            Vector2 topLeft = Position - Size / 2f;
-
-            HitBox = new Rectangle(
-                (int)topLeft.X,
-                (int)(topLeft.Y + Size.Y / 2f),
-                (int)Size.X,
-                (int)(Size.Y / 2f));
-        }
-
         private void DefineAnimation(ContentManager content)
         {
-            
             string path = Path.Combine(
                 AppContext.BaseDirectory,
                 content.RootDirectory,
@@ -202,7 +212,6 @@ namespace Project_The_Elect.source_code
                     builder =>
                     {
                         builder.IsLooping(animation.Loop);
-
                         TimeSpan frameDuration = TimeSpan.FromSeconds(animation.FrameDuration);
 
                         foreach (int frame in animation.Frames)
