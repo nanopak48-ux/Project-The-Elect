@@ -123,6 +123,7 @@ namespace Project_The_Elect.source_code
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix);
 
+            // 1. วาดแมพ
             _map.Draw(gameTime, _camera, "floor");
             _map.Draw(gameTime, _camera, "background");
             _map.Draw(gameTime, _camera, "middleground");
@@ -131,7 +132,14 @@ namespace Project_The_Elect.source_code
             _map.Draw(gameTime, _camera, "wall_upper");
             _map.Draw(gameTime, _camera, "wall_lower");
 
+            // 2. วาดตัวละคร
             _player.Draw();
+
+            // --------------------------------------------------
+            // 3. วาด Debug Collision (เห็นกรอบสีแดงของแมพ และกรอบสีเขียวของตัวละคร)
+            _map.DrawDebug(_spriteBatch);
+            _player.DrawDebug();
+            // --------------------------------------------------
 
             _spriteBatch.End();
 

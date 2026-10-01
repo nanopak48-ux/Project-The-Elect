@@ -122,7 +122,7 @@ namespace Project_The_Elect
             bool keyDownPresed = currentKeyboardState.IsKeyDown(Keys.Down) && _previousKeyboardState.IsKeyUp(Keys.Down);
             bool keyUpPressed = currentKeyboardState.IsKeyDown(Keys.Up) && _previousKeyboardState.IsKeyUp(Keys.Up);
 
-            if (spacePressed || mouseClicked)
+            if (spacePressed || mouseClicked || currentKeyboardState.IsKeyDown(Keys.Enter))
             {
                 if (_currentDialogueIndex < _dialogueManager._dialogues.Count - 1)
                 {

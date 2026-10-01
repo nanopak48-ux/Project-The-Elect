@@ -65,6 +65,9 @@ namespace Project_The_Elect.source_code
         {
             return Collision != null ? Collision.CollisionObjects : new List<RectangleF>();
         }
-
+        public void DrawDebug(SpriteBatch spriteBatch)
+        {
+            Collision?.DrawDebug(spriteBatch);
+        }
     }
 }

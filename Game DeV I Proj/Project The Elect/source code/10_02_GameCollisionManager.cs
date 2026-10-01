@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Tilemaps;
 
@@ -28,11 +29,9 @@ namespace Project_The_Elect.source_code
                 {
                     foreach (var obj in objectLayer.Objects)
                     {
-                        // คำนวณความกว้างและความสูงจาก BoundingBox2D (Max - Min)
                         float width = obj.Bounds.Max.X - obj.Bounds.Min.X;
                         float height = obj.Bounds.Max.Y - obj.Bounds.Min.Y;
 
-                        // สร้าง RectangleF จาก Min.X, Min.Y, width, height
                         RectangleF rect = new RectangleF(
                             obj.Bounds.Min.X,
                             obj.Bounds.Min.Y,
@@ -43,6 +42,14 @@ namespace Project_The_Elect.source_code
                         CollisionObjects.Add(rect);
                     }
                 }
+            }
+        }
+
+        public void DrawDebug(SpriteBatch spriteBatch)
+        {
+            foreach (var wall in CollisionObjects)
+            {
+                spriteBatch.DrawRectangle(wall, Color.Red, 2f);
             }
         }
     }
