@@ -20,7 +20,7 @@ namespace Project_The_Elect.source_code
         private ContentManager _content;
         private GraphicsDevice _graphic;
         private SpriteBatch _spriteBatch;
-        private Tilemap _tilemap;
+        public Tilemap _tilemap;
         private TilemapSpriteBatchRenderer _renderer;
         public GameMapManager
             (
@@ -65,6 +65,12 @@ namespace Project_The_Elect.source_code
         {
             return Collision != null ? Collision.CollisionObjects : new List<RectangleF>();
         }
+
+        public bool HasLayer(string layerName)
+        {
+            return _tilemap != null && _tilemap.Layers.Any(layer => layer.Name == layerName);
+        }
+
         public void DrawDebug(SpriteBatch spriteBatch)
         {
             Collision?.DrawDebug(spriteBatch);

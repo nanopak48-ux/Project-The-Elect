@@ -75,6 +75,14 @@ namespace Project_The_Elect.source_code
             previousKeyboard = keyboard;
         }
 
+        public void UpdateWithoutMovement(GameTime gameTime)
+        {
+            InteractPressed = false;
+            UpdateState(Vector2.Zero);
+            UpdateAnimation(gameTime);
+            previousKeyboard = Keyboard.GetState();
+        }
+
         public void Draw()
         {
             spriteBatch.Draw(playerSprite, Position, 0f, new Vector2(Scale));

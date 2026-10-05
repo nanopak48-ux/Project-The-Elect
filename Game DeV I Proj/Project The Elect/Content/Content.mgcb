@@ -84,6 +84,27 @@
 /processorParam:Version=3.8.5.1
 /build:audio/02_sfx/sfx_05_scan_collision.mp3
 
+#begin audio/02_sfx/sfx_06_error_task.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/02_sfx/sfx_06_error_task.mp3
+
+#begin audio/02_sfx/sfx_07_speacbar.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/02_sfx/sfx_07_speacbar.mp3
+
+#begin audio/02_sfx/sfx_08_skipdia.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/02_sfx/sfx_08_skipdia.mp3
+
 #begin audio/03_voiceline/dialogue/chap01_v01.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -103,7 +124,7 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /processorParam:Version=3.8.5.1
-/build:audio/03_voiceline/dialogue/chap01_v03.mp3;audio/03_voiceline/dialogue/chap01_v03
+/build:audio/03_voiceline/dialogue/chap01_v03.mp3
 
 #begin audio/03_voiceline/dialogue/chap01_v04.mp3
 /importer:Mp3Importer
@@ -152,6 +173,33 @@
 
 #begin data/dataDialogue/chapter02.json
 /copy:data/dataDialogue/chapter02.json;data/dataDialogue/chapter02
+
+#begin data/dataDialogue/chapter03.json
+/copy:data/dataDialogue/chapter03.json;data/dataDialogue/chapter03
+
+#begin data/dataDialogue/chapter04.json
+/copy:data/dataDialogue/chapter04.json;data/dataDialogue/chapter04
+
+#begin data/dataDialogue/chapter05.json
+/copy:data/dataDialogue/chapter05.json;data/dataDialogue/chapter05
+
+#begin data/dataDialogue/chapter06.json
+/copy:data/dataDialogue/chapter06.json;data/dataDialogue/chapter06
+
+#begin data/dataDialogue/chapter07.json
+/copy:data/dataDialogue/chapter07.json;data/dataDialogue/chapter07
+
+#begin data/dataDialogue/chapter08.json
+/copy:data/dataDialogue/chapter08.json;data/dataDialogue/chapter08
+
+#begin data/dataDialogue/chapter09.json
+/copy:data/dataDialogue/chapter09.json;data/dataDialogue/chapter09
+
+#begin data/dataDialogue/chapter10.json
+/copy:data/dataDialogue/chapter10.json;data/dataDialogue/chapter10
+
+#begin data/dataDialogue/chapter11.json
+/copy:data/dataDialogue/chapter11.json;data/dataDialogue/chapter11
 
 #begin data/dataPlayer/player_animation.json
 /copy:data/dataPlayer/player_animation.json;data/dataPlayer/player_animation

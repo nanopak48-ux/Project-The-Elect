@@ -17,19 +17,20 @@ namespace Project_The_Elect.source_code
         //====================== CONFIG: ขนาดและความเร็ว ======================//
         private const int BarWidth = 1200;          // ความยาวรางแนวนอน
         private const int BarHeight = 180;          // ความสูงราง (และความสูงของเป้า)
-        private const int TargetWidth = 120;        // ความกว้างเป้า 
+        private const int MinTargetWidth = 70;       // เป้าเล็กสุด (ยังมองเห็นชัด)
+        private const int MaxTargetWidth = 140;      // เป้าใหญ่สุด (ไม่กินพื้นที่รางมากเกินไป)
 
         private const int PointerWidth = 30;        // ตัวชี้สีแดง
         private const int PointerHeight = 136;
 
         private const float PointerIncrement = 15f; // ความเร็วตัวชี้ (พิกเซลต่อเฟรม)
-        private const float BarIncrement = 10f;     // ความเร็วเป้า (พิกเซลต่อเฟรม)
 
         private const int BarHitboxPadding = 30;     // ยิ่งมาก เป้ายิ่งกดโดนง่าย
         private const int PointerHitboxPadding = 15; // ยิ่งมาก ตัวชี้ยิ่งกดโดนง่าย
 
-        private const float BaseProgressPoint = 20f;              // โดน +30
-        private const float MissPenalty = BaseProgressPoint * 0.2f; // พลาด -6
+        private const float StartingProgress = 30f;               // หลอดเริ่มต้น ให้มีโอกาสพลาดก่อนแพ้
+        private const float BaseProgressPoint = 25f;              // โดน +20
+        private const float MissPenalty = BaseProgressPoint * 1f; // พลาด -4
         //=====================================================================//
 
         //====================== CONFIG: ตำแหน่งบนหน้าจอ ======================//
@@ -58,10 +59,13 @@ namespace Project_The_Elect.source_code
 
         private float _pointerX;
         private float _targetX;
+        private int _targetWidth;
         private float _pointerSpeed;
-        private float _targetSpeed;
+        private readonly Random _random = new Random();
 
-        private float _progress; 
+        private float _progress;
+        private KeyboardState _previousKeyboardState;
+
 
         // camera ยังรับเข้ามาเพื่อให้ตัวที่เรียก (StatePlay) ไม่ต้องแก้ แต่มินิเกมนี้ไม่ได้ใช้
         public MinigameScan(
@@ -78,13 +82,13 @@ namespace Project_The_Elect.source_code
         // ---------- Hitbox / สี่เหลี่ยมที่ใช้ซ้ำ ----------
 
         private Rectangle TrackRect => new(TrackX, TrackY, BarWidth, BarHeight);
-        private Rectangle TargetRect => new((int)_targetX, TrackY, TargetWidth, BarHeight);
+        private Rectangle TargetRect => new((int)_targetX, TrackY, _targetWidth, BarHeight);
         private Rectangle PointerRect => new((int)_pointerX, PointerY, PointerWidth, PointerHeight);
 
         private Rectangle TargetHitbox => new(
             (int)_targetX - BarHitboxPadding,
             TrackY,
-            TargetWidth + BarHitboxPadding * 2,
+            _targetWidth + BarHitboxPadding * 2,
             BarHeight);
 
         private Rectangle PointerHitbox => new(
@@ -97,14 +101,12 @@ namespace Project_The_Elect.source_code
 
         public override void Initialize()
         {
-            IsClosed = false;
-            IsCompleted = false;
+            ResetResult();
 
-            _progress = 0f;
+            _progress = StartingProgress;
             _pointerX = TrackX;
-            _targetX = TrackX;
+            SpawnTarget(false);
             _pointerSpeed = PointerIncrement;
-            _targetSpeed = BarIncrement;
         }
 
         public override void LoadContent()
@@ -119,14 +121,12 @@ namespace Project_The_Elect.source_code
         {
             if (IsClosed) return;
 
-            // ตัวชี้และเป้าวิ่งไปกลับภายในรางพอดี (ไม่ยื่นเลยปลายราง)
+            // ขยับเฉพาะ pointer ส่วนเป้าหมายจะอยู่กับที่จนกว่าจะกดโดน
             _pointerX = Bounce(_pointerX, ref _pointerSpeed, TrackX, TrackX + BarWidth - PointerWidth);
-            _targetX = Bounce(_targetX, ref _targetSpeed, TrackX, TrackX + BarWidth - TargetWidth);
 
             if (_progress >= 100f)
             {
-                IsCompleted = true;
-                Close();
+                Complete();
             }
         }
 
@@ -134,17 +134,25 @@ namespace Project_The_Elect.source_code
         {
             if (IsClosed) return;
 
-            KeyboardStateExtended keyboardState = KeyboardExtended.GetState();
-            if (!keyboardState.WasKeyPressed(Keys.Space)) return;
-
+            KeyboardState currentKeyboardState = Keyboard.GetState();
+            bool spacePressed = currentKeyboardState.IsKeyDown(Keys.Space)
+                               && _previousKeyboardState.IsKeyUp(Keys.Space);
+            _previousKeyboardState = currentKeyboardState;
+            if (!spacePressed) return;
             if (TargetHitbox.Intersects(PointerHitbox))
             {
                 _progress = MathHelper.Clamp(_progress + BaseProgressPoint, 0f, 100f);
                 _audio.PlaySFX("scan_collision");
+                SpawnTarget(true);
             }
             else
             {
+                _audio.PlaySFX("error_task");
                 _progress = MathHelper.Clamp(_progress - MissPenalty, 0f, 100f);
+                if (_progress <= 0f)
+                {
+                    Fail();
+                }
             }
         }
 
@@ -172,14 +180,18 @@ namespace Project_The_Elect.source_code
             }
         }
 
-        public override void Close()
+        private void SpawnTarget(bool avoidPreviousPosition)
         {
-            if (IsClosed) return; 
-
-            _audio.PlaySFX("scan_start");
-            base.Close();
+            int previousPosition = (int)_targetX;
+            _targetWidth = _random.Next(MinTargetWidth, MaxTargetWidth + 1);
+            int maxPosition = TrackX + BarWidth - _targetWidth;
+            int position;
+            do
+            {
+                position = _random.Next(TrackX, maxPosition + 1);
+            } while (avoidPreviousPosition && position == previousPosition);
+            _targetX = position;
         }
-
 
         private static float Bounce(float position, ref float speed, float min, float max)
         {

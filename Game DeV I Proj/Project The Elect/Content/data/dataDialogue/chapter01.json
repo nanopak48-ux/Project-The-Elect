@@ -4,82 +4,82 @@
     {
       "character": "Vier",
       "text": "โอ้ย...ที่นี่ที่ไหนหน่อ...เจ็บหูจัง",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Unknown",
       "text": "ตื่นแล้วสินะไอ่โง้",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Vier",
       "text": "แกเป็นใคร แล้วทำไมฉันถึงมาอยู๋ที่นี่",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Unknown",
       "text": "ถามมากจังนะไอ่โง้",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Unknown",
       "text": "เพราะความสอดรู้สอดเห็นของแก ดันไปเห็นสิ่งที่ไม่ควรเห็นเข้า แกเลยถูกจับมาที่นี่ไงไอ่ทึ่ม",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Vier",
       "text": "อะไรกัน! แกเป็นใคร? แล้วพูดจากตรงไหนเนี้ย?",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Unknown",
-      "text": "อ๋อ! อันนั้นคือชิปควบคมสัญญาณปราสาท",
-      "voiceline": "none"
+      "text": "อ๋อ! อันนั้นคือชิปควบคมสัญญาณประสาท",
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Unknown",
       "text": "มันสามารถส่งเสียงของฉันเข้าไปในระบบประสาทของแกได้โดยตรงเลยไงหล่ะ",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Vier",
       "text": "โอ้ย...เจ็บชะมัด แกต้องการอะไร? ทำแบบนี้ทำไม?",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Unknown",
       "text": "เข้าประเด่นเร็วดีนิไอ่โง้ แบบนี้ค่อยคุยกันง่ายหน่อย",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Unknown",
       "text": "ฉันอยากให้แกช่วยทำอะไรสักอย่าง นิดหน่อยแล้วแกจะได้รับการปล่อยตัว ไอ่โง้",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Vier",
       "text": "แล้วถ้าฉันไม่ทำหล่ะ",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Unknown",
       "text": "กูจะใช้ชิปควมคุมระบบประสาทฆ่ามึงตอนนี้เลย",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Unknown",
       "text": "แค่ทำงานง่ายๆ เล็กๆ น้อยๆ เพื่ออิสรภาพมันจะไปยากอะไร หรือว่าแกจะตายตรงนี้ไปเลย?",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Vier",
       "text": "โอเคๆ ใจเย็นก่อน ฉันเข้าใจแล้ว",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Unknown",
       "text": "ดี! งั้นก็มาเริ่มกันเลย",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     }
   ]
 }

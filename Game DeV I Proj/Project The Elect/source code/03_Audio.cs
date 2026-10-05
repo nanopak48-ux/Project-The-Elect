@@ -32,7 +32,10 @@ namespace Project_The_Elect.source_code
             "menuentry",
             "exit",
             "scan_start",
-            "scan_collision"
+            "scan_collision",
+            "error_task",
+            "speacbar",
+            "skipdia"
         };
         
         private string[] _bgmIndex = new string[]
@@ -81,25 +84,27 @@ namespace Project_The_Elect.source_code
 
         }
 
-        private List<int> _noneVCIndex;
         public void LoadDialogueVoicelines(ChapterData chapter, ContentManager content)
         {
-            prefix = "audio/03_voiceline/dialogue/chap01_v0";
             _Voicelines = new List<SoundEffect>();
-            _noneVCIndex = new List<int>();
-            for (int i = 1; i < chapter.dialogues.Count+1; i++)
+            for (int i = 0; i < chapter.dialogues.Count; i++)
             {
-                DialogueData dialogues = chapter.dialogues[i-1];
-                if (dialogues.voiceline != "none")
+                string voiceline = chapter.dialogues[i].voiceline;
+                if (string.IsNullOrWhiteSpace(voiceline) || voiceline == "none")
                 {
-                    string voicelinePath = prefix + i.ToString();
-
-                    SoundEffect voiceline = content.Load<SoundEffect>(voicelinePath);
-                    _Voicelines.Add(voiceline);
+                    _Voicelines.Add(null);
+                    continue;
                 }
-                else
+
+                string voicelinePath = "audio/03_voiceline/dialogue/" + voiceline;
+                try
                 {
-                    _noneVCIndex.Add(i);
+                    _Voicelines.Add(content.Load<SoundEffect>(voicelinePath));
+                }
+                catch (ContentLoadException)
+                {
+                    // Missing optional voice assets should not prevent text dialogue from playing.
+                    _Voicelines.Add(null);
                 }
             }
         }
@@ -124,19 +129,9 @@ namespace Project_The_Elect.source_code
         public void PlayVoicelines(int voicelineIndex)
         {
             _currentVoiceline?.Stop();
-            if (_noneVCIndex.Contains(voicelineIndex)) return;
-            int skipped = 0;
+            if (voicelineIndex < 0 || voicelineIndex >= _Voicelines.Count || _Voicelines[voicelineIndex] == null) return;
 
-            foreach (int noneIndex in _noneVCIndex)
-            {
-                if (noneIndex < voicelineIndex)
-                    skipped++;
-            }
-
-            int voiceIndex = voicelineIndex - skipped;
-            if (voiceIndex < 0 || voiceIndex >= _Voicelines.Count) return;            
-
-            _currentVoiceline = _Voicelines[voiceIndex].CreateInstance();
+            _currentVoiceline = _Voicelines[voicelineIndex].CreateInstance();
             _currentVoiceline.Volume = volume_vc;
             _currentVoiceline.Play();
         }

@@ -1,0 +1,15 @@
+﻿{
+  "chapter": 5,
+  "dialogues": [
+    {
+      "character": "Unknown",
+      "text": "แกจะมาทำบ้าอะไรตรงนี้เนี้ย",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "แกต้องทำงานให้เสร็จทุกอย่างก่อนถึงจะมาส่งตรงนี้ได้",
+      "voiceline": "none"
+    }
+  ]
+}

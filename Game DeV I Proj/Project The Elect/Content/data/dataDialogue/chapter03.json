@@ -1,0 +1,15 @@
+﻿{
+  "chapter": 3,
+  "dialogues": [
+    {
+      "character": "Unknown",
+      "text": "นี่!! แกอย่าไปแตะต้องอะไรมั่ว",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "ฉันบอกว่าให้ไปที่ห้องสแกนไง",
+      "voiceline": "none"
+    }
+  ]
+}

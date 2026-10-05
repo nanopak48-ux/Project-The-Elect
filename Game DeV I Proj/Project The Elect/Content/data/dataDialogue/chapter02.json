@@ -2,49 +2,59 @@
   "chapter": 2,
   "dialogues": [
     {
-      "character": "Fishu",
-      "text": "Where am I?",
-      "voiceline": "chap02_v01"
+      "character": "Unknown",
+      "text": "เอาหล่ะ เริ่มงานกันได้แล้วไอ่ทึ่ม",
+      "voiceline": "none"
     },
     {
-      "character": "Furina",
-      "text": "In hell.",
-      "voiceline": "chap02_v02"
+      "character": "Vier",
+      "text": "ให้ฉันทำอะไรหล่ะ? แล้วที่นี่มันที่ไหนว่ะเนี้ย!",
+      "voiceline": "none"
     },
     {
-      "character": "Tanjiro",
-      "text": "Dont cry bitch.",
-      "voiceline": "chap02_v03"
+      "character": "Unknown",
+      "text": "แกนี่มันอยากสอดรู้สอดเห็นตลอดเวลาเลยนะ",
+      "voiceline": "none"
     },
     {
-      "character": "Columbina",
-      "text": "YAHHHH",
-      "voiceline": "chap02_v04"
+      "character": "Unknown",
+      "text": "งานที่แกต้องทำก็แค่วิจัยสิ่งมีชีวิตที่แปลกๆ นิดหน่อยเท่านั้นเอง",
+      "voiceline": "none"
     },
     {
-      "character": "Tanjiro",
-      "text": "Karn and Fishe are gay.",
-      "voiceline": "chap02_v05"
+      "character": "Vier",
+      "text": "วิจัยหรอ? แกบ้ารึป่าวฉันเป็นแค่พนักงาน IT นะ",
+      "voiceline": "none"
     },
     {
-      "character": "Columbina",
-      "text": "gkalu;jfgh;lghl'asfgj'lvkbjaspfvjpuerijfghikajkhkgwriughfipuashgpiuashgfpiuhsaoufdhpsaupifu",
-      "voiceline": "chap02_v06"
+      "character": "Unknown",
+      "text": "ไม่ต้องห่วงหรอก มันก็แค่งานคุมเครื่องง่ายๆที่ไอ่โง่แบบแกก็ทำได้",
+      "voiceline": "none"
     },
     {
-      "character": "Columbina",
-      "text": "I don't like this place.",
-      "voiceline": "chap02_v07"
+      "character": "Unknown",
+      "text": "อย่าบ่นมาก แกนี่มันงอแงเก่งชะมัด",
+      "voiceline": "none"
     },
     {
-      "character": "Jamakuz",
-      "text": "E bah",
-      "voiceline": "chap02_08"
+      "character": "Unknown",
+      "text": "อย่างแรกที่แกต้องทำตอนนี้คือ ไปที่ห้องสแกนซ่ะ",
+      "voiceline": "none"
     },
     {
-      "character": "Fishu",
-      "text": "Ku khor thod",
-      "voiceline": "chap02_09"
+      "character": "Unknown",
+      "text": "อย่าลืมหยิบแฟรชไดรฟ์ในห้องแกไปด้วย สิ่งนั้นจำเป็นสำหรับการส่งงานวิจัย",
+      "voiceline": "none"
+    },
+    {
+      "character": "Vier",
+      "text": "บ้าเอ้ย! แล้วฉันจะรู้ได้ไงว่าห้องอยู่ที่ไหน?",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "เห้อออ.... ถ้าแกฉลาดและมีตาแกเดินไปเดี๋ยวก็รู้เอง ไอ่ทึ่ม",
+      "voiceline": "none"
     }
   ]
 }

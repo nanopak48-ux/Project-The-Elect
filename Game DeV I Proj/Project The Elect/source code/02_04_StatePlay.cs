@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Project_The_Elect.source_code
 {
-    public class StatePlay : IGameState
+    public class StatePlay : IGameState, IOverlayBackgroundState
     {
         private GameStateManager _gameState;
         private GameFlowManager _gameFlow;
@@ -23,15 +23,23 @@ namespace Project_The_Elect.source_code
         private GraphicsDeviceManager _graphics;
         private GameWindow _window;
         private MinigameManager _minigame;
+        private QuestProgress _questProgress;
+        private MinigameResult _lastMinigameResult = MinigameResult.None;
+        public MinigameResult LastMinigameResult => _lastMinigameResult;
 
         private CollisionManager Collision;
 
         private Player _player;
         private GraphicsDevice _graphicDevice;
         private GameMapManager _map;
+        private InteractManager _interactManager;
 
         private OrthographicCamera _camera;
         private Vector2 lookAtPos;
+        private TimeSpan _timeUntilQuestDialogue = TimeSpan.FromSeconds(2);
+        private TimeSpan _timeSincePlayStarted = TimeSpan.Zero;
+        private bool _questDialogueTriggered;
+        private string _activeMachineName;
         public StatePlay
             (
             GameStateManager _stateManager,
@@ -45,6 +53,7 @@ namespace Project_The_Elect.source_code
         {
             _gameState = _stateManager;
             this._gameFlow = _gameflow;
+            _questProgress = _gameflow.QuestProgress;
             this._spriteBatch = _spritebatch;
             this._content = _content;
             this._audio = _audio;
@@ -66,6 +75,7 @@ namespace Project_The_Elect.source_code
             viewportAdapter.Reset();
 
             _minigame = new MinigameManager();
+            _minigame.MinigameEnded += OnMinigameEnded;
             _map = new GameMapManager(_content, _graphics.GraphicsDevice, _spriteBatch);
         }
 
@@ -77,20 +87,26 @@ namespace Project_The_Elect.source_code
             map = _content.Load<Texture2D>("texture/04_play/00_map");
 
             _map.LoadContent();
+
+            if (_map._tilemap != null)
+            {
+                _interactManager = new InteractManager(_map._tilemap);
+            }
         }
 
         public Vector2 currentCenter;
 
         public void Update(GameTime gameTime)
         {
+            _questProgress.Update(gameTime);
             _map.Update(gameTime);
+            _interactManager?.Update(_player);
 
-            Console.WriteLine(_player.Position);
-            
             List<RectangleF> walls = _map.GetWallCollisions();
-            _player.Update(gameTime, walls);
-
-            _map.Update(gameTime);
+            if (_questProgress.HasDialogueMessage)
+                _player.UpdateWithoutMovement(gameTime);
+            else
+                _player.Update(gameTime, walls);
 
             if (_minigame.IsPlaying)
             {
@@ -100,6 +116,28 @@ namespace Project_The_Elect.source_code
                 return;
             }
 
+            if (!_questDialogueTriggered)
+            {
+                _timeSincePlayStarted += gameTime.ElapsedGameTime;
+                if (_timeSincePlayStarted >= _timeUntilQuestDialogue)
+                {
+                    _questDialogueTriggered = _gameFlow.TryStartChapter02Dialogue();
+                    if (_questDialogueTriggered)
+                        return;
+                }
+            }
+
+            Vector2 lookAtPos = _player.Position;
+            currentCenter = _camera.Position + _camera.Origin;
+            _camera.LookAt(Vector2.Lerp(currentCenter, lookAtPos, 0.1f));
+        }
+
+        public void UpdateWhileOverlay(GameTime gameTime)
+        {
+            _map.Update(gameTime);
+            _interactManager?.Update(_player);
+            _player.UpdateWithoutMovement(gameTime);
+
             Vector2 lookAtPos = _player.Position;
             currentCenter = _camera.Position + _camera.Origin;
             _camera.LookAt(Vector2.Lerp(currentCenter, lookAtPos, 0.1f));
@@ -108,13 +146,16 @@ namespace Project_The_Elect.source_code
         public void InputHandler(GameTime gameTime)
         {
             KeyboardExtended.Update();
+
             CheckEscape();
+
             if (_minigame.IsPlaying)
             {
                 _minigame.InputHandler(gameTime);
                 return;
             }
-            else InputHandlerMinigame();
+
+            InputHandlerMinigame();
         }
 
         public void Draw(GameTime gameTime)
@@ -127,6 +168,11 @@ namespace Project_The_Elect.source_code
             _map.Draw(gameTime, _camera, "floor");
             _map.Draw(gameTime, _camera, "background");
             _map.Draw(gameTime, _camera, "middleground");
+            string monsterLayer = $"mon{_questProgress.MonsterIndex}";
+            if (_map.HasLayer(monsterLayer))
+                _map.Draw(gameTime, _camera, monsterLayer);
+            if (!_questProgress.HasScissors && _map.HasLayer("scissors"))
+                _map.Draw(gameTime, _camera, "scissors");
             _map.Draw(gameTime, _camera, "foreground");
             _map.Draw(gameTime, _camera, "wall_side");
             _map.Draw(gameTime, _camera, "wall_upper");
@@ -139,11 +185,14 @@ namespace Project_The_Elect.source_code
             // 3. วาด Debug Collision (เห็นกรอบสีแดงของแมพ และกรอบสีเขียวของตัวละคร)
             _map.DrawDebug(_spriteBatch);
             _player.DrawDebug();
+            _interactManager?.DrawDebug(_spriteBatch);
             // --------------------------------------------------
 
             _spriteBatch.End();
 
             _spriteBatch.Begin();
+            if (!_minigame.IsPlaying)
+                _questProgress.Draw(_spriteBatch);
             if (_minigame.IsPlaying) _minigame.Draw(gameTime);
             _spriteBatch.End();
         }
@@ -152,7 +201,7 @@ namespace Project_The_Elect.source_code
         {
             _player.Audio(gameTime);
         }
-        private void InputHandlerMinigame()
+        /*private void InputHandlerMinigame()
         {
             KeyboardStateExtended keyboardState = KeyboardExtended.GetState();
 
@@ -175,13 +224,187 @@ namespace Project_The_Elect.source_code
             }
 
 
+        }*/
+        private void InputHandlerMinigame()
+        {
+            KeyboardStateExtended keyboardState = KeyboardExtended.GetState();
+
+            if (_questProgress.HasDialogueMessage)
+            {
+                if (keyboardState.WasKeyPressed(Keys.E)
+                    || keyboardState.WasKeyPressed(Keys.Space)
+                    || keyboardState.WasKeyPressed(Keys.Enter))
+                {
+                    _questProgress.DismissDialogueMessage();
+                }
+
+                return;
+            }
+
+            if (keyboardState.WasKeyPressed(Keys.N))
+            {
+                _questProgress.SkipNextObjective();
+                return;
+            }
+
+            // เช็คว่ามีการกดปุ่ม E หรือไม่
+            if (keyboardState.WasKeyPressed(Keys.E))
+            {
+                if (_interactManager?.CurrentNearbyObject != null)
+                {
+                    InteractableObject nearbyObject = _interactManager.CurrentNearbyObject;
+                    string objectName = nearbyObject.Name;
+
+                    if (_questProgress.IsSanityDepleted && !_questProgress.DataSubmitted
+                        && objectName != "Bed"
+                        && !(objectName == "DataSubmissionPoint" && _questProgress.CanSubmitData))
+                    {
+                        _gameFlow.ShowQuestWarningDialogue(9);
+                        return;
+                    }
+
+                    switch (objectName)
+                    {
+                        case "Bed":
+                            if (_questProgress.DataSubmitted && !_questProgress.IsSanityDepleted)
+                            {
+                                _gameFlow.ShowQuestWarningDialogue(10, () =>
+                                {
+                                    if (_questProgress.TrySleep())
+                                        _questProgress.ShowDialogueMessage($"ตื่นแล้ว: Day {_questProgress.Day} และเริ่มภารกิจใหม่");
+                                });
+                            }
+                            else if (_questProgress.TrySleep())
+                            {
+                                _questProgress.ShowDialogueMessage($"ตื่นแล้ว: Day {_questProgress.Day} และเริ่มภารกิจใหม่");
+                            }
+                            else
+                            {
+                                _gameFlow.ShowQuestWarningDialogue(8);
+                            }
+                            break;
+
+                        case "ScissorsItem":
+                            if (!_questProgress.LensComplete)
+                                _gameFlow.ShowQuestWarningDialogue(3);
+                            else if (_questProgress.CollectScissors())
+                            {
+                                // Keep this object registered so it can be collected after the daily reset.
+                            }
+                            break;
+
+                        case "MonsterCutPoint":
+                            if (!_questProgress.LensComplete)
+                                _gameFlow.ShowQuestWarningDialogue(3);
+                            else if (!_questProgress.HasScissors)
+                                _gameFlow.ShowQuestWarningDialogue(4);
+                            else if (!_questProgress.TryCutMeat())
+                                ShowCompletedTaskDialogue();
+                            break;
+
+                        case "DataSubmissionPoint":
+                            if (!_questProgress.TrySubmitData())
+                            {
+                                if (!_questProgress.DataSubmitted)
+                                    _gameFlow.ShowQuestWarningDialogue(5);
+                                else
+                                    _gameFlow.ShowQuestWarningDialogue(11);
+                            }
+                            break;
+
+                        case "LensMachine":
+                        case "ScanMachine":
+                        case "KeypadMachine":
+                            TryStartMachine(objectName);
+                            break;
+                    }
+                }
+            }
         }
 
-        // ล็อกผู้เล่นก่อนเริ่มมินิเกมทุกครั้ง (ปลดล็อกใน Update เมื่อมินิเกมจบ)
-        private void StartMinigame(Minigame minigame)
+        private void ShowCompletedTaskDialogue()
         {
+            int chapterIndex = _questProgress.DataSubmitted ? 11 : 7;
+            _gameFlow.ShowQuestWarningDialogue(chapterIndex);
+        }
+
+        private void TryStartMachine(string machineName)
+        {
+            if (_questProgress.IsSanityDepleted && !_questProgress.DataSubmitted)
+            {
+                _gameFlow.ShowQuestWarningDialogue(9);
+                return;
+            }
+
+            if (!_questProgress.IsStarted)
+            {
+                _questProgress.ShowDialogueMessage(_questProgress.GetMachineBlockReason(machineName));
+                return;
+            }
+
+            if (machineName != "LensMachine" && !_questProgress.LensComplete)
+            {
+                _gameFlow.ShowQuestWarningDialogue(3);
+                return;
+            }
+
+            if ((machineName == "ScanMachine" || machineName == "KeypadMachine")
+                && !_questProgress.MeatCollected)
+            {
+                if (!_questProgress.HasScissors)
+                    _gameFlow.ShowQuestWarningDialogue(4);
+                else
+                    _gameFlow.ShowQuestWarningDialogue(6);
+                return;
+            }
+
+            if (!_questProgress.CanStartMachine(machineName))
+            {
+                bool alreadyCompleted = machineName switch
+                {
+                    "LensMachine" => _questProgress.LensComplete,
+                    "ScanMachine" => _questProgress.ScanComplete,
+                    "KeypadMachine" => _questProgress.KeypadComplete,
+                    _ => false
+                };
+
+                if (alreadyCompleted)
+                    ShowCompletedTaskDialogue();
+                else
+                    _questProgress.ShowDialogueMessage(_questProgress.GetMachineBlockReason(machineName));
+                return;
+            }
+
+            Minigame minigame = machineName switch
+            {
+                "LensMachine" => new MinigameLens(_spriteBatch, _camera, _content, _audio),
+                "ScanMachine" => new MinigameScan(_spriteBatch, _camera, _content, _audio),
+                "KeypadMachine" => new MinigameKeypad(_spriteBatch, _camera, _content, _audio),
+                _ => null
+            };
+
+            if (minigame != null)
+                StartMinigame(machineName, minigame);
+        }
+
+        private void StartMinigame(string machineName, Minigame minigame)
+        {
+            _activeMachineName = machineName;
+            _lastMinigameResult = MinigameResult.None;
             _player.Freeze();
             _minigame.Start(minigame);
+        }
+
+        private void OnMinigameEnded(Minigame minigame, MinigameResult result)
+        {
+            _lastMinigameResult = result;
+            if (result == MinigameResult.Success)
+                _questProgress.CompleteMachine(_activeMachineName);
+
+            if (result != MinigameResult.None)
+                _questProgress.SpendSanity(10);
+
+            _activeMachineName = null;
         }
 
         private void CheckEscape()

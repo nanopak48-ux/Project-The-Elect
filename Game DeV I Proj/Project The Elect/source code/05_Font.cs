@@ -53,7 +53,7 @@ namespace Project_The_Elect.source_code
         {
             if(isNextDialogue)
             {
-                _dialoguePos = new Vector2(270, 820);
+                _dialoguePos = new Vector2(300, 820);
                 _dialogueline.Clear();
                 _dialoguedisplay.Clear();
                 _dialogueCharIndex = 0;
@@ -62,7 +62,7 @@ namespace Project_The_Elect.source_code
                     _dialogueline.Add(c);
                 }
                 _isPlayingTextAnim = true;           
-                _profilePos = new Vector2(108+((278-(current.character.Length*11*_profileScale))/2), 730);
+                _profilePos = new Vector2(((278-(current.character.Length*11*_profileScale))/2), 730);
             }
 
             if(_isPlayingTextAnim)
