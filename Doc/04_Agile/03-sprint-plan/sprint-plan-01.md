@@ -35,7 +35,7 @@
 
 ### Story 1 — [ในฐานะผู้เล่น ฉันต้องการเข็นรถเข็น เพื่อขนย้ายตัวอย่างไปทดลอง]
 
-- [ ] [Task : Spritesheet Cart]  [Owner : L]  [Estimate : 3]  [status: 🔲]
+- [ ] [Task : Spritesheet Cart]  [Owner : L]  [Estimate : 3]  [status: 🔲] [note :: ถูกตัดทิ้ง ]
 - [ ] [Task : Spritesheet Monster1]  [owner: P]  [Estimate: 2]  [status: 🔄]
 - [ ] [Task : Spritesheet Monster2]  [owner: P]  [Estimate: 2]  [status: 🔲]
 - [ ] [Task : Spritesheet Tileset of map]  [owner: K]  [Estimate: 5]  [status: 🔄]
@@ -44,14 +44,14 @@
 
 ### Story 2 — [ในฐานะผู้เล่น ฉันต้องการเดิน และเดินเร็วได้ เพื่อเล่นเกม]
 
-- [ ] [Task : Spritesheet Player]  [owner: L]  [Estimate: 4]  [status: 🔄]
+- [X] [Task : Spritesheet Player]  [owner: L]  [Estimate: 4]  [status: ✅] [note :: ออกแบบ character เสร็จสิ้นและ วาด Spritesheet เป็น pixle เสร็จสิ้นแล้ว ]
 - [ ] [Task : Movement Logic]  [owner: J]  [Estimate: 3]  [status: 🔲]
 - [ ] [Task : Collision]  [owner: J]  [Estimate: 5]  [status: 🔲]
 - [ ] [Task : UI]  [owner: K]  [Estimate: 3]  [status: 🔲]
 
 ### Story 3 — [ในฐานะผู้เล่น ฉันต้องการพูดคุยกับ NPC และ Narrator เพื่อดำเนินเนื้อเรื่อง]
 
-- [ ] [Task : Spritesheet NPC]  [owner: L]  [Estimate: 5]  [status: 🔲]
+- [ ] [Task : Spritesheet NPC]  [owner: L]  [Estimate: 5]  [status: 🔲] [note :: ถูกตัดทิ้ง ]
 - [ ] [Task : Dialogue Logic]  [owner: J]  [Estimate: 5]  [status: 🔲]
 - [ ] [Task : Story timeline]  [owner: J]  [Estimate: 6]  [status: 🔄]
 - [ ] [Task : Interact UI]  [owner: K]  [Estimate: 3]  [status: 🔲]
