@@ -28,7 +28,6 @@ The game focuses on exploration, dialogue, cutscenes, and gameplay sequences whi
 * **Visual Studio**
 * **JSON**
 
-
 ## Member
 
 Looktaw | Pixel Artist, Character Design (Player)
@@ -38,3 +37,5 @@ Johnny | Project Manager, Lead Game-Designer, Programmer, Sound Engineer, 2D Art
 Kaowniew | Pixel Artist, Level Artist, Level Design
 
 Plub | Pixel Artist, Character Design (Monster)
+
+zzz
