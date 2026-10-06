@@ -38,3 +38,4 @@ Johnny | Project Manager, Lead Game-Designer, Programmer, Sound Engineer, 2D Art
 Kaowniew | Pixel Artist, Level Artist, Level Design
 
 Plub | Pixel Artist, Character Design (Monster)
+xxx
