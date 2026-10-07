@@ -1,0 +1,15 @@
+﻿{
+  "chapter": 9,
+  "dialogues": [
+    {
+      "character": "Unknown",
+      "text": "แกไปทำบ้าอะไรมา? ทำไมสภาพเป็นแบบนี้เนี้ย",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "กลับไปนอนที่ห้องแกเถอะ ฉันสมเพช",
+      "voiceline": "none"
+    }
+  ]
+}

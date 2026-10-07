@@ -17,6 +17,11 @@ namespace Project_The_Elect
         void AudioHandler(GameTime gameTime);
     }
 
+    public interface IOverlayBackgroundState
+    {
+        void UpdateWhileOverlay(GameTime gameTime);
+    }
+
     public class GameStateManager : IGameState
     {
         private SpriteBatch _spriteBatch;
@@ -51,9 +56,44 @@ namespace Project_The_Elect
             CurrentState?.Update(gameTime);
         }
 
+        public void UpdatePreviousState(GameTime gameTime)
+        {
+            bool skippedCurrentState = false;
+            foreach (IGameState state in _stateStack)
+            {
+                if (!skippedCurrentState)
+                {
+                    skippedCurrentState = true;
+                    continue;
+                }
+
+                if (state is IOverlayBackgroundState overlayState)
+                    overlayState.UpdateWhileOverlay(gameTime);
+                else
+                    state.Update(gameTime);
+                return;
+            }
+        }
+
         public void Draw(GameTime gameTime)
         {
             CurrentState?.Draw(gameTime);
+        }
+
+        public void DrawPreviousState(GameTime gameTime)
+        {
+            bool skippedCurrentState = false;
+            foreach (IGameState state in _stateStack)
+            {
+                if (!skippedCurrentState)
+                {
+                    skippedCurrentState = true;
+                    continue;
+                }
+
+                state.Draw(gameTime);
+                return;
+            }
         }
         
         public void InputHandler(GameTime gameTime)

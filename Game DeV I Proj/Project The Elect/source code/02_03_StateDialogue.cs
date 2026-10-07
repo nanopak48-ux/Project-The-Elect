@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -43,27 +43,36 @@ namespace Project_The_Elect
 
         private bool _isPlayedVoiceline = false;
         private ContentManager contentManager;
+        private bool _returnToPreviousState;
+        private bool _startQuestAfterReturn;
+        private Action _afterReturn;
 
         public StateDialogue
             (
             int _chapterIndex,
-            ContentManager _contentManager, 
-            GameStateManager gameStateManager, 
-            SpriteBatch spriteBatch, 
+            ContentManager _contentManager,
+            GameStateManager gameStateManager,
+            SpriteBatch spriteBatch,
             GameAudioManager audioManager,
             GameFlowManager gameflow,
-            int screenWidth, 
-            int screenHeight
+            int screenWidth,
+            int screenHeight,
+            bool returnToPreviousState = false,
+            bool startQuestAfterReturn = false,
+            Action afterReturn = null
             )
         {
             _dialogueManager = new DialogueManager(_contentManager);
             _dialoguesprite = new DialogueSprite(_contentManager, spriteBatch, audioManager, screenWidth, screenHeight);
-            _gameButtonGuide = new GameButtonGuide(gameStateManager, _contentManager,spriteBatch);
+            _gameButtonGuide = new GameButtonGuide(gameStateManager, _contentManager, spriteBatch);
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
             _gameStateManager = gameStateManager;
             _fontManager = new GameTextManager(_contentManager, spriteBatch);
             _gameFlow = gameflow;
+            _returnToPreviousState = returnToPreviousState;
+            _startQuestAfterReturn = startQuestAfterReturn;
+            _afterReturn = afterReturn;
             _spriteBatch = spriteBatch;
             _audioManager = audioManager;
             _gameStateManager = gameStateManager;
@@ -85,19 +94,25 @@ namespace Project_The_Elect
             _audioManager.LoadDialogueVoicelines(chapter, _contentManager);
             _isPlayingBGM = false;
             contentManager = _contentManager;
-        }    
+        }
 
         public void Update(GameTime gameTime)
         {
+            if (_returnToPreviousState)
+                _gameStateManager.UpdatePreviousState(gameTime);
+
             _gameButtonGuide.Update(gameTime, _gameStateManager);
 
             current = _dialogueManager.GetDialogue(_currentDialogueIndex);
             _fontManager.Update(gameTime, current, _isNextDialogue);
-            if(_isNextDialogue) {_isNextDialogue = false;}
+            if (_isNextDialogue) { _isNextDialogue = false; }
         }
 
         public void Draw(GameTime gameTime)
         {
+            if (_returnToPreviousState)
+                _gameStateManager.DrawPreviousState(gameTime);
+
             _spriteBatch.Begin();
             //DRAW PROFILE & BG
             _dialoguesprite.Draw(gameTime, current);
@@ -122,18 +137,26 @@ namespace Project_The_Elect
             bool keyDownPresed = currentKeyboardState.IsKeyDown(Keys.Down) && _previousKeyboardState.IsKeyUp(Keys.Down);
             bool keyUpPressed = currentKeyboardState.IsKeyDown(Keys.Up) && _previousKeyboardState.IsKeyUp(Keys.Up);
 
-            if (spacePressed || mouseClicked)
+            if (spacePressed || mouseClicked || currentKeyboardState.IsKeyDown(Keys.Enter))
             {
                 if (_currentDialogueIndex < _dialogueManager._dialogues.Count - 1)
                 {
                     _currentDialogueIndex++;
                     _isNextDialogue = true;
                     _isPlayedVoiceline = false;
-                    _audioManager.PlaySFX("proceed");
+                    _audioManager.PlaySFX("skipdia");
                 }
-                else 
+                else
                 {
-                    _gameFlow.DialogueEnd();
+                    if (_returnToPreviousState)
+                    {
+                        if (_startQuestAfterReturn)
+                            _gameFlow.StartQuestAfterBriefing();
+                        _gameStateManager.StateReturn();
+                        _afterReturn?.Invoke();
+                    }
+                    else
+                        _gameFlow.DialogueEnd();
                 }
             }
 
@@ -142,12 +165,12 @@ namespace Project_The_Elect
                 _gameStateManager.StatePush(new StateMenu(contentManager, _gameStateManager, _spriteBatch, _audioManager));
             }
 
-            if(keyUpPressed)
+            if (keyUpPressed)
             {
                 _audioManager.VolumeControl(10f, 0);
             }
 
-            if(keyDownPresed)
+            if (keyDownPresed)
             {
                 _audioManager.VolumeControl(-10f, 0);
             }
@@ -161,7 +184,7 @@ namespace Project_The_Elect
         {
             if (!_isPlayingBGM)
             {
-                _audioManager.PlayBGM(1);
+                _audioManager.PlayBGM(2);
                 _isPlayingBGM = true;
             }
 

@@ -20,7 +20,7 @@ namespace Project_The_Elect.source_code
         private ContentManager _content;
         private GraphicsDevice _graphic;
         private SpriteBatch _spriteBatch;
-        private Tilemap _tilemap;
+        public Tilemap _tilemap;
         private TilemapSpriteBatchRenderer _renderer;
         public GameMapManager
             (
@@ -44,7 +44,7 @@ namespace Project_The_Elect.source_code
 
             _renderer.LoadTilemap(_tilemap);
 
-            //Collision = new CollisionManager(_tilemap);
+            Collision = new CollisionManager(_tilemap);
 
             _spriteBatch = new SpriteBatch(_graphic);
         }
@@ -54,13 +54,26 @@ namespace Project_The_Elect.source_code
             _renderer.Update(gameTime);
         }
 
-        public void Draw(GameTime gameTime, OrthographicCamera _camera)
+        public void Draw(GameTime gameTime, OrthographicCamera _camera , string layer)
         {
-            _graphic.Clear(Color.Black);
+            //_graphic.Clear(Color.Black);
 
-            _renderer.DrawLayers(_spriteBatch, _camera,"background");
-
+            _renderer.DrawLayers(_spriteBatch, _camera, layer);
+            
+        }
+        public List<RectangleF> GetWallCollisions()
+        {
+            return Collision != null ? Collision.CollisionObjects : new List<RectangleF>();
         }
 
+        public bool HasLayer(string layerName)
+        {
+            return _tilemap != null && _tilemap.Layers.Any(layer => layer.Name == layerName);
+        }
+
+        public void DrawDebug(SpriteBatch spriteBatch)
+        {
+            Collision?.DrawDebug(spriteBatch);
+        }
     }
 }

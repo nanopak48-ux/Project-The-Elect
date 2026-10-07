@@ -26,11 +26,11 @@ namespace Project_The_Elect.source_code
         private Sprite spr_profile;
         private int profileWidth = 278;
         private int profileHeight = 320;
-        private Vector2 spr_profilePos = new Vector2(108, 560);
+        private Vector2 spr_profilePos;
         private string[] profileIndex = new string[]
         {
-            "Columbina",
-            "Furina",
+            "Unknown",
+            "Vier",
             "Tanjiro",
             "Jamakuz",
             "Fishu"
@@ -40,7 +40,7 @@ namespace Project_The_Elect.source_code
 
 
         private bool EaseInActive = false;
-        private float EaseSpeed = 15f;
+        private float EaseSpeed ;
 
         private Texture2D txtr_dialogueBG;
         private int dialogueBGWidth = 1840;
@@ -63,7 +63,7 @@ namespace Project_The_Elect.source_code
         {
             // Load content for dialogue state
             string prefix = "texture/03_dialogue/";
-            txtr_dialogueBG = _content.Load<Texture2D>(prefix + "01_dialogueBG");
+            txtr_dialogueBG = _content.Load<Texture2D>(prefix + "01_dialogueBG2");
 
             spr_dialogueProfileSheet = _content.Load<Texture2D>(prefix + "02_dialogueProfileSheet");
 
@@ -79,17 +79,16 @@ namespace Project_The_Elect.source_code
 
         public void Draw(GameTime gametime, DialogueData dialogue)
         {
-
-            if (spr_profile == null || dialogue.character != spr_profile.TextureRegion.Name || spr_profile.TextureRegion.Name != previousCharacter)
+            if (spr_profile == null || dialogue.character != previousCharacter)
             {
                 spr_profile = new Sprite(spr_dialogueprofile.GetRegion(dialogue.character));
-                previousCharacter = spr_profile.TextureRegion.Name;
-                spr_profilePos = new Vector2(108, 560);
-                EaseSpeed = 15f;
+                previousCharacter = dialogue.character;
+                spr_profilePos = new Vector2(150, 500);
+                EaseSpeed = 12;
                 EaseInActive = true;
             }
 
-            _spriteBatch.Draw(txtr_dialogueBG, new Rectangle((screenWidth - dialogueBGWidth) / 2, screenHeight * 5 / 7 - dialogueBGHeight / 4, dialogueBGWidth, dialogueBGHeight), Color.White);
+            _spriteBatch.Draw(txtr_dialogueBG, new Rectangle((screenWidth - dialogueBGWidth) / 2, screenHeight * 5 / 7 - dialogueBGHeight / 4 , dialogueBGWidth , dialogueBGHeight), Color.White);
             EaseIn();
             _spriteBatch.Draw(spr_profile, spr_profilePos);
             
@@ -98,14 +97,14 @@ namespace Project_The_Elect.source_code
         {
             if (EaseInActive)
             {
-                if (spr_profilePos.Y > 460)
+                if (spr_profilePos.Y > 400)
                 {
                     spr_profilePos.Y -= EaseSpeed;
                     EaseSpeed *= 0.8f;
                 }
                 else
                 {
-                    spr_profilePos.Y = 460;
+                    spr_profilePos.Y = 400;
                     EaseInActive = false;
                 }
             }

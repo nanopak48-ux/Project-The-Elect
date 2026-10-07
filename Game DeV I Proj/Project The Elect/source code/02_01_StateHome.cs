@@ -78,7 +78,7 @@ namespace Project_The_Elect.source_code
         {
             if(Keyboard.GetState().IsKeyDown(Keys.Enter))
             {  
-                _audio.PlaySFX("selected");
+                _audio.PlaySFX("speacbar");
                 _gameFlow.ChangeFlow(GameFlow.Chapter01);
             }
         }
@@ -87,7 +87,7 @@ namespace Project_The_Elect.source_code
         {
             if(!IsPlayingBGM)
             {
-                _audio.PlayBGM(0);
+                _audio.PlayBGM(2);
                 IsPlayingBGM = true;
             }
             
