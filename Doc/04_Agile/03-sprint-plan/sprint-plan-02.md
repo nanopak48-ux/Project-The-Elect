@@ -1,8 +1,8 @@
-# Sprint [1] Plan
+# Sprint [2] Plan
 
 **Sprint Goal:** [เป้าหมายหลักของ Sprint นี้ในหนึ่งประโยค]
-**ระยะเวลา:** [2026-09-1] — [2026-09-14]
-**Team:** [SQUARE FORGE]
+**ระยะเวลา:** [2026-09-15] — [2026-09-28]
+**Team:** [Vier Selec]
 
 ---
 
@@ -47,9 +47,9 @@
 | 35 | ART [MONSTER]  | Monster Thumbnail Sketch         | PLUB     | DONE        | Must   |               4 |
 | 36 | ART [MONSTER]  | Monster Design                   | PLUB     | TODO        | Must   |             TBD |
 | 37 | ART [MONSTER]  | Monster Draft (Pixel)            | PLUB     | IN PROGRESS | Must   |               8 |
-| 38 | ART [HUMAN]    | Character Moodboard              | LOOKTAW  | TODO        | Should |             TBD |
-| 39 | ART [HUMAN]    | Character (Player) Design        | LOOKTAW  | TODO        | Must   |             TBD |
-| 40 | ART [HUMAN]    | Character Draft (Pixel)          | LOOKTAW  | TODO        | Must   |             TBD |
+| 38 | ART [HUMAN]    | Character Moodboard              | LOOKTAW  | DONE        | Should |             TBD |
+| 39 | ART [HUMAN]    | Character (Player) Design        | LOOKTAW  | DONE        | Must   |             TBD |
+| 40 | ART [HUMAN]    | Character Draft (Pixel)          | LOOKTAW  | DONE        | Must   |             TBD |
 
 ## Status Legend
 

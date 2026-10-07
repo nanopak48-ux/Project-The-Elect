@@ -1,8 +1,8 @@
-# Sprint [1] Plan
+# Sprint [3] Plan
 
 **Sprint Goal:** [เป้าหมายหลักของ Sprint นี้ในหนึ่งประโยค]
-**ระยะเวลา:** [2026-09-1] — [2026-09-14]
-**Team:** [SQUARE FORGE]
+**ระยะเวลา:** [2026-09-29] — [2026-10-12]
+**Team:** [Vier Selec]
 
 ---
 
@@ -10,46 +10,32 @@
 
 | ID | Department     | Task                             | Assignee | Status      | MoSCoW | Estimate (Hour) |
 | -: | -------------- | -------------------------------- | -------- | ----------- | ------ | --------------: |
-|  1 | PM             | List Main Task                   | JOHNNY   | DONE        | Must   |             TBD |
-|  2 | DESIGN         | Background Story                 | JOHNNY   | DONE        | Must   |             TBD |
-|  3 | DESIGN         | Story Timeline                   | JOHNNY   | DONE        | Must   |             TBD |
-|  4 | DESIGN         | Character Relations Tree         | JOHNNY   | IN PROGRESS | Must   |             TBD |
-|  5 | DESIGN         | Character Info                   | JOHNNY   | IN PROGRESS | Must   |             TBD |
-|  6 | DESIGN         | Asset Naming Design              | JOHNNY   | DONE        | Must   |               1 |
-|  7 | DESIGN         | Gameplay Detail                  | JOHNNY   | IN PROGRESS | Must   |               2 |
-|  8 | DESIGN         | Level Design                     | JOHNNY   | IN PROGRESS | Must   |               3 |
-|  9 | ART [STYLISE]  | Prologue Storyboard              | JOHNNY   | TODO        | Should |              10 |
-| 10 | CODING         | Game Flow Manager                | JOHNNY   | DONE        | Must   |               4 |
-| 11 | CODING         | Basic Movement                   | JOHNNY   | DONE        | Must   |               1 |
-| 12 | CODING         | Map Movement                     | JOHNNY   | DONE        | Must   |               2 |
-| 13 | CODING         | Tile Map Handler                 | JOHNNY   | IN PROGRESS | Must   |               5 |
-| 14 | CODING         | Camera Movement                  | JOHNNY   | IN PROGRESS | Must   |               3 |
-| 15 | CODING         | Player Animation Handler         | JOHNNY   | DONE        | Must   |               1 |
-| 16 | CODING         | Player Data Reader               | JOHNNY   | DONE        | Must   |               1 |
-| 17 | CODING         | SpriteFont                       | JOHNNY   | IN PROGRESS | Should |               1 |
-| 18 | CODING         | Gameplay: Scan                   | JOHNNY   | ON HOLD     | Must   |               3 |
-| 19 | CODING         | Gameplay: Solution               | JOHNNY   | ON HOLD     | Must   |             TBD |
-| 20 | CODING         | Gameplay: Lens's Skill Check     | JOHNNY   | ON HOLD     | Must   |             TBD |
-| 21 | CODING         | Gameplay: Operating              | JOHNNY   | ON HOLD     | Must   |             TBD |
-| 22 | AUDIO ENGINEER | SFX Gameplay: Scan               | JOHNNY   | TODO        | Should |             TBD |
-| 23 | AUDIO ENGINEER | SFX Gameplay: Solution           | JOHNNY   | TODO        | Should |             TBD |
-| 24 | AUDIO ENGINEER | SFX Gameplay: Lens's Skill Check | JOHNNY   | TODO        | Should |             TBD |
-| 25 | AUDIO ENGINEER | SFX Gameplay: Operating          | JOHNNY   | TODO        | Should |             TBD |
-| 26 | AUDIO ENGINEER | Minerva Voice Test               | JOHNNY   | DONE        | Should |               2 |
-| 27 | DESIGN         | Level Design (design only)       | KAOWNIEW | UNASSIGNED  | Must   |               6 |
-| 28 | LEVEL          | Tilemap Draft                    | KAOWNIEW | DONE        | Must   |               5 |
-| 29 | LEVEL          | Wall & Floor Tileset (Pixel)     | KAOWNIEW | ON HOLD     | Must   |               4 |
-| 30 | LEVEL          | Main Interact Asset Design       | KAOWNIEW | DONE        | Must   |               2 |
-| 31 | LEVEL          | Main Interact Asset              | KAOWNIEW | IN PROGRESS | Must   |               6 |
-| 32 | LEVEL          | Minimap Design                   | KAOWNIEW | DONE        | Should |             TBD |
-| 33 | LEVEL          | Utility Icon Design              | KAOWNIEW | IN PROGRESS | Should |               2 |
-| 34 | LEVEL          | Health Bar Design                | KAOWNIEW | DONE        | Should |             TBD |
-| 35 | ART [MONSTER]  | Monster Thumbnail Sketch         | PLUB     | DONE        | Must   |               4 |
-| 36 | ART [MONSTER]  | Monster Design                   | PLUB     | TODO        | Must   |             TBD |
-| 37 | ART [MONSTER]  | Monster Draft (Pixel)            | PLUB     | IN PROGRESS | Must   |               8 |
-| 38 | ART [HUMAN]    | Character Moodboard              | LOOKTAW  | TODO        | Should |             TBD |
-| 39 | ART [HUMAN]    | Character (Player) Design        | LOOKTAW  | TODO        | Must   |             TBD |
-| 40 | ART [HUMAN]    | Character Draft (Pixel)          | LOOKTAW  | TODO        | Must   |             TBD |
+|  1 | DESIGN         | Story Timeline                   | PLUB     | DONE        | Must   |             TBD |
+|  2 | DESIGN         | Gameplay Detail                  | PLUB     | IN PROGRESS | Must   |               2 |
+|  3 | CODING         | Tile Map Handler                 | PLUB     | IN PROGRESS | Must   |               5 |
+|  4 | CODING         | Camera Movement                  | PLUB     | IN PROGRESS | Must   |               3 |
+|  5 | CODING         | SpriteFont                       | PLUB     | IN PROGRESS | Should |               1 |
+|  6 | CODING         | Gameplay: Scan                   | PLUB     | IN PROGRESS | Must   |               3 |
+|  7 | CODING         | Gameplay: Solution               | PLUB     | IN PROGRESS | Must   |             TBD |
+|  8 | CODING         | Gameplay: Lens's Skill Check     | PLUB     | IN PROGRESS | Must   |             TBD |
+|  9 | CODING         | Gameplay: Operating              | PLUB     | IN PROGRESS | Must   |             TBD |
+| 10 | AUDIO ENGINEER | SFX Gameplay: Scan               | PLUB     | TODO        | Should |             TBD |
+| 16 | AUDIO ENGINEER | SFX Gameplay: Solution           | PLUB     | TODO        | Should |             TBD |
+| 17 | AUDIO ENGINEER | SFX Gameplay: Lens's Skill Check | PLUB     | TODO        | Should |             TBD |
+| 18 | AUDIO ENGINEER | SFX Gameplay: Operating          | PLUB     | TODO        | Should |             TBD |
+| 19 | LEVEL          | TaskAsset_SCAN & OPERATING       | KAOWNIEW | DONE        | Must   |               3 |
+| 20 | LEVEL          | TaskAsset_MICROSCOPE             | KAOWNIEW | DONE        | Must   |               3 |
+| 21 | LEVEL          | TaskAsset_CHEMEICAL              | KAOWNIEW | IN PROGRESS | Must   |             TBD |
+| 22 | LEVEL          | TaskAsset_DATA                   | KAOWNIEW | IN PROGRESS | Must   |             TBD |
+| 23 | LEVEL          | Asset_BED                        | KAOWNIEW | DONE        | Should |             TBD |
+| 24 | LEVEL          | Asset_Furniture                  | KAOWNIEW | TODO        | Should |             TBD |
+| 25 | LEVEL          | UI_DAY                           | KAOWNIEW | TODO        | Must   |             TBD |
+| 26 | LEVEL          | UI_SANITYBAR                     | KAOWNIEW | TODO        | Must   |             TBD |
+| 27 | LEVEL          | UI_TASKBAR                       | KAOWNIEW | TODO        | Must   |             TBD |
+| 28 | UI             | UI_Dialogue_Vier                 | LOOKTAW  | DONE        | Must   |               6 |
+| 29 | UI             | UI_Dialogue_Unknow               | LOOKTAW  | DONE        | Must   |               5 |
+| 30 | UI             | UI_Dialogue_Bar                  | LOOKTAW  | IN PROGRESS | Must   |               1 |
+| 31 | UI             | UI_TOOL                          | KAOWNIEW | KAOWNIEW    | Must   |             TBD |
 
 ## Status Legend
 
