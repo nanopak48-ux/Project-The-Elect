@@ -88,7 +88,7 @@ namespace Project_The_Elect
 
         public void ShowQuestWarningDialogue(int chapterIndex, Action afterDialogue = null)
         {
-            if (chapterIndex < 3 || chapterIndex > 11 || CurrentFlow != GameFlow.Play)
+            if (chapterIndex < 3 || chapterIndex > 18 || CurrentFlow != GameFlow.Play)
                 return;
 
             _gameStateManager.StatePush(new StateDialogue(

@@ -34,6 +34,9 @@ namespace Project_The_Elect.source_code
         private const int ProgressY = 75;
         private const int ProgressWidth = 120;
         private const int ProgressHeight = 905;
+        private const int ProgressBorderThickness = 6;
+        private const int ProgressInnerWidth = ProgressWidth - ProgressBorderThickness * 2;
+        private const int ProgressInnerHeight = ProgressHeight - ProgressBorderThickness * 2;
 
         private readonly SpriteBatch _spriteBatch;
         private readonly ContentManager _content;
@@ -41,6 +44,10 @@ namespace Project_The_Elect.source_code
         private readonly Random _random = new Random();
 
         private Texture2D _barTexture;
+        private Texture2D _pointerTexture;
+        private Texture2D _targetTexture;
+        private Texture2D _barScoreTexture;
+        private Texture2D _barInsideTexture;
         private float _pointerX;
         private float _targetX;
         private float _targetDirection;
@@ -78,7 +85,12 @@ namespace Project_The_Elect.source_code
 
         public override void LoadContent()
         {
-            _barTexture = _content.Load<Texture2D>("texture/09_minigame/01_scan/00_bar");
+            const string texturePrefix = "texture/09_minigame/01_scan/";
+            _barTexture = _content.Load<Texture2D>(texturePrefix + "00_bar");
+            _pointerTexture = _content.Load<Texture2D>(texturePrefix + "01_pointer");
+            _targetTexture = _content.Load<Texture2D>(texturePrefix + "02_traget");
+            _barScoreTexture = _content.Load<Texture2D>(texturePrefix + "03_barscore");
+            _barInsideTexture = _content.Load<Texture2D>(texturePrefix + "04_barinside");
 
             _audio.PlaySFX("scan_start");
 
@@ -137,19 +149,29 @@ namespace Project_The_Elect.source_code
 
         public override void Draw(GameTime gameTime)
         {
-            _spriteBatch.DrawRectangle(TrackRect, Color.Green);
-            _spriteBatch.Draw(_barTexture, TargetRect, Color.White);
-            _spriteBatch.DrawRectangle(PointerRect, Color.Red);
+            _spriteBatch.Draw(_barTexture, TrackRect, Color.White);
+            _spriteBatch.Draw(_targetTexture, TargetRect, Color.White);
+            _spriteBatch.Draw(_pointerTexture, PointerRect, Color.White);
 
-            _spriteBatch.DrawRectangle(
-                new Rectangle(ProgressX, ProgressY, ProgressWidth, ProgressHeight),
-                Color.Green);
+            int fillHeight = (int)(_progress / 100f * ProgressInnerHeight);
+            int sourceY = ProgressInnerHeight - fillHeight;
+            if (fillHeight > 0)
+            {
+                _spriteBatch.Draw(
+                    _barInsideTexture,
+                    new Rectangle(
+                        ProgressX + ProgressBorderThickness,
+                        ProgressY + ProgressBorderThickness + sourceY,
+                        ProgressInnerWidth,
+                        fillHeight),
+                    new Rectangle(0, sourceY, ProgressInnerWidth, fillHeight),
+                    Color.White);
+            }
 
-            int fillHeight = (int)(_progress / 100f * ProgressHeight);
-            int fillY = ProgressY + ProgressHeight - fillHeight;
+            // Draw the transparent score-bar frame over the fill to keep its border clear.
             _spriteBatch.Draw(
-                _barTexture,
-                new Rectangle(ProgressX, fillY, ProgressWidth, fillHeight),
+                _barScoreTexture,
+                new Rectangle(ProgressX, ProgressY, ProgressWidth, ProgressHeight),
                 Color.White);
         }
 

@@ -63,7 +63,7 @@ namespace Project_The_Elect.source_code
         {
             // Load content for dialogue state
             string prefix = "texture/03_dialogue/";
-            txtr_dialogueBG = _content.Load<Texture2D>(prefix + "01_dialogueBG2");
+            txtr_dialogueBG = _content.Load<Texture2D>(prefix + "01_dialogueBG3");
 
             spr_dialogueProfileSheet = _content.Load<Texture2D>(prefix + "02_dialogueProfileSheet");
 

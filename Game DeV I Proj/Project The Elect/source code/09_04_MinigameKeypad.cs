@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -13,6 +13,7 @@ namespace Project_The_Elect.source_code
     {
         private enum Phase
         {
+            StartDelay,
             ShowingColor,
             ColorGap,
             ReadyDelay,
@@ -33,20 +34,24 @@ namespace Project_The_Elect.source_code
         private const int PaletteSize = 6;
         private const float ColorShowDuration = 0.65f;
         private const float ColorGapDuration = 0.25f;
-        private const float ReadyDelayDuration = 2f;
+        private const float ReadyDelayDuration = 1f;
+        private const float StartDelayDuration = 1f;
         private const float RoundPauseDuration = 0.8f;
         private const float ResultPauseDuration = 0.7f;
 
         private static readonly float[] AnswerDurations = { 5f, 10f, 15f };
-        private static readonly int[] NumbersPerRound = { 4, 5, 6 };
+        private static readonly int[] NumbersPerRound = { 3, 4, 5 };
+        private static readonly string[] BottleColors = { "red", "green", "blue", "orage", "pink", "yellow" };
         private const int FrameX = 72;
         private const int FrameY = 40;
         private const int FrameWidth = 1776;
         private const int FrameHeight = 850;
         private const int CenterX = GameConfig.ScreenWidth / 2;
         private const int CenterY = 455;
-        private const int CenterRadius = 170;
-        private const int PaletteRadius = 66;
+        private const int SmallBottleWidth = 96;
+        private const int SmallBottleHeight = 150;
+        private const int LargeBottleWidth = 128;
+        private const int LargeBottleHeight = 160;
         private const int PaletteSpacing = 180;
         private const int PaletteStartX = CenterX - (PaletteSpacing * (PaletteSize - 1)) / 2;
         private const int PaletteY = 988;
@@ -64,9 +69,15 @@ namespace Project_The_Elect.source_code
         private readonly GameAudioManager _audio;
         private readonly Random _random = new Random();
         private readonly RoundStatus[] _roundStatuses = new RoundStatus[RoundCount];
+        private readonly Texture2D[] _smallBottleTextures = new Texture2D[PaletteSize];
+        private readonly Texture2D[] _largeBottleTextures = new Texture2D[PaletteSize];
 
-        private Texture2D _pixelTexture;
-        private Texture2D _circleTexture;
+        private Texture2D _scorebarTexture;
+        private Texture2D _scorebarCompleteTexture;
+        private Texture2D _scorebarFailTexture;
+        private Texture2D _timeBarTexture;
+        private Texture2D _timeInsideTexture;
+        private Texture2D _bottleSelectTexture;
         private BitmapFont _font;
         private List<int> _sequence = new List<int>();
         private int _roundIndex;
@@ -97,33 +108,28 @@ namespace Project_The_Elect.source_code
             _selectedColorIndex = 0;
             _phaseElapsed = 0f;
             _previousKeyboardState = Keyboard.GetState();
-            BeginRound();
+            BeginRound(delayBeforeSequence: true);
         }
 
         public override void LoadContent()
         {
             _font = _content.Load<BitmapFont>("font/fontGenshin");
 
-            _pixelTexture = new Texture2D(_spriteBatch.GraphicsDevice, 1, 1);
-            _pixelTexture.SetData(new[] { Color.White });
-
-            const int textureSize = 128;
-            _circleTexture = new Texture2D(_spriteBatch.GraphicsDevice, textureSize, textureSize);
-            var pixels = new Color[textureSize * textureSize];
-            float center = (textureSize - 1) / 2f;
-            float radius = textureSize / 2f - 1f;
-
-            for (int y = 0; y < textureSize; y++)
+            const string texturePrefix = "texture/09_minigame/02_keypad/";
+            for (int i = 0; i < PaletteSize; i++)
             {
-                for (int x = 0; x < textureSize; x++)
-                {
-                    float distance = Vector2.Distance(new Vector2(x, y), new Vector2(center, center));
-                    byte alpha = (byte)(MathHelper.Clamp(radius + 0.5f - distance, 0f, 1f) * 255f);
-                    pixels[y * textureSize + x] = new Color((byte)255, (byte)255, (byte)255, alpha);
-                }
+                string color = BottleColors[i];
+                string index = i.ToString("00");
+                _largeBottleTextures[i] = _content.Load<Texture2D>(texturePrefix + index + "_bottle_" + color);
+                _smallBottleTextures[i] = _content.Load<Texture2D>(texturePrefix + index + "_bottle_" + color + "_small");
             }
 
-            _circleTexture.SetData(pixels);
+            _scorebarTexture = _content.Load<Texture2D>(texturePrefix + "06_scorebar");
+            _scorebarCompleteTexture = _content.Load<Texture2D>(texturePrefix + "07_scorebar_complete");
+            _scorebarFailTexture = _content.Load<Texture2D>(texturePrefix + "08_scorebar_fail");
+            _timeBarTexture = _content.Load<Texture2D>(texturePrefix + "09_bartime");
+            _timeInsideTexture = _content.Load<Texture2D>(texturePrefix + "10_timeinside");
+            _bottleSelectTexture = _content.Load<Texture2D>(texturePrefix + "11_bottleselect");
         }
 
         public override void Update(GameTime gameTime)
@@ -136,6 +142,11 @@ namespace Project_The_Elect.source_code
 
             switch (_phase)
             {
+                case Phase.StartDelay:
+                    if (_phaseElapsed >= StartDelayDuration)
+                        ShowNextColor();
+                    break;
+
                 case Phase.ShowingColor:
                     if (_phaseElapsed >= ColorShowDuration)
                     {
@@ -229,19 +240,17 @@ namespace Project_The_Elect.source_code
             if (IsClosed)
                 return;
 
-            _pixelTexture?.Dispose();
-            _circleTexture?.Dispose();
             base.Close();
         }
 
-        private void BeginRound()
+        private void BeginRound(bool delayBeforeSequence = false)
         {
             int sequenceLength = NumbersPerRound[_roundIndex];
             var availableNumbers = new List<int>(PaletteSize);
             for (int i = 0; i < PaletteSize; i++)
                 availableNumbers.Add(i);
 
-            // Shuffle all six numbers, then take this round's required count.
+            // Shuffle all six numbers, then take this round's required count.ฟ
             for (int i = availableNumbers.Count - 1; i > 0; i--)
             {
                 int swapIndex = _random.Next(i + 1);
@@ -252,7 +261,16 @@ namespace Project_The_Elect.source_code
             _sequence = availableNumbers.GetRange(0, sequenceLength);
             _sequenceIndex = 0;
             _answerIndex = 0;
-            ShowNextColor();
+
+            if (delayBeforeSequence)
+            {
+                _shownColorIndex = -1;
+                SetPhase(Phase.StartDelay);
+            }
+            else
+            {
+                ShowNextColor();
+            }
         }
 
         private void ShowNextColor()
@@ -292,38 +310,43 @@ namespace Project_The_Elect.source_code
         {
             for (int i = 0; i < RoundCount; i++)
             {
-                Color fillColor = _roundStatuses[i] switch
+                int centerX = StatusStartX + i * StatusSpacing;
+                var frame = new Rectangle(centerX - 32, StatusY - 32, 64, 64);
+                _spriteBatch.Draw(_scorebarTexture, frame, Color.White);
+
+                Texture2D stateTexture = _roundStatuses[i] switch
                 {
-                    RoundStatus.Success => Color.LimeGreen,
-                    RoundStatus.Failed => Color.Red,
-                    _ => Color.White
+                    RoundStatus.Success => _scorebarCompleteTexture,
+                    RoundStatus.Failed => _scorebarFailTexture,
+                    _ => null
                 };
 
-                DrawFilledCircle(
-                    new Vector2(StatusStartX + i * StatusSpacing, StatusY),
-                    StatusRadius + 4,
-                    Color.Black);
-                DrawFilledCircle(
-                    new Vector2(StatusStartX + i * StatusSpacing, StatusY),
-                    StatusRadius,
-                    fillColor);
+                if (stateTexture != null)
+                {
+                    var state = new Rectangle(centerX - 28, StatusY - 28, 64, 64);
+                    _spriteBatch.Draw(stateTexture, state, Color.White);
+                }
             }
         }
 
         private void DrawCenterCircle()
         {
-            int numberToShow = -1;
+            int bottleToShow = -1;
 
             if (_phase == Phase.ShowingColor && _shownColorIndex >= 0)
-                numberToShow = _shownColorIndex + 1;
+                bottleToShow = _shownColorIndex;
             else if (_phase == Phase.Answering)
-                numberToShow = _selectedColorIndex + 1;
+                bottleToShow = _selectedColorIndex;
 
-            DrawFilledCircle(new Vector2(CenterX, CenterY), CenterRadius + 5, Color.Black);
-            DrawFilledCircle(new Vector2(CenterX, CenterY), CenterRadius, Color.White);
-
-            if (numberToShow > 0)
-                DrawNumber(numberToShow, new Vector2(CenterX, CenterY), 3.5f, 48f, 44f);
+            if (bottleToShow >= 0)
+            {
+                var bottleBounds = new Rectangle(
+                    CenterX - LargeBottleWidth / 2,
+                    CenterY - LargeBottleHeight / 2,
+                    LargeBottleWidth,
+                    LargeBottleHeight);
+                _spriteBatch.Draw(_largeBottleTextures[bottleToShow], bottleBounds, Color.White);
+            }
         }
 
         private void DrawTimer()
@@ -342,19 +365,18 @@ namespace Project_The_Elect.source_code
             }
 
             _spriteBatch.DrawString(_font, "Time", new Vector2(GameConfig.ScreenWidth / 2f - 24f, 755f), Color.Black);
-            _spriteBatch.DrawRectangle(
-                new Rectangle(TimerX, TimerY, TimerWidth, TimerHeight),
-                Color.Black,
-                3f);
-
             int fillWidth = (int)(TimerWidth * remaining);
             if (fillWidth > 0)
             {
                 _spriteBatch.Draw(
-                    _pixelTexture,
-                    new Rectangle(TimerX + 3, TimerY + 3, Math.Max(0, fillWidth - 6), TimerHeight - 6),
-                    new Color(95, 200, 112));
+                    _timeInsideTexture,
+                    new Rectangle(TimerX, TimerY, fillWidth, TimerHeight),
+                    new Rectangle(0, 0, fillWidth, TimerHeight),
+                    Color.White);
             }
+
+            // Draw the frame last so the shrinking fill never covers its border.
+            _spriteBatch.Draw(_timeBarTexture, new Rectangle(TimerX, TimerY, TimerWidth, TimerHeight), Color.White);
         }
 
         private void DrawPalette()
@@ -362,41 +384,17 @@ namespace Project_The_Elect.source_code
             for (int i = 0; i < PaletteSize; i++)
             {
                 int centerX = PaletteStartX + i * PaletteSpacing;
-                var center = new Vector2(centerX, PaletteY);
+
+                var bottleBounds = new Rectangle(
+                    centerX - SmallBottleWidth / 2,
+                    PaletteY - SmallBottleHeight / 2,
+                    SmallBottleWidth,
+                    SmallBottleHeight);
+                _spriteBatch.Draw(_smallBottleTextures[i], bottleBounds, Color.White);
 
                 if (_phase == Phase.Answering && i == _selectedColorIndex)
-                {
-                    DrawFilledCircle(center, PaletteRadius + 9, new Color(138, 61, 255));
-                }
-
-                DrawFilledCircle(center, PaletteRadius + 4, Color.Black);
-                DrawFilledCircle(center, PaletteRadius, Color.White);
-                DrawNumber(i + 1, center, 1.5f, 18f, 22f);
+                    _spriteBatch.Draw(_bottleSelectTexture, bottleBounds, Color.White);
             }
-        }
-
-        private void DrawNumber(int number, Vector2 center, float scale, float horizontalOffset, float verticalOffset)
-        {
-            _spriteBatch.DrawString(
-                _font,
-                number.ToString(),
-                new Vector2(center.X - horizontalOffset, center.Y - verticalOffset),
-                Color.Black,
-                0f,
-                Vector2.Zero,
-                scale,
-                SpriteEffects.None,
-                0f);
-        }
-
-        private void DrawFilledCircle(Vector2 center, int radius, Color color)
-        {
-            var destination = new Rectangle(
-                (int)center.X - radius,
-                (int)center.Y - radius,
-                radius * 2,
-                radius * 2);
-            _spriteBatch.Draw(_circleTexture, destination, color);
         }
 
         private void SetPhase(Phase phase)

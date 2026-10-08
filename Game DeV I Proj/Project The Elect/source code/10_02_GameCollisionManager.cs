@@ -44,13 +44,14 @@ namespace Project_The_Elect.source_code
                 }
             }
         }
-
+        //====================================================================//
         public void DrawDebug(SpriteBatch spriteBatch)
         {
             foreach (var wall in CollisionObjects)
             {
-                spriteBatch.DrawRectangle(wall, Color.Red, 2f);
+                //spriteBatch.DrawRectangle(wall, Color.Red, 2f);
             }
         }
+        //====================================================================//
     }
 }

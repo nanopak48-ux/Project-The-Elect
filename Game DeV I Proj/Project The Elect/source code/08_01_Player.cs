@@ -87,11 +87,13 @@ namespace Project_The_Elect.source_code
         {
             spriteBatch.Draw(playerSprite, Position, 0f, new Vector2(Scale));
         }
+        //==========================================================================//
         public void DrawDebug()
         {
             // วาดกรอบ HitBox ของผู้เล่นเป็นสีเขียว หนา 2 พิกเซล
-            spriteBatch.DrawRectangle(HitBox, Color.Green, 2f);
+            //spriteBatch.DrawRectangle(HitBox, Color.Green, 2f);
         }
+        //==========================================================================//
         public void Audio(GameTime gameTime) { }
 
         private static Vector2 ReadMovementInput(KeyboardState keyboard)

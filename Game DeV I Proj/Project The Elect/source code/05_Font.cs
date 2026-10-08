@@ -51,9 +51,9 @@ namespace Project_The_Elect.source_code
 
         public void Update(GameTime gameTime, DialogueData current, bool isNextDialogue)
         {
-            if(isNextDialogue)
+            if (isNextDialogue)
             {
-                _dialoguePos = new Vector2(300, 820);
+                _dialoguePos = new Vector2(230, 820);
                 _dialogueline.Clear();
                 _dialoguedisplay.Clear();
                 _dialogueCharIndex = 0;
@@ -61,14 +61,20 @@ namespace Project_The_Elect.source_code
                 {
                     _dialogueline.Add(c);
                 }
-                _isPlayingTextAnim = true;           
-                _profilePos = new Vector2(((278-(current.character.Length*11*_profileScale))/2), 730);
+                _isPlayingTextAnim = true;
+                string profileName = current.character.ToUpper();
+                float profileNameWidth = ProfileFont.MeasureString(profileName).Width * _profileScale;
+                const float profileImageX = 150f;
+                const float profileImageWidth = 278f;
+                _profilePos = new Vector2(
+                    profileImageX + (profileImageWidth - profileNameWidth) / 2f,
+                    730f);
             }
 
-            if(_isPlayingTextAnim)
+            if (_isPlayingTextAnim)
             {
-                if(_dialogueCharIndex < current.text.Length)
-                {            
+                if (_dialogueCharIndex < current.text.Length)
+                {
                     _dialoguedisplay.Add(_dialogueline[0]);
                     _dialogueline.RemoveAt(0);
                     _dialogueCharIndex++;
@@ -83,15 +89,22 @@ namespace Project_The_Elect.source_code
         public void DrawDialogue(GameTime gametime, DialogueData current)
         {
             //DRAW TEXT 
-            _spriteBatch.DrawString(DialogueFont, new string(_dialoguedisplay.ToArray()), _dialoguePos, Color.White,0f, Vector2.Zero, _dialogueScale,SpriteEffects.None,0f);
-            _spriteBatch.DrawString(ProfileFont, current.character.ToUpper(),_profilePos, Color.White, 0f, Vector2.Zero, _profileScale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(DialogueFont, new string(_dialoguedisplay.ToArray()), _dialoguePos, Color.White, 0f, Vector2.Zero, _dialogueScale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(ProfileFont, current.character.ToUpper(), _profilePos, Color.White, 0f, Vector2.Zero, _profileScale, SpriteEffects.None, 0f);
 
         }
 
-        public void Draw(List<string> TextList)
+        public void Draw(List<string> TextList, int firstTextOffsetX = 0)
         {
             for (int i = 0; i < TextList.Count; i++)
-                _spriteBatch.DrawString(DialogueFont, TextList[i], new Vector2(1818-(i*108), 1038),Color.White);
+            {
+                int firstItemOffset = i == 0 ? firstTextOffsetX : 0;
+                _spriteBatch.DrawString(
+                    DialogueFont,
+                    TextList[i],
+                    new Vector2(1818 - (i * 108) - firstItemOffset, 1038),
+                    Color.White);
+            }
         }
     }
 }

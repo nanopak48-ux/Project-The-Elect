@@ -79,10 +79,9 @@ namespace Project_The_Elect.source_code
             //SET DEFAULT FOR STATE CHANGE
                 if (!_addedDefaultBtn)
                 {
+                        _buttonDisplayTxtList.Add("SPACE BAR");
                         _buttonDisplayList.Add("ENTER");
                         _buttonDisplayList.Add("E");
-                    _buttonDisplayTxtList.Add("PROCEED");
-                    _buttonDisplayTxtList.Add("INTERACT");
                         _addedDefaultBtn = true;
                 }
         }
@@ -90,12 +89,12 @@ namespace Project_The_Elect.source_code
         public void DrawBtnGuide(GameTime gametime, GameStateManager gameStateManager)
         {
             if (_buttonDisplayList == null) return;
-            for (int i = 0; i < _buttonDisplayList.Count; i++)
+            /*for (int i = 0; i < _buttonDisplayList.Count; i++)
             {
                 Sprite sprite = new Sprite(spr_button.GetRegion(_buttonDisplayList[i]));
-               _spriteBatch.Draw(sprite,new Vector2(1800-(108 * i),936));
-            }
-            _gameTxtManager.Draw(_buttonDisplayTxtList);
+               _spriteBatch.Draw(sprite,new Vector2(1800-(108 * i) ,936));
+            }*/
+            _gameTxtManager.Draw(_buttonDisplayTxtList, firstTextOffsetX: 125);
             
         }
     }

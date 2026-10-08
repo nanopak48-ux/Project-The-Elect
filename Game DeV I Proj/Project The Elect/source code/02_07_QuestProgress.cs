@@ -9,7 +9,8 @@ namespace Project_The_Elect.source_code
     {
         private readonly BitmapFont _font;
         private readonly Texture2D _dialogueBackground;
-        private readonly Texture2D _pixel;
+        private readonly Texture2D _sanityBar;
+        private readonly Texture2D _sanityBarInside;
         private float _noticeTime;
 
         public const int MaxSanity = 100;
@@ -20,6 +21,7 @@ namespace Project_The_Elect.source_code
         public bool CanSubmitData => IsStarted && LensComplete && MeatCollected && ScanComplete && KeypadComplete && !DataSubmitted;
         public bool IsStarted { get; private set; }
         public bool LensComplete { get; private set; }
+        public bool HasFlashDrive { get; private set; }
         public bool HasScissors { get; private set; }
         public bool MeatCollected { get; private set; }
         public bool ScanComplete { get; private set; }
@@ -33,8 +35,8 @@ namespace Project_The_Elect.source_code
         {
             _font = content.Load<BitmapFont>("font/fontGenshin");
             _dialogueBackground = content.Load<Texture2D>("texture/03_dialogue/01_dialogueBG2");
-            _pixel = new Texture2D(graphicsDevice, 1, 1);
-            _pixel.SetData(new[] { Color.White });
+            _sanityBar = content.Load<Texture2D>("texture/04_play/00_sanitybar");
+            _sanityBarInside = content.Load<Texture2D>("texture/04_play/01_sanitybarinside");
         }
 
         public void Start()
@@ -62,6 +64,7 @@ namespace Project_The_Elect.source_code
             Day++;
             Sanity = MaxSanity;
             LensComplete = false;
+            HasFlashDrive = false;
             HasScissors = false;
             MeatCollected = false;
             ScanComplete = false;
@@ -98,6 +101,16 @@ namespace Project_The_Elect.source_code
         public void DismissDialogueMessage()
         {
             DialogueMessage = null;
+        }
+
+        public bool CollectFlashDrive()
+        {
+            if (HasFlashDrive)
+                return false;
+
+            HasFlashDrive = true;
+            ShowNotice("Flash drive collected.");
+            return true;
         }
 
         public bool CollectScissors()
@@ -232,14 +245,27 @@ namespace Project_The_Elect.source_code
             DrawText(spriteBatch, "QUEST", x, y, Color.White, 0.9f);
             y += 38f;
 
-            DrawTask(spriteBatch, "SCAN LAB", LensComplete, !LensComplete, x, ref y);
-            string meatTask = HasScissors || MeatCollected
-                ? "Cut the monster meat"
-                : "Find scissors to cut the meat";
-            DrawTask(spriteBatch, meatTask, MeatCollected, LensComplete && !MeatCollected, x, ref y);
-            DrawTask(spriteBatch, "MICROSCOPE LAB", ScanComplete, MeatCollected && !ScanComplete, x, ref y);
-            DrawTask(spriteBatch, "CHEMICAL LAB", KeypadComplete, MeatCollected && !KeypadComplete, x, ref y);
-            DrawTask(spriteBatch, "Submit In DATA ROOM", DataSubmitted, ScanComplete && KeypadComplete && !DataSubmitted, x, ref y);
+            DrawTask(spriteBatch, "Get Flash Drive", HasFlashDrive, !HasFlashDrive, x, ref y);
+
+            if (HasFlashDrive)
+                DrawTask(spriteBatch, "Go to SCAN LAB", LensComplete, !LensComplete, x, ref y);
+
+            if (LensComplete)
+            {
+                string meatTask = HasScissors || MeatCollected
+                    ? "Cut the monster meat"
+                    : "Find scissors to cut the meat";
+                DrawTask(spriteBatch, meatTask, MeatCollected, !MeatCollected, x, ref y);
+            }
+
+            if (MeatCollected)
+            {
+                DrawTask(spriteBatch, "Go to MICROSCOPE LAB", ScanComplete, !ScanComplete, x, ref y);
+                DrawTask(spriteBatch, "Go to CHEMICAL LAB", KeypadComplete, !KeypadComplete, x, ref y);
+            }
+
+            if (ScanComplete && KeypadComplete)
+                DrawTask(spriteBatch, "Submit in DATA ROOM", DataSubmitted, !DataSubmitted, x, ref y);
 
             if (!string.IsNullOrEmpty(Notice))
                 DrawText(spriteBatch, Notice, x, y + 4f, Color.Orange, 0.65f);
@@ -253,13 +279,18 @@ namespace Project_The_Elect.source_code
             const int height = 26;
 
             DrawText(spriteBatch, $"SANITY {Sanity}/{MaxSanity}  |  DAY {Day}  |  MONSTER {MonsterIndex}", x, y - 29, Color.White, 0.72f);
-            spriteBatch.Draw(_pixel, new Rectangle(x - 2, y - 2, width + 4, height + 4), Color.Black);
-            spriteBatch.Draw(_pixel, new Rectangle(x, y, width, height), Color.DarkGray);
-
             int fillWidth = width * Sanity / MaxSanity;
-            Color fillColor = Sanity <= 20 ? Color.Red : Sanity <= 50 ? Color.Orange : Color.LimeGreen;
             if (fillWidth > 0)
-                spriteBatch.Draw(_pixel, new Rectangle(x, y, fillWidth, height), fillColor);
+            {
+                spriteBatch.Draw(
+                    _sanityBarInside,
+                    new Rectangle(x, y, fillWidth, height),
+                    new Rectangle(0, 0, fillWidth, height),
+                    Color.White);
+            }
+
+            // Keep the bar outline above the fill and visible at every sanity level.
+            spriteBatch.Draw(_sanityBar, new Rectangle(x, y, width, height), Color.White);
         }
 
         

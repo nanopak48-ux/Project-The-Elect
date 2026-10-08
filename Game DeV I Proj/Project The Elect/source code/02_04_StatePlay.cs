@@ -38,7 +38,21 @@ namespace Project_The_Elect.source_code
         private Vector2 lookAtPos;
         private TimeSpan _timeUntilQuestDialogue = TimeSpan.FromSeconds(2);
         private TimeSpan _timeSincePlayStarted = TimeSpan.Zero;
+        private const float MeatCutBlackoutDuration = 3f;
+        private const float SleepBlackoutDuration = 2f;
+        private const float MinigameResultDialogueDelay = 1f;
+        private const float MinigameStartDelay = 1f;
+        private bool _isBlackout;
+        private float _blackoutRemaining;
+        private Action _afterBlackout;
+        private float _minigameDialogueDelayRemaining;
+        private int _pendingMinigameDialogueChapter;
+        private float _minigameStartDelayRemaining;
+        private string _pendingMinigameMachineName;
+        private Minigame _pendingMinigame;
         private bool _questDialogueTriggered;
+        private bool _lensInstructionsShown;
+        private bool _lensPraiseShown;
         private string _activeMachineName;
         public StatePlay
             (
@@ -99,6 +113,48 @@ namespace Project_The_Elect.source_code
         public void Update(GameTime gameTime)
         {
             _questProgress.Update(gameTime);
+
+            if (_isBlackout)
+            {
+                _blackoutRemaining -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                _player.UpdateWithoutMovement(gameTime);
+
+                if (_blackoutRemaining <= 0f)
+                {
+                    _isBlackout = false;
+                    _player.Unfreeze();
+                    Action afterBlackout = _afterBlackout;
+                    _afterBlackout = null;
+                    afterBlackout?.Invoke();
+                }
+
+                return;
+            }
+
+            if (_pendingMinigameDialogueChapter != 0)
+            {
+                _minigameDialogueDelayRemaining -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (_minigameDialogueDelayRemaining <= 0f)
+                {
+                    int chapter = _pendingMinigameDialogueChapter;
+                    _pendingMinigameDialogueChapter = 0;
+                    _gameFlow.ShowQuestWarningDialogue(chapter, () => _player.Unfreeze());
+                }
+            }
+
+            if (_pendingMinigame != null)
+            {
+                _minigameStartDelayRemaining -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (_minigameStartDelayRemaining <= 0f)
+                {
+                    string machineName = _pendingMinigameMachineName;
+                    Minigame minigame = _pendingMinigame;
+                    _pendingMinigameMachineName = null;
+                    _pendingMinigame = null;
+                    StartMinigame(machineName, minigame);
+                }
+            }
+
             _map.Update(gameTime);
             _interactManager?.Update(_player);
 
@@ -112,7 +168,8 @@ namespace Project_The_Elect.source_code
             {
                 _minigame.Update(gameTime);
 
-                if (!_minigame.IsPlaying) _player.Unfreeze();
+                if (!_minigame.IsPlaying && _pendingMinigameDialogueChapter == 0)
+                    _player.Unfreeze();
                 return;
             }
 
@@ -147,6 +204,9 @@ namespace Project_The_Elect.source_code
         {
             KeyboardExtended.Update();
 
+            if (_isBlackout || _pendingMinigameDialogueChapter != 0 || _pendingMinigame != null)
+                return;
+
             CheckEscape();
 
             if (_minigame.IsPlaying)
@@ -160,23 +220,34 @@ namespace Project_The_Elect.source_code
 
         public void Draw(GameTime gameTime)
         {
+            if (_isBlackout)
+            {
+                _graphics.GraphicsDevice.Clear(Color.Black);
+                return;
+            }
+
             Matrix transformMatrix = _camera.GetViewMatrix();
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix);
 
             // 1. วาดแมพ
-            _map.Draw(gameTime, _camera, "floor");
+            _map.Draw(gameTime, _camera, "floor_white");
+            _map.Draw(gameTime, _camera, "floor_black");
             _map.Draw(gameTime, _camera, "background");
             _map.Draw(gameTime, _camera, "middleground");
+            _map.Draw(gameTime, _camera, "stuff");
+            _map.Draw(gameTime, _camera, "light");
+            _map.Draw(gameTime, _camera, "foreground");
+            _map.Draw(gameTime, _camera, "wall_side");
+            _map.Draw(gameTime, _camera, "wall_upper");
+            _map.Draw(gameTime, _camera, "wall_lower");
             string monsterLayer = $"mon{_questProgress.MonsterIndex}";
             if (_map.HasLayer(monsterLayer))
                 _map.Draw(gameTime, _camera, monsterLayer);
             if (!_questProgress.HasScissors && _map.HasLayer("scissors"))
                 _map.Draw(gameTime, _camera, "scissors");
-            _map.Draw(gameTime, _camera, "foreground");
-            _map.Draw(gameTime, _camera, "wall_side");
-            _map.Draw(gameTime, _camera, "wall_upper");
-            _map.Draw(gameTime, _camera, "wall_lower");
+            if (!_questProgress.HasFlashDrive && _map.HasLayer("flashdrive"))
+                _map.Draw(gameTime, _camera, "flashdrive");
 
             // 2. วาดตัวละคร
             _player.Draw();
@@ -263,20 +334,28 @@ namespace Project_The_Elect.source_code
                         return;
                     }
 
+                    if (_questProgress.IsStarted
+                        && !_questProgress.HasFlashDrive
+                        && IsQuestWorkObject(objectName))
+                    {
+                        _gameFlow.ShowQuestWarningDialogue(12);
+                        return;
+                    }
+
                     switch (objectName)
                     {
+                        case "FlashDrive":
+                            _questProgress.CollectFlashDrive();
+                            break;
+
                         case "Bed":
                             if (_questProgress.DataSubmitted && !_questProgress.IsSanityDepleted)
                             {
-                                _gameFlow.ShowQuestWarningDialogue(10, () =>
-                                {
-                                    if (_questProgress.TrySleep())
-                                        _questProgress.ShowDialogueMessage($"ตื่นแล้ว: Day {_questProgress.Day} และเริ่มภารกิจใหม่");
-                                });
+                                _gameFlow.ShowQuestWarningDialogue(10, BeginSleepTransition);
                             }
-                            else if (_questProgress.TrySleep())
+                            else if (_questProgress.IsSanityDepleted)
                             {
-                                _questProgress.ShowDialogueMessage($"ตื่นแล้ว: Day {_questProgress.Day} และเริ่มภารกิจใหม่");
+                                BeginSleepTransition();
                             }
                             else
                             {
@@ -300,6 +379,12 @@ namespace Project_The_Elect.source_code
                                 _gameFlow.ShowQuestWarningDialogue(4);
                             else if (!_questProgress.TryCutMeat())
                                 ShowCompletedTaskDialogue();
+                            else
+                            {
+                                _audio.PlaySFX("error_task");
+                                BeginBlackout(MeatCutBlackoutDuration,
+                                    () => _gameFlow.ShowQuestWarningDialogue(15));
+                            }
                             break;
 
                         case "DataSubmissionPoint":
@@ -309,6 +394,10 @@ namespace Project_The_Elect.source_code
                                     _gameFlow.ShowQuestWarningDialogue(5);
                                 else
                                     _gameFlow.ShowQuestWarningDialogue(11);
+                            }
+                            else
+                            {
+                                _gameFlow.ShowQuestWarningDialogue(11);
                             }
                             break;
 
@@ -326,6 +415,36 @@ namespace Project_The_Elect.source_code
         {
             int chapterIndex = _questProgress.DataSubmitted ? 11 : 7;
             _gameFlow.ShowQuestWarningDialogue(chapterIndex);
+        }
+
+        private void BeginSleepTransition()
+        {
+            BeginBlackout(SleepBlackoutDuration, () =>
+            {
+                if (_questProgress.TrySleep())
+                    _questProgress.ShowNotice($"ตื่นแล้ว: Day {_questProgress.Day} และเริ่มภารกิจใหม่");
+            });
+        }
+
+        private void BeginBlackout(float duration, Action afterBlackout = null)
+        {
+            if (_isBlackout)
+                return;
+
+            _isBlackout = true;
+            _blackoutRemaining = duration;
+            _afterBlackout = afterBlackout;
+            _player.Freeze();
+        }
+
+        private static bool IsQuestWorkObject(string objectName)
+        {
+            return objectName == "LensMachine"
+                || objectName == "ScanMachine"
+                || objectName == "KeypadMachine"
+                || objectName == "ScissorsItem"
+                || objectName == "MonsterCutPoint"
+                || objectName == "DataSubmissionPoint";
         }
 
         private void TryStartMachine(string machineName)
@@ -383,8 +502,29 @@ namespace Project_The_Elect.source_code
                 _ => null
             };
 
-            if (minigame != null)
-                StartMinigame(machineName, minigame);
+            if (minigame == null)
+                return;
+
+            if (machineName == "LensMachine" && !_lensInstructionsShown)
+            {
+                _lensInstructionsShown = true;
+                _gameFlow.ShowQuestWarningDialogue(13, () => ScheduleMinigameStart(machineName, minigame));
+                return;
+            }
+
+            if (machineName == "ScanMachine")
+            {
+                _gameFlow.ShowQuestWarningDialogue(16, () => ScheduleMinigameStart(machineName, minigame));
+                return;
+            }
+
+            if (machineName == "KeypadMachine")
+            {
+                _gameFlow.ShowQuestWarningDialogue(17, () => ScheduleMinigameStart(machineName, minigame));
+                return;
+            }
+
+            StartMinigame(machineName, minigame);
         }
 
         private void StartMinigame(string machineName, Minigame minigame)
@@ -395,16 +535,43 @@ namespace Project_The_Elect.source_code
             _minigame.Start(minigame);
         }
 
+        private void ScheduleMinigameStart(string machineName, Minigame minigame)
+        {
+            _pendingMinigameMachineName = machineName;
+            _pendingMinigame = minigame;
+            _minigameStartDelayRemaining = MinigameStartDelay;
+            _player.Freeze();
+        }
+
         private void OnMinigameEnded(Minigame minigame, MinigameResult result)
         {
             _lastMinigameResult = result;
             if (result == MinigameResult.Success)
+            {
                 _questProgress.CompleteMachine(_activeMachineName);
+
+                if (_activeMachineName == "LensMachine" && !_lensPraiseShown)
+                {
+                    _lensPraiseShown = true;
+                    ScheduleMinigameDialogue(14);
+                }
+                else if (_activeMachineName == "ScanMachine" || _activeMachineName == "KeypadMachine")
+                {
+                    ScheduleMinigameDialogue(18);
+                }
+            }
 
             if (result != MinigameResult.None)
                 _questProgress.SpendSanity(10);
 
             _activeMachineName = null;
+        }
+
+        private void ScheduleMinigameDialogue(int chapterIndex)
+        {
+            _pendingMinigameDialogueChapter = chapterIndex;
+            _minigameDialogueDelayRemaining = MinigameResultDialogueDelay;
+            _player.Freeze();
         }
 
         private void CheckEscape()

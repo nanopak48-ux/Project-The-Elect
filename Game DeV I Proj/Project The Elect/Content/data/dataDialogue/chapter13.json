@@ -1,0 +1,20 @@
+﻿{
+  "chapter": 13,
+  "dialogues": [
+    {
+      "character": "Unknown",
+      "text": "เอาหล่ะ นี้คือสิ่งแรกที่แกจะต้องทำในทุกๆวัน",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "คือการควบคุมเครื่องแสกนสิ่งมีชีวิต",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "โดยแกต้องกดปุ่ม spacebar ค้างไว้เพื่อเป็นการประครองจุดไว้จนกว่าเครื่องจะทำงานเสร็จ",
+      "voiceline": "none"
+    }
+  ]
+}

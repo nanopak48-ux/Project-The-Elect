@@ -137,15 +137,16 @@ namespace Project_The_Elect.source_code
             if (CurrentNearbyObject == interactableObject)
                 CurrentNearbyObject = null;
         }
-
+        //====================================================================//
         public void DrawDebug(SpriteBatch spriteBatch)
         {
             foreach (var obj in InteractObjects)
             {
-                Color drawColor = (obj == CurrentNearbyObject) ? Color.Lime : Color.Yellow;
-                spriteBatch.DrawRectangle(obj.TriggerZone, Color.Cyan * 0.5f, 1f);
-                spriteBatch.DrawRectangle(obj.Bounds, drawColor, 2f);
+                //Color drawColor = (obj == CurrentNearbyObject) ? Color.Lime : Color.Yellow;
+                //spriteBatch.DrawRectangle(obj.TriggerZone, Color.Cyan * 0.5f, 1f);
+                //spriteBatch.DrawRectangle(obj.Bounds, drawColor, 2f);
             }
         }
+        //====================================================================//
     }
 }
