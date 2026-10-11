@@ -1,6 +1,6 @@
 # Sprint [3] Plan
 
-**Sprint Goal:** [เป้าหมายหลักของ Sprint นี้ในหนึ่งประโยค]
+**Sprint Goal:** [Core Game ให้เสร็จ]
 **ระยะเวลา:** [2026-09-29] — [2026-10-12]
 **Team:** [Vier Selec]
 
@@ -43,6 +43,9 @@
 | 36 | UI             | Ui_Scan_Inside bar               | LOOKTAW  | ✅DONE        | Must   |               1 |
 | 37 | UI             | Chemical Puzzle UI               | LOOKTAW  | 🔄IN PROGRESS | Must   |             TBD |
 | 38 | UI             | Microscope Puzzle UI             | KAOWNIEW | TODO          | Must   |             TBD |
+| 39 | UI             | Home Screen UI                   | KAOWNIEW | 🔄IN PROGRESS | Must   |             TBD |
+| 40 | UI             | Menu Screen UI                   | KAOWNIEW | 🔄IN PROGRESS | Must   |             TBD |
+| 42 | ART            | Cut Scene                        |          | TODO          | Should |             TBD |
 
 ## Status Legend
 
