@@ -91,11 +91,11 @@
             }
         },
         "OperationCenterVI.tmx": {
-            "scale": 1,
-            "selectedLayer": 2,
+            "scale": 0.5,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 4857,
-                "y": 2374
+                "x": 3054,
+                "y": 3631
             }
         }
     },

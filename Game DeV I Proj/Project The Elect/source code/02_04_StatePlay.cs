@@ -234,13 +234,15 @@ namespace Project_The_Elect.source_code
             _map.Draw(gameTime, _camera, "floor_white");
             _map.Draw(gameTime, _camera, "floor_black");
             _map.Draw(gameTime, _camera, "background");
+            _map.Draw(gameTime, _camera, "wall_lower");
+            _map.Draw(gameTime, _camera, "wall_upper");
+            _map.Draw(gameTime, _camera, "wall_side");
             _map.Draw(gameTime, _camera, "middleground");
+            _map.Draw(gameTime, _camera, "furniture");
+            _map.Draw(gameTime, _camera, "foreground");
             _map.Draw(gameTime, _camera, "stuff");
             _map.Draw(gameTime, _camera, "light");
-            _map.Draw(gameTime, _camera, "foreground");
-            _map.Draw(gameTime, _camera, "wall_side");
-            _map.Draw(gameTime, _camera, "wall_upper");
-            _map.Draw(gameTime, _camera, "wall_lower");
+          
             string monsterLayer = $"mon{_questProgress.MonsterIndex}";
             if (_map.HasLayer(monsterLayer))
                 _map.Draw(gameTime, _camera, monsterLayer);
@@ -248,6 +250,7 @@ namespace Project_The_Elect.source_code
                 _map.Draw(gameTime, _camera, "scissors");
             if (!_questProgress.HasFlashDrive && _map.HasLayer("flashdrive"))
                 _map.Draw(gameTime, _camera, "flashdrive");
+
 
             // 2. วาดตัวละคร
             _player.Draw();
