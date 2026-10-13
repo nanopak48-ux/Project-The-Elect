@@ -36,8 +36,8 @@
 ### Story 1 — [ในฐานะผู้เล่น ฉันต้องการเข็นรถเข็น เพื่อขนย้ายตัวอย่างไปทดลอง]
 
 - [ ] [Task : Spritesheet Cart]  [Owner : L]  [Estimate : 3]  [status: 🔲]
-- [ ] [Task : Spritesheet Monster1]  [owner: P]  [Estimate: 2]  [status: 🔄]
-- [ ] [Task : Spritesheet Monster2]  [owner: P]  [Estimate: 2]  [status: 🔲]
+- [ ] [Task : Spritesheet Monster1]  [owner: P]  [Estimate: 2h]  [status: 🔄]  [note:: thumbnail sketch 3 แบบเสร็จแล้ว รอเลือกอันที่ใช่แล้วเริ่มดราฟเป็น pixel art]
+- [ ] [Task : Spritesheet Monster2]  [owner: P]  [Estimate: 2]  [status: 🔄]  [note:: ทำ thumbnail sketch 1 แบบจาก 3  ]
 - [ ] [Task : Spritesheet Tileset of map]  [owner: K]  [Estimate: 5]  [status: 🔄]
 - [ ] [Task : Spritesheet Tileset of props]  [owner: K]  [Estimate: 5]  [status: 🔄]
 - [ ] [Task : Cart Logic]  [owner: J]  [Estimate: 5]  [status: 🔲]
