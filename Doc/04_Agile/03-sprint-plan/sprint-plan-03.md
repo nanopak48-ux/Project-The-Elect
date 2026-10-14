@@ -58,49 +58,49 @@
 
 ## Tasks
 
-| SEQ | ASSIGNEE | TASK                             |
-| --- | :------: | -------------------------------- |
-| 1   |          |                                  |
-| 2   |          |                                  |
-| 3   |          |                                  |
-| 4   |          |                                  |
-| 5   |          |                                  |
-| 6   |          |                                  |
-| 7   |          |                                  |
-| 8   |          |                                  |
-| 9   |          |                                  |
-| 10  |          |                                  |
-| 11  |          |                                  |
-| 12  |          |                                  |
-| 13  |          |                                  |
-| 14  |          |                                  |
-| 15  |          |                                  |
-| 16  |          |                                  |
-| 17  |          |                                  |
-| 18  |          | Gameplay: Solution               |
-| 19  |          | Gameplay: Lens's Skill Check     |
-| 20  |          | Gameplay: Operating              |
-| 21  |          | SFX Gameplay: Scan               |
-| 22  |          | SFX Gameplay: Solution           |
-| 23  |          | SFX Gameplay: Lens's Skill Check |
-| 24  |          | SFX Gameplay: Operating          |
-| 25  |          |                                  |
-| 26  | KAOWNIEW | Level Design (design only)       |
-| 27  | KAOWNIEW | Tilemap Draft                    |
-| 28  | KAOWNIEW | Wall & Floor Tileset (pixel)     |
-| 29  | KAOWNIEW | Main Interact Asset Design       |
-| 30  | KAOWNIEW | Main Interact Asset              |
-| 31  | KAOWNIEW |                                  |
-| 32  | KAOWNIEW | Utility Icon Design              |
-| 33  | KAOWNIEW | Health Bar Design                |
-| 34  |          | Monster Thumbnail Sketch         |
-| 35  |          | Monster Design                   |
-| 36  |          | Monster Draft (Pixel)            |
-| 37  | LOOKTAW |                                  |
-| 38  | LOOKTAW |                                  |
-| 39  | LOOKTAW |                                  |
-| --- |   ---   | ---                              |
-|     |          |                                  |
+| SEQ | ASSIGNEE | TASK                             | Status         |
+| --- | :------: | -------------------------------- | -------------- |
+| 1   | LOOKTAW | UI_Dialogue_Vier                 | ✅ Done        |
+| 2   | LOOKTAW | UI_Dialogue_Unknow               | ✅ Done        |
+| 3   | LOOKTAW | UI_Dialogue_Bar                  | ✅ Done        |
+| 4   | LOOKTAW | Ui_Scan_Bar                      | ✅ Done        |
+| 5   | LOOKTAW | Ui_Scan_Pointer                  | ✅ Done        |
+| 6   | LOOKTAW | Ui_Scan_Target                   | ✅ Done        |
+| 7   | LOOKTAW | Ui_Scan_Inside bar               | ✅ Done        |
+| 8   | LOOKTAW | Ui_Red lab flask                 | 🔄 In Progress |
+| 9   | LOOKTAW | Ui_Small Red lab flask           | 🔲 Todo        |
+| 10  |          |                                  |                |
+| 11  |          |                                  |                |
+| 12  |          |                                  |                |
+| 13  |          |                                  |                |
+| 14  |          |                                  |                |
+| 15  |          |                                  |                |
+| 16  |          |                                  |                |
+| 17  |          |                                  |                |
+| 18  |          | Gameplay: Solution               |                |
+| 19  |          | Gameplay: Lens's Skill Check     |                |
+| 20  |          | Gameplay: Operating              |                |
+| 21  |          | SFX Gameplay: Scan               |                |
+| 22  |          | SFX Gameplay: Solution           |                |
+| 23  |          | SFX Gameplay: Lens's Skill Check |                |
+| 24  |          | SFX Gameplay: Operating          |                |
+| 25  |          |                                  |                |
+| 26  | KAOWNIEW | Level Design (design only)       |                |
+| 27  | KAOWNIEW | Tilemap Draft                    |                |
+| 28  | KAOWNIEW | Wall & Floor Tileset (pixel)     |                |
+| 29  | KAOWNIEW | Main Interact Asset Design       |                |
+| 30  | KAOWNIEW | Main Interact Asset              |                |
+| 31  | KAOWNIEW |                                  |                |
+| 32  | KAOWNIEW | Utility Icon Design              |                |
+| 33  | KAOWNIEW | Health Bar Design                |                |
+| 34  |          |                                  |                |
+| 35  |          |                                  |                |
+| 36  |          |                                  |                |
+| 37  |          |                                  |                |
+| 38  |          |                                  |                |
+| 39  |          |                                  |                |
+| --- |   ---   | ---                              |                |
+|     |          |                                  |                |
 
 ## Daily Notes
 
