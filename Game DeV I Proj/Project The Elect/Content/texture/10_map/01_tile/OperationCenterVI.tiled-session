@@ -24,6 +24,9 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "01_00_monster.tsx": {
+            "scaleInDock": 1
+        },
         "01_00_taskAsset.tsx": {
             "scaleInDock": 0.5,
             "scaleInEditor": 1
@@ -92,10 +95,10 @@
         },
         "OperationCenterVI.tmx": {
             "scale": 0.5,
-            "selectedLayer": 0,
+            "selectedLayer": 7,
             "viewCenter": {
-                "x": 3054,
-                "y": 3631
+                "x": 3747,
+                "y": 3448
             }
         }
     },

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
+using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.Input;
 using MonoGame.Extended.ViewportAdapters;
 using System;
@@ -33,6 +34,12 @@ namespace Project_The_Elect.source_code
         private GraphicsDevice _graphicDevice;
         private GameMapManager _map;
         private InteractManager _interactManager;
+        private SearchDialogueManager _searchDialogue;
+        private InteractableObject _activeSearchEvidence;
+        private readonly HashSet<string> _collectedSearchEvidence = new HashSet<string>();
+        private readonly Dictionary<string, string> _searchEvidenceLayers = new Dictionary<string, string>();
+        private BitmapFont _endingFont;
+        private string _endingText;
 
         private OrthographicCamera _camera;
         private Vector2 lookAtPos;
@@ -105,7 +112,17 @@ namespace Project_The_Elect.source_code
             if (_map._tilemap != null)
             {
                 _interactManager = new InteractManager(_map._tilemap);
+                RegisterSearchEvidenceLayers();
             }
+
+            _searchDialogue = new SearchDialogueManager(
+                _content,
+                _spriteBatch,
+                _audio,
+                GameConfig.ScreenWidth,
+                GameConfig.ScreenHeight);
+            _searchDialogue.DialogueEnded += OnSearchDialogueEnded;
+            _endingFont = _content.Load<BitmapFont>("font/fontGenshin");
         }
 
         public Vector2 currentCenter;
@@ -113,6 +130,9 @@ namespace Project_The_Elect.source_code
         public void Update(GameTime gameTime)
         {
             _questProgress.Update(gameTime);
+
+            if (_endingText != null)
+                return;
 
             if (_isBlackout)
             {
@@ -128,6 +148,18 @@ namespace Project_The_Elect.source_code
                     afterBlackout?.Invoke();
                 }
 
+                return;
+            }
+
+            if (_searchDialogue?.IsActive == true)
+            {
+                _map.Update(gameTime);
+                _searchDialogue.Update(gameTime);
+                _player.UpdateWithoutMovement(gameTime);
+
+                Vector2 playerLookAt = _player.Position;
+                currentCenter = _camera.Position + _camera.Origin;
+                _camera.LookAt(Vector2.Lerp(currentCenter, playerLookAt, 0.1f));
                 return;
             }
 
@@ -202,10 +234,19 @@ namespace Project_The_Elect.source_code
 
         public void InputHandler(GameTime gameTime)
         {
+            if (_endingText != null)
+                return;
+
             KeyboardExtended.Update();
 
             if (_isBlackout || _pendingMinigameDialogueChapter != 0 || _pendingMinigame != null)
                 return;
+
+            if (_searchDialogue?.IsActive == true)
+            {
+                _searchDialogue.InputHandler(gameTime);
+                return;
+            }
 
             CheckEscape();
 
@@ -220,6 +261,31 @@ namespace Project_The_Elect.source_code
 
         public void Draw(GameTime gameTime)
         {
+            if (_endingText != null)
+            {
+                _graphics.GraphicsDevice.Clear(Color.Black);
+                _spriteBatch.Begin();
+
+                const float endingScale = 1.8f;
+                var textSize = _endingFont.MeasureString(_endingText);
+                Vector2 textPosition = new Vector2(
+                    (GameConfig.ScreenWidth - textSize.Width * endingScale) / 2f,
+                    (GameConfig.ScreenHeight - textSize.Height * endingScale) / 2f);
+
+                _spriteBatch.DrawString(
+                    _endingFont,
+                    _endingText,
+                    textPosition,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    endingScale,
+                    SpriteEffects.None,
+                    0f);
+                _spriteBatch.End();
+                return;
+            }
+
             if (_isBlackout)
             {
                 _graphics.GraphicsDevice.Clear(Color.Black);
@@ -250,6 +316,14 @@ namespace Project_The_Elect.source_code
                 _map.Draw(gameTime, _camera, "scissors");
             if (!_questProgress.HasFlashDrive && _map.HasLayer("flashdrive"))
                 _map.Draw(gameTime, _camera, "flashdrive");
+            foreach (KeyValuePair<string, string> evidenceLayer in _searchEvidenceLayers)
+            {
+                if (!_collectedSearchEvidence.Contains(evidenceLayer.Key)
+                    && _map.HasLayer(evidenceLayer.Value))
+                {
+                    _map.Draw(gameTime, _camera, evidenceLayer.Value);
+                }
+            }
 
 
             // 2. วาดตัวละคร
@@ -265,9 +339,10 @@ namespace Project_The_Elect.source_code
             _spriteBatch.End();
 
             _spriteBatch.Begin();
-            if (!_minigame.IsPlaying)
+            if (!_minigame.IsPlaying && _searchDialogue?.IsActive != true)
                 _questProgress.Draw(_spriteBatch);
             if (_minigame.IsPlaying) _minigame.Draw(gameTime);
+            _searchDialogue?.Draw(gameTime);
             _spriteBatch.End();
         }
 
@@ -347,6 +422,11 @@ namespace Project_The_Elect.source_code
 
                     switch (objectName)
                     {
+                        case string evidenceName when evidenceName.StartsWith("SearchEvidence_", StringComparison.Ordinal):
+                        case string emptySearchName when emptySearchName.StartsWith("SearchEmpty_", StringComparison.Ordinal):
+                            StartSearchDialogue(nearbyObject);
+                            break;
+
                         case "FlashDrive":
                             _questProgress.CollectFlashDrive();
                             break;
@@ -414,6 +494,52 @@ namespace Project_The_Elect.source_code
             }
         }
 
+        private void StartSearchDialogue(InteractableObject searchObject)
+        {
+            // Search locations become available only after the final data submission.
+            if (!_questProgress.DataSubmitted)
+            {
+                _gameFlow.ShowQuestWarningDialogue(19);
+                return;
+            }
+
+            if (_searchDialogue == null)
+                return;
+
+            bool isEvidence = searchObject.Name.StartsWith("SearchEvidence_", StringComparison.Ordinal);
+            if (isEvidence && _collectedSearchEvidence.Contains(searchObject.Name))
+                return;
+
+            _activeSearchEvidence = isEvidence ? searchObject : null;
+            _player.Freeze();
+
+            try
+            {
+                // Both search object types intentionally use the same dialogue file for now.
+                _searchDialogue.Start("Content/data/dataSearch/search01.json");
+                _questProgress.SpendSearchSanity(10);
+            }
+            catch (Exception exception)
+            {
+                _activeSearchEvidence = null;
+                _player.Unfreeze();
+                Console.WriteLine($"[Search Dialogue Error] {exception.Message}");
+            }
+        }
+
+        private void OnSearchDialogueEnded()
+        {
+            if (_activeSearchEvidence != null)
+            {
+                string evidenceName = _activeSearchEvidence.Name;
+                _collectedSearchEvidence.Add(evidenceName);
+                _interactManager?.RemoveObject(_activeSearchEvidence);
+                _activeSearchEvidence = null;
+            }
+
+            _player.Unfreeze();
+        }
+
         private void ShowCompletedTaskDialogue()
         {
             int chapterIndex = _questProgress.DataSubmitted ? 11 : 7;
@@ -422,11 +548,51 @@ namespace Project_The_Elect.source_code
 
         private void BeginSleepTransition()
         {
+            bool isFinalMonsterSleep = _questProgress.DataSubmitted && _questProgress.MonsterIndex >= 2;
             BeginBlackout(SleepBlackoutDuration, () =>
             {
                 if (_questProgress.TrySleep())
-                    _questProgress.ShowNotice($"ตื่นแล้ว: Day {_questProgress.Day} และเริ่มภารกิจใหม่");
+                {
+                    if (isFinalMonsterSleep)
+                        ShowEnding();
+                    else
+                        _questProgress.ShowNotice($"ตื่นแล้ว: Day {_questProgress.Day} และเริ่มภารกิจใหม่");
+                }
             });
+        }
+
+        private void RegisterSearchEvidenceLayers()
+        {
+            _searchEvidenceLayers.Clear();
+            if (_interactManager?.InteractObjects == null)
+                return;
+
+            foreach (InteractableObject mapObject in _interactManager.InteractObjects)
+            {
+                if (!mapObject.Name.StartsWith("SearchEvidence_", StringComparison.Ordinal))
+                    continue;
+
+                int suffixStart = mapObject.Name.Length;
+                while (suffixStart > 0 && char.IsDigit(mapObject.Name[suffixStart - 1]))
+                    suffixStart--;
+
+                if (suffixStart == mapObject.Name.Length
+                    || !int.TryParse(mapObject.Name.Substring(suffixStart), out int evidenceNumber)
+                    || evidenceNumber <= 0)
+                {
+                    Console.WriteLine($"[Search Warning] Evidence object '{mapObject.Name}' must end with a number so it can match a data layer.");
+                    continue;
+                }
+
+                _searchEvidenceLayers[mapObject.Name] = $"data{evidenceNumber}";
+            }
+        }
+
+        private void ShowEnding()
+        {
+            _endingText = _collectedSearchEvidence.Count > 6 ? "Good End" : "Bad End";
+            _player.Freeze();
+            Console.WriteLine($"[Ending] {_endingText} ({_collectedSearchEvidence.Count} evidence collected)");
         }
 
         private void BeginBlackout(float duration, Action afterBlackout = null)

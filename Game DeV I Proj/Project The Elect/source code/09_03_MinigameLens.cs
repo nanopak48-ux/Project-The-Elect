@@ -11,7 +11,7 @@ namespace Project_The_Elect.source_code
     {
         private const int TrackWidth = 1200;
         private const int TrackHeight = 180;
-        private const int TargetWidth = 150;
+        private const int TargetWidth = 140;
         private const int PointerWidth = 30;
         private const int PointerHeight = 136;
 

@@ -24,7 +24,7 @@ namespace Project_The_Elect.source_code
 
         public RectangleF HitBox { get; private set; }
 
-        public float Speed = 300f;
+        public float Speed = 800f;
         public int Health = 100;
 
         public PlayerState State { get; private set; }

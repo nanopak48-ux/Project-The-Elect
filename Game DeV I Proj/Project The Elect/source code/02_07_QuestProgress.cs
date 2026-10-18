@@ -53,6 +53,14 @@ namespace Project_The_Elect.source_code
          
         }
 
+        public void SpendSearchSanity(int amount)
+        {
+            if (amount <= 0)
+                return;
+
+            Sanity = System.Math.Max(0, Sanity - amount);
+        }
+
         public bool TrySleep()
         {
             if (!IsStarted || (!DataSubmitted && !IsSanityDepleted))
@@ -70,7 +78,6 @@ namespace Project_The_Elect.source_code
             ScanComplete = false;
             KeypadComplete = false;
             DataSubmitted = false;
-            Notice = $"Day {Day} started. Quest progress has reset.";
             _noticeTime = 2.5f;
             DialogueMessage = null;
             IsStarted = true;
