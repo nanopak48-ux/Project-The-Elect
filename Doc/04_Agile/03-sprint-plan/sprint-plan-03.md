@@ -41,7 +41,7 @@
 | 34 | UI             | Ui_Scan_Target                   | LOOKTAW  | ✅DONE        | Must   |               1 |
 | 35 | UI             | Ui_Scan_Score bar                | LOOKTAW  | ✅DONE        | Must   |               2 |
 | 36 | UI             | Ui_Scan_Inside bar               | LOOKTAW  | ✅DONE        | Must   |               1 |
-| 37 | UI             | Chemical Puzzle UI               | LOOKTAW  | 🔄IN PROGRESS | Must   |             TBD |
+| 37 | UI             | Chemical Puzzle UI               | LOOKTAW  | 🔄IN PROGRESS | Must   |               2 |
 | 38 | UI             | Microscope Puzzle UI             | KAOWNIEW | TODO          | Must   |             TBD |
 | 39 | UI             | Home Screen UI                   | KAOWNIEW | 🔄IN PROGRESS | Must   |             TBD |
 | 40 | UI             | Menu Screen UI                   | KAOWNIEW | 🔄IN PROGRESS | Must   |             TBD |
@@ -58,49 +58,49 @@
 
 ## Tasks
 
-| SEQ | ASSIGNEE | TASK                             |
-| --- | :------: | -------------------------------- |
-| 1   |  JOHNNY  | Background Story                 |
-| 2   |  JOHNNY  | Story Timeline                   |
-| 3   |  JOHNNY  | Character Relations Tree         |
-| 4   |  JOHNNY  | Character Info                   |
-| 5   |  JOHNNY  | Asset Naming Design              |
-| 6   |  JOHNNY  | Gameplay Detail                  |
-| 7   |  JOHNNY  | Level Design                     |
-| 8   |  JOHNNY  | PROLOGUE STORYBOARD              |
-| 9   |  JOHNNY  | Game flow Manager                |
-| 10  |  JOHNNY  | Basic Movement                   |
-| 11  |  JOHNNY  | Map Movement                     |
-| 12  |  JOHNNY  | Tile Map Handler                 |
-| 13  |  JOHNNY  | Camera Movement                  |
-| 14  |  JOHNNY  | Player Animation Handler         |
-| 15  |  JOHNNY  | Player Data Reader               |
-| 16  |  JOHNNY  | SpriteFont                       |
-| 17  |  JOHNNY  | Gameplay: Scan                   |
-| 18  |  JOHNNY  | Gameplay: Solution               |
-| 19  |  JOHNNY  | Gameplay: Lens's Skill Check     |
-| 20  |  JOHNNY  | Gameplay: Operating              |
-| 21  |  JOHNNY  | SFX Gameplay: Scan               |
-| 22  |  JOHNNY  | SFX Gameplay: Solution           |
-| 23  |  JOHNNY  | SFX Gameplay: Lens's Skill Check |
-| 24  |  JOHNNY  | SFX Gameplay: Operating          |
-| 25  |  JOHNNY  | Minerva Voice Test               |
-| 26  | KAOWNIEW | Level Design (design only)       |
-| 27  | KAOWNIEW | Tilemap Draft                    |
-| 28  | KAOWNIEW | Wall & Floor Tileset (pixel)     |
-| 29  | KAOWNIEW | Main Interact Asset Design       |
-| 30  | KAOWNIEW | Main Interact Asset              |
-| 31  | KAOWNIEW | Minimap Design                   |
-| 32  | KAOWNIEW | Utility Icon Design              |
-| 33  | KAOWNIEW | Health Bar Design                |
-| 34  |   PLUB   | Monster Thumbnail Sketch         |
-| 35  |   PLUB   | Monster Design                   |
-| 36  |   PLUB   | Monster Draft (Pixel)            |
-| 37  | LOOKTAW | Character Moodboard              |
-| 38  | LOOKTAW | Character (Player) Design        |
-| 39  | LOOKTAW | Character Draft (Pixel)          |
-| --- |   ---   | ---                              |
-|     |          |                                  |
+| SEQ | ASSIGNEE | TASK                             | Status         |
+| --- | :------: | -------------------------------- | -------------- |
+| 1   | LOOKTAW | UI_Dialogue_Vier                 | ✅ Done        |
+| 2   | LOOKTAW | UI_Dialogue_Unknow               | ✅ Done        |
+| 3   | LOOKTAW | UI_Dialogue_Bar                  | ✅ Done        |
+| 4   | LOOKTAW | Ui_Scan_Bar                      | ✅ Done        |
+| 5   | LOOKTAW | Ui_Scan_Pointer                  | ✅ Done        |
+| 6   | LOOKTAW | Ui_Scan_Target                   | ✅ Done        |
+| 7   | LOOKTAW | Ui_Scan_Inside bar               | ✅ Done        |
+| 8   | LOOKTAW | Ui_Red lab flask                 | 🔄 In Progress |
+| 9   | LOOKTAW | Ui_Small Red lab flask           | 🔲 Todo        |
+| 10  |          |                                  |                |
+| 11  |          |                                  |                |
+| 12  |          |                                  |                |
+| 13  |          |                                  |                |
+| 14  |          |                                  |                |
+| 15  |          |                                  |                |
+| 16  |          |                                  |                |
+| 17  |          |                                  |                |
+| 18  |          | Gameplay: Solution               |                |
+| 19  |          | Gameplay: Lens's Skill Check     |                |
+| 20  |          | Gameplay: Operating              |                |
+| 21  |          | SFX Gameplay: Scan               |                |
+| 22  |          | SFX Gameplay: Solution           |                |
+| 23  |          | SFX Gameplay: Lens's Skill Check |                |
+| 24  |          | SFX Gameplay: Operating          |                |
+| 25  |          |                                  |                |
+| 26  | KAOWNIEW | Level Design (design only)       |                |
+| 27  | KAOWNIEW | Tilemap Draft                    |                |
+| 28  | KAOWNIEW | Wall & Floor Tileset (pixel)     |                |
+| 29  | KAOWNIEW | Main Interact Asset Design       |                |
+| 30  | KAOWNIEW | Main Interact Asset              |                |
+| 31  | KAOWNIEW |                                  |                |
+| 32  | KAOWNIEW | Utility Icon Design              |                |
+| 33  | KAOWNIEW | Health Bar Design                |                |
+| 34  |          |                                  |                |
+| 35  |          |                                  |                |
+| 36  |          |                                  |                |
+| 37  |          |                                  |                |
+| 38  |          |                                  |                |
+| 39  |          |                                  |                |
+| --- |   ---   | ---                              |                |
+|     |          |                                  |                |
 
 ## Daily Notes
 
