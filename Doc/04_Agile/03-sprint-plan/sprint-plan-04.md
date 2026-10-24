@@ -58,49 +58,49 @@
 
 ## Tasks
 
-| SEQ | ASSIGNEE | TASK                        | Status  |
-| --- | :------: | --------------------------- | ------- |
-| 1   | LOOKTAW | UI_Red lab flask            | ✅ Done |
-| 2   | LOOKTAW | UI_Small Red lab flask      | ✅ Done |
-| 3   | LOOKTAW | UI_Green lab flask          | ✅ Done |
-| 4   | LOOKTAW | UI_Small Green lab  flask | ✅ Done |
-| 5   | LOOKTAW | UI_Blue lab flask          | ✅ Done |
-| 6   | LOOKTAW | UI_Small Blue lab flask     | ✅ Done |
-| 7   | LOOKTAW | UI_ Orange lab flask        | ✅ Done |
-| 8   | LOOKTAW | UI_Small Pink lab flask     | ✅ Done |
-| 9   | LOOKTAW | UI_ Pink lab flask         | ✅ Done |
-| 10  | LOOKTAW | UI_Small Orange lab flask   | ✅ Done |
-| 11  | LOOKTAW | UI_ Yellow lab flask        | ✅ Done |
-| 12  | LOOKTAW | UI_Small Yellow lab flask  | ✅ Done |
-| 13  | LOOKTAW | UI_Select bottle            | ✅ Done |
-| 14  | LOOKTAW | UI_scorebar                 | 🔲 Todo |
-| 15  | LOOKTAW | UI_scorebar_complete        | 🔲 Todo |
-| 16  | LOOKTAW | UI_scorebar_fail            | 🔲 Todo |
-| 17  | LOOKTAW | UI_Time bar                 | 🔲 Todo |
-| 18  | LOOKTAW | UI_Time inside              | 🔲 Todo |
-| 19  | KAOWNIEW | Micro_UI_Bar                | 🔲 Todo |
-| 20  | KAOWNIEW | Micro_UI_Pointer            | 🔲 Todo |
-| 21  | KAOWNIEW | Micro_UI_Target             | 🔲 Todo |
-| 22  | KAOWNIEW | Micro_UI_camera             | 🔲 Todo |
-| 23  |          |                             |         |
-| 24  |          |                             |         |
-| 25  |          |                             |         |
-| 26  |          |                             |         |
-| 27  |          |                             |         |
-| 28  |          |                             |         |
-| 29  |          |                             |         |
-| 30  |          |                             |         |
-| 31  |          |                             |         |
-| 32  |          |                             |         |
-| 33  |          |                             |         |
-| 34  |          |                             |         |
-| 35  |          |                             |         |
-| 36  |          |                             |         |
-| 37  |          |                             |         |
-| 38  |          |                             |         |
-| 39  |          |                             |         |
-| --- |   ---   | ---                         |         |
-|     |          |                             |         |
+| SEQ | ASSIGNEE | TASK                        | Status   |
+| --- | :------: | --------------------------- | -------- |
+| 1   | LOOKTAW | UI_Red lab flask            | ✅ Done  |
+| 2   | LOOKTAW | UI_Small Red lab flask      | ✅ Done  |
+| 3   | LOOKTAW | UI_Green lab flask          | ✅ Done  |
+| 4   | LOOKTAW | UI_Small Green lab  flask | ✅ Done  |
+| 5   | LOOKTAW | UI_Blue lab flask          | ✅ Done  |
+| 6   | LOOKTAW | UI_Small Blue lab flask     | ✅ Done  |
+| 7   | LOOKTAW | UI_ Orange lab flask        | ✅ Done  |
+| 8   | LOOKTAW | UI_Small Pink lab flask     | ✅ Done  |
+| 9   | LOOKTAW | UI_ Pink lab flask         | ✅ Done  |
+| 10  | LOOKTAW | UI_Small Orange lab flask   | ✅ Done  |
+| 11  | LOOKTAW | UI_ Yellow lab flask        | ✅ Done  |
+| 12  | LOOKTAW | UI_Small Yellow lab flask  | ✅ Done  |
+| 13  | LOOKTAW | UI_Select bottle            | ✅ Done  |
+| 14  | LOOKTAW | UI_scorebar                 | ✅ Todo |
+| 15  | LOOKTAW | UI_scorebar_complete        | ✅ Todo |
+| 16  | LOOKTAW | UI_scorebar_fail            | ✅ Todo |
+| 17  | LOOKTAW | UI_Time bar                 | 🔲 Todo  |
+| 18  | LOOKTAW | UI_Time inside              | 🔲 Todo  |
+| 19  | KAOWNIEW | Micro_UI_Bar                | 🔲 Todo  |
+| 20  | KAOWNIEW | Micro_UI_Pointer            | 🔲 Todo  |
+| 21  | KAOWNIEW | Micro_UI_Target             | 🔲 Todo  |
+| 22  | KAOWNIEW | Micro_UI_camera             | 🔲 Todo  |
+| 23  |          |                             |          |
+| 24  |          |                             |          |
+| 25  |          |                             |          |
+| 26  |          |                             |          |
+| 27  |          |                             |          |
+| 28  |          |                             |          |
+| 29  |          |                             |          |
+| 30  |          |                             |          |
+| 31  |          |                             |          |
+| 32  |          |                             |          |
+| 33  |          |                             |          |
+| 34  |          |                             |          |
+| 35  |          |                             |          |
+| 36  |          |                             |          |
+| 37  |          |                             |          |
+| 38  |          |                             |          |
+| 39  |          |                             |          |
+| --- |   ---   | ---                         |          |
+|     |          |                             |          |
 
 ## Daily Notes
 
