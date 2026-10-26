@@ -1,0 +1,50 @@
+﻿{
+  "chapter": 6,
+  "dialogues": [
+    {
+      "character": "",
+      "text": "คุณเจอบันทึกของ Drei",
+      "voiceline": "none"
+    },
+    {
+      "character": "Drei",
+      "text": "ถ้าคุณได้อ่านบันทึกนี้ผมคงเป็นคนที่ 3 ",
+      "voiceline": "none"
+    },
+    {
+      "character": "Drei",
+      "text": "รู้มั้ยทำไมผมถึงกล้าบอกว่าตัวเองเป็นคนที่ 3",
+      "voiceline": "none"
+    },
+    {
+      "character": "Drei",
+      "text": "เพราะว่าไอ่หยาบคายนั้นมันจับคนชื่อเรียงกันตั้งแต่ Eins Zwei และก็ Drei ก็คือผม",
+      "voiceline": "none"
+    },
+    {
+      "character": "Drei",
+      "text": "ไม่รู้ว่ามันบังเอิญหรือว่ารสนิยมของมันโรคจิตกันแน่",
+      "voiceline": "none"
+    },
+    {
+      "character": "Drei",
+      "text": "ชื่อของแต่ละคนคือ 1 2 3 ในภาษาเยอรมัน ถ้าให้เดาคุณอาจจะเป็น vier ไม่ก็ funf ",
+      "voiceline": "none"
+    },
+    {
+      "character": "Drei",
+      "text": "ไม่มีหลักฐานใดบอกว่าคนก่อนหน้ารอดไปได้",
+      "voiceline": "none"
+    },
+    {
+      "character": "Drei",
+      "text": "ผมหวังว่าบันทึกนี่จะช่วยคุณได้นะ และผมจะรอดไปให้ได้",
+      "voiceline": "none"
+    },
+    {
+      "character": "Drei",
+      "text": "- Drei 01/09/2077",
+      "voiceline": "none"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
@@ -14,8 +14,8 @@ namespace Project_The_Elect.source_code
     public class GameTextManager
     {
         public SpriteFont MainFont { get; private set; }
-        //public SpriteFont DialogueFont { get; private set; }
-        //public SpriteFont ProfileFont { get; private set; }
+        //public BitmapFont DialogueFont { get; private set; }
+        //public BitmapFont ProfileFont { get; private set; }
 
         private SpriteBatch _spriteBatch;
 
@@ -41,7 +41,7 @@ namespace Project_The_Elect.source_code
         {
             _spriteBatch = spriteBatch;
             //ProfileFont = content.Load<SpriteFont>("font/zh-cn");
-            //DialogueFont = content.Load<SpriteFont>("font/IBMPlexSansThaiLooped-SemiBold");
+            //DialogueFont = content.Load<BitmapFont>("font/fontGenshin");
 
             DialogueFont = content.Load<BitmapFont>("font/fontGenshin");
             ProfileFont = DialogueFont;

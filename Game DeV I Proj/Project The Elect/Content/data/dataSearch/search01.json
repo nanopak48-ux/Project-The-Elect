@@ -3,7 +3,47 @@
   "dialogues": [
     {
       "character": "",
-      "text": "โต๊ะป่าวๆไม่มีอะไร",
+      "text": "คุณเจอบันทึกของ Zwei",
+      "voiceline": "none"
+    },
+    {
+      "character": "Zwei",
+      "text": "ฉันอยู่ที่ไหน? นั้นคงเป็นคำถามแรกของพวกนายสินะ",
+      "voiceline": "none"
+    },
+    {
+      "character": "Zwei",
+      "text": "ฉันเองก็อยากรู้เหมือนกัน ",
+      "voiceline": "none"
+    },
+    {
+      "character": "Zwei",
+      "text": "เหมือนว่าฉันจะไม่ได้เขามาคนแรกนะ ที่นี่่ใหญ่เกินกว่าที่จะอยู่คนเดียว",
+      "voiceline": "none"
+    },
+    {
+      "character": "Zwei",
+      "text": "และเหมือนรอบๆจะมีบันทึกของคนก่อนหน้าเขียนไว้อยู่",
+      "voiceline": "none"
+    },
+    {
+      "character": "Zwei",
+      "text": "ฉันไม่รู้ว่าพวกเขาออกไปได้จริงตามที่ไอ่โรคจิตนั้นบอกจริงรึป่าว",
+      "voiceline": "none"
+    },
+    {
+      "character": "Zwei",
+      "text": "แต่ฉันหวังว่านายจะไม่สติแตกเหมือน Eins นะ",
+      "voiceline": "none"
+    },
+    {
+      "character": "Zwei",
+      "text": "หวังให้พวกนายออกไปได้แบบปลอดภัยนะ และก็ตัวฉันด้วย",
+      "voiceline": "none"
+    },
+    {
+      "character": "Zwei",
+      "text": "- Zwei 01/06/2077",
       "voiceline": "none"
     }
   ]

@@ -30,6 +30,7 @@ namespace Project_The_Elect.source_code
 
         private int screenWidth = GameConfig.ScreenWidth;
         private int screenHeight = GameConfig.ScreenHeight;
+        private KeyboardState _previousKeyboardState;
 
 
         public StateHome
@@ -46,6 +47,11 @@ namespace Project_The_Elect.source_code
             this._spriteBatch = _spritebatch;
             this._content = _content;
             this._audio = _audio;
+            _previousKeyboardState = Keyboard.GetState();
+
+            // A state can be drawn immediately after it is installed, before Update runs.
+            LoadContent();
+            IsLoadedContent = true;
         }
 
         public void LoadContent()
@@ -76,11 +82,17 @@ namespace Project_The_Elect.source_code
 
         public void InputHandler(GameTime gameTime)
         {
-            if(Keyboard.GetState().IsKeyDown(Keys.Enter))
-            {  
+            KeyboardState currentKeyboardState = Keyboard.GetState();
+            bool enterPressed = currentKeyboardState.IsKeyDown(Keys.Enter)
+                && _previousKeyboardState.IsKeyUp(Keys.Enter);
+
+            if (enterPressed)
+            {
                 _audio.PlaySFX("speacbar");
                 _gameFlow.ChangeFlow(GameFlow.Chapter01);
             }
+
+            _previousKeyboardState = currentKeyboardState;
         }
 
         public void AudioHandler(GameTime gameTime)

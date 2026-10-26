@@ -1,0 +1,20 @@
+﻿{
+  "chapter": 30,
+  "dialogues": [
+    {
+      "character": "Unknown",
+      "text": "ฝันดีนะเจ้าทึ่ม ถึงฉันอาจจะพูดไม่ดีไปบ้างแต่ก็หวังดีตลอดนะ",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "เอาหล่ะรีบนอนเถอะแล้วพรุ้งนี้แกก็จะได้อิสรภาพที่แกอยากได้คืน",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "โชคดีนะ",
+      "voiceline": "none"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -24,7 +24,7 @@ namespace Project_The_Elect.source_code
 
         public RectangleF HitBox { get; private set; }
 
-        public float Speed = 800f;
+        public float Speed = 300f;
         public int Health = 100;
 
         public PlayerState State { get; private set; }
@@ -32,6 +32,7 @@ namespace Project_The_Elect.source_code
         public Direction Facing { get; private set; } = Direction.Down;
 
         public bool InteractPressed { get; private set; }
+        public bool IsMoving { get; private set; }
 
         private KeyboardState previousKeyboard;
         private readonly SpriteBatch spriteBatch;
@@ -53,7 +54,11 @@ namespace Project_The_Elect.source_code
             UpdateHitBox();
         }
 
-        public void Freeze() => State = PlayerState.Busy;
+        public void Freeze()
+        {
+            State = PlayerState.Busy;
+            IsMoving = false;
+        }
         public void Unfreeze() => State = PlayerState.Ready;
 
         public void Update(GameTime gameTime, List<RectangleF> walls)
@@ -68,7 +73,9 @@ namespace Project_The_Elect.source_code
                 ? ReadMovementInput(keyboard)
                 : Vector2.Zero;
 
+            Vector2 previousPosition = Position;
             Move(direction, gameTime, walls);
+            IsMoving = Position != previousPosition;
             UpdateState(direction);
             UpdateAnimation(gameTime);
 
@@ -78,6 +85,7 @@ namespace Project_The_Elect.source_code
         public void UpdateWithoutMovement(GameTime gameTime)
         {
             InteractPressed = false;
+            IsMoving = false;
             UpdateState(Vector2.Zero);
             UpdateAnimation(gameTime);
             previousKeyboard = Keyboard.GetState();

@@ -49,6 +49,16 @@ namespace Project_The_Elect.source_code
         private const float SleepBlackoutDuration = 2f;
         private const float MinigameResultDialogueDelay = 1f;
         private const float MinigameStartDelay = 1f;
+        private const float FootstepInterval = 0.45f;
+        private float _footstepCooldown;
+        private const int DarknessMaskWidth = 320;
+        private const int DarknessMaskHeight = 180;
+        private const float DarknessLightRadius = 160f;
+        private const float DarknessFalloff = 360f;
+        private const float DarknessAtPlayer = 0.10f;
+        private const float DarknessAtEdges = 0.35f;
+        private readonly Color[] _darknessMaskPixels = new Color[DarknessMaskWidth * DarknessMaskHeight];
+        private Texture2D _darknessMask;
         private bool _isBlackout;
         private float _blackoutRemaining;
         private Action _afterBlackout;
@@ -60,6 +70,7 @@ namespace Project_The_Elect.source_code
         private bool _questDialogueTriggered;
         private bool _lensInstructionsShown;
         private bool _lensPraiseShown;
+        private bool _secondMonsterBriefingShown;
         private string _activeMachineName;
         public StatePlay
             (
@@ -123,6 +134,7 @@ namespace Project_The_Elect.source_code
                 GameConfig.ScreenHeight);
             _searchDialogue.DialogueEnded += OnSearchDialogueEnded;
             _endingFont = _content.Load<BitmapFont>("font/fontGenshin");
+            _darknessMask = new Texture2D(_graphicDevice, DarknessMaskWidth, DarknessMaskHeight);
         }
 
         public Vector2 currentCenter;
@@ -188,7 +200,7 @@ namespace Project_The_Elect.source_code
             }
 
             _map.Update(gameTime);
-            _interactManager?.Update(_player);
+            _interactManager?.Update(_player, IsInteractableAvailable);
 
             List<RectangleF> walls = _map.GetWallCollisions();
             if (_questProgress.HasDialogueMessage)
@@ -224,7 +236,7 @@ namespace Project_The_Elect.source_code
         public void UpdateWhileOverlay(GameTime gameTime)
         {
             _map.Update(gameTime);
-            _interactManager?.Update(_player);
+            _interactManager?.Update(_player, IsInteractableAvailable);
             _player.UpdateWithoutMovement(gameTime);
 
             Vector2 lookAtPos = _player.Position;
@@ -234,10 +246,18 @@ namespace Project_The_Elect.source_code
 
         public void InputHandler(GameTime gameTime)
         {
-            if (_endingText != null)
-                return;
-
             KeyboardExtended.Update();
+
+            if (_endingText != null)
+            {
+                if (KeyboardExtended.GetState().WasKeyPressed(Keys.Enter))
+                {
+                    _audio.PlaySFX("speacbar");
+                    _gameFlow.ChangeFlow(GameFlow.Home);
+                }
+
+                return;
+            }
 
             if (_isBlackout || _pendingMinigameDialogueChapter != 0 || _pendingMinigame != null)
                 return;
@@ -280,6 +300,23 @@ namespace Project_The_Elect.source_code
                     0f,
                     Vector2.Zero,
                     endingScale,
+                    SpriteEffects.None,
+                    0f);
+
+                const string returnPrompt = "Press [ENTER] to return to Main Menu";
+                const float promptScale = 0.75f;
+                var promptSize = _endingFont.MeasureString(returnPrompt);
+                Vector2 promptPosition = new Vector2(
+                    (GameConfig.ScreenWidth - promptSize.Width * promptScale) / 2f,
+                    textPosition.Y + textSize.Height * endingScale + 40f);
+                _spriteBatch.DrawString(
+                    _endingFont,
+                    returnPrompt,
+                    promptPosition,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    promptScale,
                     SpriteEffects.None,
                     0f);
                 _spriteBatch.End();
@@ -329,6 +366,64 @@ namespace Project_The_Elect.source_code
             // 2. วาดตัวละคร
             _player.Draw();
 
+            if (_interactManager?.CurrentNearbyObject != null
+                && !_minigame.IsPlaying
+                && _searchDialogue?.IsActive != true
+                && !_questProgress.HasDialogueMessage
+                && !_isBlackout)
+            {
+                const string interactPrompt = "Press [E]";
+                const float promptScale = 0.4f;
+                var promptSize = _endingFont.MeasureString(interactPrompt);
+                const float promptGap = -5f;
+                Vector2 promptPosition;
+
+                switch (_player.Facing)
+                {
+                    case Player.Direction.Up:
+                        promptPosition = new Vector2(
+                            _player.Position.X - promptSize.Width * promptScale / 2f + 20,
+                            _player.Position.Y + _player.Size.Y / 2f + promptGap);
+                        break;
+                    case Player.Direction.Down:
+                        promptPosition = new Vector2(
+                            _player.Position.X - promptSize.Width * promptScale / 2f + 20,
+                            _player.Position.Y + _player.Size.Y / 2f + promptGap);
+                        break;
+                    case Player.Direction.Left:
+                        promptPosition = new Vector2(
+                            _player.Position.X - _player.Size.X / 2f + promptGap,
+                            _player.Position.Y - promptSize.Height * promptScale / 2f + 40);
+                        break;
+                    default: // Player.Direction.Right
+                        promptPosition = new Vector2(
+                            _player.Position.X + _player.Size.X / 2f + promptGap,
+                            _player.Position.Y - promptSize.Height * promptScale / 2f + 40);
+                        break;
+                }
+
+                _spriteBatch.DrawString(
+                    _endingFont,
+                    interactPrompt,
+                    promptPosition + new Vector2(2f, 2f),
+                    Color.Black,
+                    0f,
+                    Vector2.Zero,
+                    promptScale,
+                    SpriteEffects.None,
+                    0f);
+                _spriteBatch.DrawString(
+                    _endingFont,
+                    interactPrompt,
+                    promptPosition,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    promptScale,
+                    SpriteEffects.None,
+                    0f);
+            }
+
             // --------------------------------------------------
             // 3. วาด Debug Collision (เห็นกรอบสีแดงของแมพ และกรอบสีเขียวของตัวละคร)
             _map.DrawDebug(_spriteBatch);
@@ -338,6 +433,11 @@ namespace Project_The_Elect.source_code
 
             _spriteBatch.End();
 
+            if (!_minigame.IsPlaying && _searchDialogue?.IsActive != true)
+            {
+                DrawPlayerDarkness(transformMatrix);
+            }
+
             _spriteBatch.Begin();
             if (!_minigame.IsPlaying && _searchDialogue?.IsActive != true)
                 _questProgress.Draw(_spriteBatch);
@@ -346,9 +446,60 @@ namespace Project_The_Elect.source_code
             _spriteBatch.End();
         }
 
+        private void DrawPlayerDarkness(Matrix transformMatrix)
+        {
+            Vector2 playerScreenPosition = Vector2.Transform(_player.Position, transformMatrix);
+
+            for (int y = 0; y < DarknessMaskHeight; y++)
+            {
+                float screenY = (y + 0.5f) * GameConfig.ScreenHeight / DarknessMaskHeight;
+                for (int x = 0; x < DarknessMaskWidth; x++)
+                {
+                    float screenX = (x + 0.5f) * GameConfig.ScreenWidth / DarknessMaskWidth;
+                    float distance = Vector2.Distance(
+                        new Vector2(screenX, screenY),
+                        playerScreenPosition);
+
+                    float blend = MathHelper.Clamp(
+                        (distance - DarknessLightRadius) / DarknessFalloff,
+                        0f,
+                        1f);
+                    blend = blend * blend * (3f - 2f * blend);
+
+                    float darkness = MathHelper.Lerp(DarknessAtPlayer, DarknessAtEdges, blend);
+                    byte alpha = (byte)(darkness * 255f);
+                    _darknessMaskPixels[y * DarknessMaskWidth + x] = new Color((byte)0, (byte)0, (byte)0, alpha);
+                }
+            }
+
+            _darknessMask.SetData(_darknessMaskPixels);
+            _spriteBatch.Begin(samplerState: SamplerState.LinearClamp);
+            _spriteBatch.Draw(
+                _darknessMask,
+                new Rectangle(0, 0, GameConfig.ScreenWidth, GameConfig.ScreenHeight),
+                Color.White);
+            _spriteBatch.End();
+        }
+
         public void AudioHandler(GameTime gameTime)
         {
-            _player.Audio(gameTime);
+            if (_player == null || _endingText != null || !_player.IsMoving)
+            {
+                _footstepCooldown = 0f;
+                return;
+            }
+
+            _footstepCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (_footstepCooldown > 0f)
+                return;
+
+            _footstepCooldown = FootstepInterval;
+            Vector2 footPosition = new Vector2(
+                _player.HitBox.X + _player.HitBox.Width / 2f,
+                _player.HitBox.Y + _player.HitBox.Height / 2f);
+            string footstepSfx = _map.GetFootstepSurface(footPosition);
+            if (footstepSfx != null)
+                _audio.PlayRandomFootstepSFX(footstepSfx);
         }
         /*private void InputHandlerMinigame()
         {
@@ -412,6 +563,14 @@ namespace Project_The_Elect.source_code
                         return;
                     }
 
+                    if (_questProgress.IsSanityDepleted
+                        && _questProgress.DataSubmitted
+                        && objectName != "Bed")
+                    {
+                        _gameFlow.ShowQuestWarningDialogue(20);
+                        return;
+                    }
+
                     if (_questProgress.IsStarted
                         && !_questProgress.HasFlashDrive
                         && IsQuestWorkObject(objectName))
@@ -432,7 +591,11 @@ namespace Project_The_Elect.source_code
                             break;
 
                         case "Bed":
-                            if (_questProgress.DataSubmitted && !_questProgress.IsSanityDepleted)
+                            if (_questProgress.DataSubmitted && _questProgress.MonsterIndex >= 2)
+                            {
+                                _gameFlow.ShowQuestWarningDialogue(30, BeginSleepTransition);
+                            }
+                            else if (_questProgress.DataSubmitted && !_questProgress.IsSanityDepleted)
                             {
                                 _gameFlow.ShowQuestWarningDialogue(10, BeginSleepTransition);
                             }
@@ -466,7 +629,7 @@ namespace Project_The_Elect.source_code
                             {
                                 _audio.PlaySFX("error_task");
                                 BeginBlackout(MeatCutBlackoutDuration,
-                                    () => _gameFlow.ShowQuestWarningDialogue(15));
+                                    () => _gameFlow.ShowQuestWarningDialogue(_questProgress.MonsterIndex >= 2 ? 24 : 15));
                             }
                             break;
 
@@ -480,7 +643,7 @@ namespace Project_The_Elect.source_code
                             }
                             else
                             {
-                                _gameFlow.ShowQuestWarningDialogue(11);
+                                _gameFlow.ShowQuestWarningDialogue(_questProgress.MonsterIndex >= 2 ? 29 : 11);
                             }
                             break;
 
@@ -515,8 +678,26 @@ namespace Project_The_Elect.source_code
 
             try
             {
-                // Both search object types intentionally use the same dialogue file for now.
-                _searchDialogue.Start("Content/data/dataSearch/search01.json");
+                int searchIndex;
+                if (searchObject.Name == "SearchEmpty_Desk01")
+                {
+                    searchIndex = 9;
+                }
+                else if (searchObject.Name.StartsWith("SearchEvidence_Diary", StringComparison.Ordinal)
+                    && int.TryParse(searchObject.Name.Substring("SearchEvidence_Diary".Length), out int evidenceNumber)
+                    && evidenceNumber >= 1
+                    && evidenceNumber <= 8)
+                {
+                    searchIndex = evidenceNumber;
+                }
+                else
+                {
+                    throw new InvalidOperationException(
+                        $"No Search dialogue is mapped for object '{searchObject.Name}'.");
+                }
+
+                string searchFile = $"Content/data/dataSearch/search{searchIndex:00}.json";
+                _searchDialogue.Start(searchFile);
                 _questProgress.SpendSearchSanity(10);
             }
             catch (Exception exception)
@@ -555,6 +736,11 @@ namespace Project_The_Elect.source_code
                 {
                     if (isFinalMonsterSleep)
                         ShowEnding();
+                    else if (_questProgress.MonsterIndex >= 2 && !_secondMonsterBriefingShown)
+                    {
+                        _secondMonsterBriefingShown = true;
+                        _gameFlow.ShowQuestWarningDialogue(21);
+                    }
                     else
                         _questProgress.ShowNotice($"ตื่นแล้ว: Day {_questProgress.Day} และเริ่มภารกิจใหม่");
                 }
@@ -616,6 +802,16 @@ namespace Project_The_Elect.source_code
                 || objectName == "DataSubmissionPoint";
         }
 
+        private bool IsInteractableAvailable(InteractableObject mapObject)
+        {
+            if (mapObject.Name == "FlashDrive")
+                return !_questProgress.HasFlashDrive;
+
+            if (mapObject.Name == "ScissorsItem")
+                return !_questProgress.HasScissors;
+
+            return true;
+        }
         private void TryStartMachine(string machineName)
         {
             if (_questProgress.IsSanityDepleted && !_questProgress.DataSubmitted)
@@ -674,6 +870,12 @@ namespace Project_The_Elect.source_code
             if (minigame == null)
                 return;
 
+            if (machineName == "LensMachine" && _questProgress.MonsterIndex >= 2)
+            {
+                _gameFlow.ShowQuestWarningDialogue(22, () => ScheduleMinigameStart(machineName, minigame));
+                return;
+            }
+
             if (machineName == "LensMachine" && !_lensInstructionsShown)
             {
                 _lensInstructionsShown = true;
@@ -683,13 +885,15 @@ namespace Project_The_Elect.source_code
 
             if (machineName == "ScanMachine")
             {
-                _gameFlow.ShowQuestWarningDialogue(16, () => ScheduleMinigameStart(machineName, minigame));
+                int chapter = _questProgress.MonsterIndex >= 2 ? 25 : 16;
+                _gameFlow.ShowQuestWarningDialogue(chapter, () => ScheduleMinigameStart(machineName, minigame));
                 return;
             }
 
             if (machineName == "KeypadMachine")
             {
-                _gameFlow.ShowQuestWarningDialogue(17, () => ScheduleMinigameStart(machineName, minigame));
+                int chapter = _questProgress.MonsterIndex >= 2 ? 27 : 17;
+                _gameFlow.ShowQuestWarningDialogue(chapter, () => ScheduleMinigameStart(machineName, minigame));
                 return;
             }
 
@@ -719,14 +923,25 @@ namespace Project_The_Elect.source_code
             {
                 _questProgress.CompleteMachine(_activeMachineName);
 
-                if (_activeMachineName == "LensMachine" && !_lensPraiseShown)
+                if (_activeMachineName == "LensMachine" && _questProgress.MonsterIndex >= 2)
+                {
+                    ScheduleMinigameDialogue(23);
+                }
+                else if (_activeMachineName == "LensMachine" && !_lensPraiseShown)
                 {
                     _lensPraiseShown = true;
                     ScheduleMinigameDialogue(14);
                 }
                 else if (_activeMachineName == "ScanMachine" || _activeMachineName == "KeypadMachine")
                 {
-                    ScheduleMinigameDialogue(18);
+                    if (_questProgress.MonsterIndex >= 2)
+                    {
+                        ScheduleMinigameDialogue(_activeMachineName == "ScanMachine" ? 26 : 28);
+                    }
+                    else
+                    {
+                        ScheduleMinigameDialogue(18);
+                    }
                 }
             }
 

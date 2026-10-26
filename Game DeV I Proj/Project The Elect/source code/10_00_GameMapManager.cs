@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
@@ -69,6 +69,37 @@ namespace Project_The_Elect.source_code
         public bool HasLayer(string layerName)
         {
             return _tilemap != null && _tilemap.Layers.Any(layer => layer.Name == layerName);
+        }
+
+        public string GetFootstepSurface(Vector2 footPosition)
+        {
+            if (_tilemap == null)
+                return null;
+
+            TilemapTileLayer blackFloor = _tilemap.Layers.GetLayer<TilemapTileLayer>("floor_black");
+            if (HasTileAt(blackFloor, footPosition))
+                return "black";
+
+            TilemapTileLayer whiteFloor = _tilemap.Layers.GetLayer<TilemapTileLayer>("floor_white");
+            if (HasTileAt(whiteFloor, footPosition))
+                return "white";
+
+            return null;
+        }
+
+        private static bool HasTileAt(TilemapTileLayer layer, Vector2 worldPosition)
+        {
+            if (layer == null || layer.TileWidth <= 0 || layer.TileHeight <= 0)
+                return false;
+
+            int tileX = (int)Math.Floor(worldPosition.X / layer.TileWidth);
+            int tileY = (int)Math.Floor(worldPosition.Y / layer.TileHeight);
+
+            return tileX >= 0
+                && tileX < layer.Width
+                && tileY >= 0
+                && tileY < layer.Height
+                && layer.GetTile(tileX, tileY).HasValue;
         }
         //===========================================================//
         public void DrawDebug(SpriteBatch spriteBatch)

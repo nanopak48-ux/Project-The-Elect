@@ -1,0 +1,50 @@
+﻿{
+  "chapter": 2,
+  "dialogues": [
+    {
+      "character": "",
+      "text": "คุณเจอบันทึกของ Eins",
+      "voiceline": "none"
+    },
+    {
+      "character": "Eins",
+      "text": "ช่วยด้วย! ใครก็ได้ช่วยด้วย! นี่มันที่ไหนกัน!",
+      "voiceline": "none"
+    },
+    {
+      "character": "Eins",
+      "text": "บ้าเอ๋ย ฉันทำอะไรผิดพลาดกัน ไหนบอกว่าจะปล่อยฉันไป!",
+      "voiceline": "none"
+    },
+    {
+      "character": "Eins",
+      "text": "แล้วแม่ฉันหล่ะ ไหนแกบอกจะยกหนี้ให้แล้วปล่อยฉันไปไง",
+      "voiceline": "none"
+    },
+    {
+      "character": "Eins",
+      "text": "บ้าเอ๋ย แกทำแบบนี้กับฉันทำไม!",
+      "voiceline": "none"
+    },
+    {
+      "character": "Eins",
+      "text": "ทำไม! ทำไม! ทำไม! ทำไม! ทำไม! ทำไม!",
+      "voiceline": "none"
+    },
+    {
+      "character": "Eins",
+      "text": "ปล่อยฉันไป! ปล่อยฉันไป! ปล่อยฉันไป!",
+      "voiceline": "none"
+    },
+    {
+      "character": "Eins",
+      "text": "ฉันหวังว่าจะมีใครสักคนที่ได้อ่านบันทึกนี้ แล้วช่วยฉันที ได้โปรด",
+      "voiceline": "none"
+    },
+    {
+      "character": "Eins",
+      "text": "- Eins 01/03/2077",
+      "voiceline": "none"
+    }
+  ]
+}

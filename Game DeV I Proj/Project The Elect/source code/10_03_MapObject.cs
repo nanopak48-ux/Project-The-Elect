@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -108,7 +108,7 @@ namespace Project_The_Elect.source_code
         }
 
         /// <summary>เรียกหลัง Player.Update ในแต่ละเฟรม เพื่อใช้ HitBox ล่าสุด</summary>
-        public void Update(Player player)
+        public void Update(Player player, Func<InteractableObject, bool> isAvailable = null)
         {
             CurrentNearbyObject = null;
 
@@ -117,6 +117,7 @@ namespace Project_The_Elect.source_code
 
             foreach (var obj in InteractObjects)
             {
+                if (isAvailable != null && !isAvailable(obj)) continue;
                 if (!playerBox.Intersects(obj.TriggerZone)) continue;
 
                 float distance = Vector2.DistanceSquared(player.Position, obj.Center);

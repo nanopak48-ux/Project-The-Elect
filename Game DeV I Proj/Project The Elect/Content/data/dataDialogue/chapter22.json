@@ -1,0 +1,20 @@
+﻿{
+  "chapter": 22,
+  "dialogues": [
+    {
+      "character": "Unknown",
+      "text": "เอาหล่ะงานแรก ทำเหมือนที่แกทำเมื่อวาน",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "ทำการควบคุมเครื่องแสกนสิ่งมีชีวิต ",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "กดปุ่ม spacebar ค้างไว้เพื่อเป็นการประครองจุดไว้จนกว่าเครื่องจะทำงานเสร็จ",
+      "voiceline": "none"
+    }
+  ]
+}

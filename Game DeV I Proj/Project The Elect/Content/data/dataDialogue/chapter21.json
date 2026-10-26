@@ -1,0 +1,60 @@
+﻿{
+  "chapter": 21,
+  "dialogues": [
+    {
+      "character": "Unknown",
+      "text": "เป็นไงบ้างหลับสบายดีรึป่าว",
+      "voiceline": "none"
+    },
+    {
+      "character": "Vier",
+      "text": "หลับสนิทจนน่าแปลกใจเลยหล่ะ",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "แน่นอนสิก็เตียงมันนุ่มยังไงหล่ะเจ้าทึ่ม",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "เอาหล่ะๆ ไปทำงานได้แล้ว",
+      "voiceline": "none"
+    },
+    {
+      "character": "Vier",
+      "text": "อึก.. ฉันต้องไปเจอกับเจ้าสัตว์ประหลาดนั้นอีกแล้วหรอ",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "ทำไปเถอะไอ่โง่ ถ้าอยากออกไปจากที่นี่",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "นี่เป็นตัวสุดท้ายแล้วที่แกจะต้องวิจัย แล้วแกก็จะได้อิสรภาพคืน",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "รีบๆไปทำได้แล้ว!",
+      "voiceline": "none"
+    },
+    {
+      "character": "Vier",
+      "text": "แล้วฉันจะเชื่อได้ไงว่าแกจะปล่อยฉันไป",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "เลิกบ่นสักทีเถอะน่าฉันขอสาบานต่อเพื่อนมนุษญ์ด้วยกันเองเลย",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "ไปที่ห้องสแกนได้แล้ว! อย่าลืมแฟรชไดรฟ์หล่ะ",
+      "voiceline": "none"
+    }
+  ]
+}

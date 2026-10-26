@@ -1,0 +1,20 @@
+﻿{
+  "chapter": 24,
+  "dialogues": [
+    {
+      "character": "Vier",
+      "text": "บ้าเอ๋ย! ฉันเกลียดงานนี้",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "อย่ามาทำตัวสำออยไปหน่อยเลยไอ่บ้า",
+      "voiceline": "none"
+    },
+    {
+      "character": "Unknown",
+      "text": "ไปทำงานต่อไปใน MICROSCOPE LAB และ CHEMISTRY LAB ได้แล้ว",
+      "voiceline": "none"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+﻿{
+  "chapter": 5,
+  "dialogues": [
+    {
+      "character": "",
+      "text": "คุณเจอบันทึกของ Zwei",
+      "voiceline": "none"
+    },
+    {
+      "character": "Zwei",
+      "text": "มันหลอกฉัน ไหนบอกว่าถ้าเสร็จงานแล้วจะปล่อยฉันไปไง",
+      "voiceline": "none"
+    },
+    {
+      "character": "Zwei",
+      "text": "ฉันเอี่ยนกับไอ่สัตว์ประหลาดบ้านี้แล้ว",
+      "voiceline": "none"
+    },
+    {
+      "character": "Zwei",
+      "text": "ฉันว่ามันเริ่มแปลกๆแล้ว ฉันเริ่มประครองสติค่อยไม่อยู่ เริ่มหงุดหงิดง่ายขึ้น",
+      "voiceline": "none"
+    },
+    {
+      "character": "Zwei",
+      "text": "หรือเหตุผลที่บันทึกของ Eins เขียบแบบเหมือนคนคลั่งเพราะอยู่ที่นี่นานหรอ",
+      "voiceline": "none"
+    },
+    {
+      "character": "Zwei",
+      "text": "บ้าเอ๋ย! บ้าเอ๋ย! บ้าเอ๋ย!",
+      "voiceline": "none"
+    },
+    {
+      "character": "Zwei",
+      "text": "ทำไมมันถึงกลายเป็นแบบนี้ ไม่เอานะ ช่วยฉันด้วย",
+      "voiceline": "none"
+    },
+    {
+      "character": "Zwei",
+      "text": "ช่วยฉันด้วย! ช่วยฉันด้วย! ช่วยฉันด้วย!",
+      "voiceline": "none"
+    },
+    {
+      "character": "Zwei",
+      "text": "- Zwei 03/06/2077",
+      "voiceline": "none"
+    }
+  ]
+}

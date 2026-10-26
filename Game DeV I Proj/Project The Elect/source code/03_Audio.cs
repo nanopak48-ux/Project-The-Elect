@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
@@ -19,8 +19,10 @@ namespace Project_The_Elect.source_code
 {
     public class GameAudioManager
     {
-        private float volume_bgm = 0.2f;
-        private float volume_sfx = 0.8f;
+        private float volume_bgm = 0.8f;
+        private float volume_sfx = 0.5f;
+        private const float FootstepBlackVolumeScale = 0.35f;
+        private const float FootstepWhiteVolumeScale = 1f;
         private float volume_vc = 1f;
         private float volume_fadeStep;
         private float volume_fadeDuration = 2f;
@@ -35,7 +37,15 @@ namespace Project_The_Elect.source_code
             "scan_collision",
             "error_task",
             "speacbar",
-            "skipdia"
+            "skipdia",
+            "walkblack1",
+            "walkblack2",
+            "walkblack3",
+            "walkblack4",
+            "walkwhite1",
+            "walkwhite2",
+            "walkwhite3",
+            "walkwhite4"
         };
         
         private string[] _bgmIndex = new string[]
@@ -56,6 +66,8 @@ namespace Project_The_Elect.source_code
         private string prefix;
 
         private bool _isvoicelinePlaying = false;
+        private readonly Random _footstepRandom = new Random();
+        private string _lastFootstepSfx;
 
         public void LoadContent(ContentManager content)
         {
@@ -144,6 +156,34 @@ namespace Project_The_Elect.source_code
                 SoundEffectInstance sfx = _SFX[index].CreateInstance();
                 sfx.Volume = volume_sfx;
                 sfx.Play();
+            }
+        }
+
+        public void PlayRandomFootstepSFX(string surface)
+        {
+            string[] variants = surface switch
+            {
+                "black" => new[] { "walkblack1", "walkblack2", "walkblack3", "walkblack4" },
+                "white" => new[] { "walkwhite1", "walkwhite2", "walkwhite3", "walkwhite4" },
+                _ => Array.Empty<string>()
+            };
+
+            if (variants.Length == 0)
+                return;
+
+            string sfxName;
+            do
+            {
+                sfxName = variants[_footstepRandom.Next(variants.Length)];
+            }
+            while (variants.Length > 1 && sfxName == _lastFootstepSfx);
+
+            int index = Array.IndexOf(_sfxIndex, sfxName);
+            if (index >= 0 && index < _SFX.Count)
+            {
+                float volumeScale = surface == "black" ? FootstepBlackVolumeScale : FootstepWhiteVolumeScale;
+                _SFX[index].Play(volume_sfx * volumeScale, 0f, 0f);
+                _lastFootstepSfx = sfxName;
             }
         }
 

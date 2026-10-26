@@ -16,6 +16,8 @@ namespace Project_The_Elect.source_code
     public class ChapterData
     {
         public int chapter { get; set; }
+        public string title { get; set; }
+        public string author { get; set; }
         public List<DialogueData> dialogues { get; set; }
     }
 

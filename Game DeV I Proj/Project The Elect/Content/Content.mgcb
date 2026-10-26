@@ -105,6 +105,62 @@
 /processorParam:Version=3.8.5.1
 /build:audio/02_sfx/sfx_08_skipdia.mp3
 
+#begin audio/02_sfx/sfx_09_walkblack1.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/02_sfx/sfx_09_walkblack1.mp3
+
+#begin audio/02_sfx/sfx_10_walkblack2.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/02_sfx/sfx_10_walkblack2.mp3
+
+#begin audio/02_sfx/sfx_11_walkblack3.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/02_sfx/sfx_11_walkblack3.mp3
+
+#begin audio/02_sfx/sfx_12_walkblack4.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/02_sfx/sfx_12_walkblack4.mp3
+
+#begin audio/02_sfx/sfx_13_walkwhite1.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/02_sfx/sfx_13_walkwhite1.mp3
+
+#begin audio/02_sfx/sfx_14_walkwhite2.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/02_sfx/sfx_14_walkwhite2.mp3
+
+#begin audio/02_sfx/sfx_15_walkwhite3.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/02_sfx/sfx_15_walkwhite3.mp3
+
+#begin audio/02_sfx/sfx_16_walkwhite4.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/processorParam:Version=3.8.5.1
+/build:audio/02_sfx/sfx_16_walkwhite4.mp3
+
 #begin audio/03_voiceline/dialogue/chap01_v01.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -243,6 +299,13 @@
 /processorParam:TextureFormat=Compressed
 /processorParam:Version=3.8.5.1
 /build:font/IBMPlexSansThaiLooped-SemiBold.ttf
+
+#begin font/IBMPlexSansThai.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:font/IBMPlexSansThai.spritefont
 
 #begin font/zh-cn.ttf
 /importer:FontImporter

@@ -1,0 +1,60 @@
+﻿{
+  "chapter": 4,
+  "dialogues": [
+     {
+       "character": "",
+       "text": "คุณเจอบันทึกของ Eins",
+       "voiceline": "none"
+     },
+     {
+      "character": "",
+      "text": "มันแปลกมาก ฉันกลัวจนข่มตานอนไม่หลับแล้วนี้มันอะไร",
+      "voiceline": "none"
+    },
+    {
+      "character": "Eins",
+      "text": "ฉันว่ามันแปลกมาก เป็นไปไม่ได้",
+      "voiceline": "none"
+    },
+    {
+      "character": "Eins",
+      "text": "เป็นไปไม่ได้! เป็นไปไม่ได้! เป็นไปไม่ได้!",
+      "voiceline": "none"
+    },
+    {
+      "character": "Eins",
+      "text": "ฉันไม่น่าที่จะหลับได้สิ แล้วทำไมหล่ะหรือเพราะไอ่ชิปที่ฝั่งนี้",
+      "voiceline": "none"
+    },
+    {
+      "character": "Eins",
+      "text": "!#@&$^%#!@#",
+      "voiceline": "none"
+    },
+    {
+      "character": "Eins",
+      "text": "ไม่! ไม่ใช่สิ ไม่! ไม่! ไม่!",
+      "voiceline": "none"
+    },
+    {
+      "character": "Eins",
+      "text": "ใช่แล้ว แก๊ส แก๊สไงหล่ะ ฉันได้กลิ่นมัน! ไอ่สิ่งที่ทำให้ฉันกลายเป็นแบบนี้เพราะแก๊สนั้นแน่เลย",
+      "voiceline": "none"
+    },
+    {
+      "character": "Eins",
+      "text": "ฮ่า ฮ่า ฮ่า ฉันรู้แล้วแกทำให้หลับเพราะจะต้องเขามาเปลี่ยนไอ่สัตว์ประหลาดบ้านั้นแน่ๆ",
+      "voiceline": "none"
+    },
+    {
+      "character": "Eins",
+      "text": "งั้นคืนนี้แหละ ฉันจะฆ่าแก! ฆ่าแก! ฆ่าแก! ฉันผปจะต้ฟองไเม่นอ%*#?",
+      "voiceline": "none"
+    },
+    {
+      "character": "Eins",
+      "text": "- Eins 02/03/2077",
+      "voiceline": "none"
+    }
+  ]
+}

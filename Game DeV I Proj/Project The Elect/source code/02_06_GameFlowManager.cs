@@ -6,7 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.IO;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Project_The_Elect
@@ -88,8 +90,14 @@ namespace Project_The_Elect
 
         public void ShowQuestWarningDialogue(int chapterIndex, Action afterDialogue = null)
         {
-            if (chapterIndex < 3 || chapterIndex > 19 || CurrentFlow != GameFlow.Play)
+            if (chapterIndex < 3 || chapterIndex > 30 || CurrentFlow != GameFlow.Play)
                 return;
+
+            if (!HasDialogueLines(chapterIndex))
+            {
+                afterDialogue?.Invoke();
+                return;
+            }
 
             _gameStateManager.StatePush(new StateDialogue(
                 chapterIndex,
@@ -104,6 +112,23 @@ namespace Project_The_Elect
                 afterReturn: afterDialogue));
         }
 
+        private static bool HasDialogueLines(int chapterIndex)
+        {
+            string chapterPath = chapterIndex < 10
+                ? $"Content/data/dataDialogue/chapter0{chapterIndex}.json"
+                : $"Content/data/dataDialogue/chapter{chapterIndex}.json";
+
+            try
+            {
+                ChapterData chapter = JsonSerializer.Deserialize<ChapterData>(File.ReadAllText(chapterPath));
+                return chapter?.dialogues != null && chapter.dialogues.Count > 0;
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine($"[Dialogue Warning] Skipped chapter {chapterIndex}: {exception.Message}");
+                return false;
+            }
+        }
         public void StartQuestAfterBriefing()
         {
             QuestProgress.Start();
@@ -132,6 +157,8 @@ namespace Project_The_Elect
                     StartHomeState();
                     break;
                 case GameFlow.Chapter01:
+                    QuestProgress.ResetForNewGame();
+                    _chapter02DialogueStarted = false;
                     CurrentFlow = nextFlow;
                     StartDialogue(1);
                     break;

@@ -44,6 +44,24 @@ namespace Project_The_Elect.source_code
             IsStarted = true;
         }
 
+        public void ResetForNewGame()
+        {
+            Sanity = MaxSanity;
+            Day = 1;
+            MonsterIndex = 1;
+            IsStarted = false;
+            LensComplete = false;
+            HasFlashDrive = false;
+            HasScissors = false;
+            MeatCollected = false;
+            ScanComplete = false;
+            KeypadComplete = false;
+            DataSubmitted = false;
+            Notice = null;
+            DialogueMessage = null;
+            _noticeTime = 0f;
+        }
+
         public void SpendSanity(int amount)
         {
             if (amount <= 0 || DataSubmitted)

@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.BitmapFonts;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.IO;
 using System.Text.Json;
@@ -10,7 +10,7 @@ using System.Text.Json;
 namespace Project_The_Elect.source_code
 {
     /// <summary>
-    /// Displays search dialogue without a character portrait or character name.
+    /// Displays search dialogue without a character portrait, with optional speaker names.
     /// The owning game state starts this when the player interacts with a search point.
     /// </summary>
     public class SearchDialogueManager
@@ -31,7 +31,9 @@ namespace Project_The_Elect.source_code
 
         private const double CharacterIntervalSeconds = 0.02;
         private const float DialogueScale = 1.2f;
+        private const float CharacterScale = 2.0f;
         private static readonly Vector2 DialoguePosition = new Vector2(230f, 820f);
+        private static readonly Vector2 CharacterPosition = new Vector2(230f, 730f);
 
         public bool IsActive { get; private set; }
 
@@ -143,6 +145,20 @@ namespace Project_The_Elect.source_code
             DialogueData current = CurrentDialogue;
             if (current == null)
                 return;
+
+            if (!string.IsNullOrWhiteSpace(current.character))
+            {
+                _spriteBatch.DrawString(
+                    _dialogueFont,
+                    current.character.ToUpperInvariant(),
+                    CharacterPosition,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    CharacterScale,
+                    SpriteEffects.None,
+                    0f);
+            }
 
             string visibleText = current.text.Substring(0, _visibleCharacterCount);
             _spriteBatch.DrawString(

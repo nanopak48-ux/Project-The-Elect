@@ -2,13 +2,18 @@
   "chapter": 15,
   "dialogues": [
     {
+      "character": "Vier",
+      "text": "แหวะ.... น่าหยะแหยงชะมัด",
+      "voiceline": "none"
+    },
+    {
       "character": "Unknown",
       "text": "แหม่ๆ ถือว่ามีความอดทนนะเนี้ย",
       "voiceline": "none"
     },
     {
       "character": "Unknown",
-      "text": "เอาหล่ะ ตอนนี้แกมีชิ้นเนื้อแล้วเอาไปตรวจใน MICROSCOPE LAB และ CHEMISTRY LAB",
+      "text": "เอาหล่ะ ตอนนี้แกมีชิ้นเนื้อแล้วเอาไปตรวจใน MICROSCOPE LAB และ CHEMISTRY LAB ซ่ะ",
       "voiceline": "none"
     }
   ]
