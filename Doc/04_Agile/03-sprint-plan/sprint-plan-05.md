@@ -54,9 +54,9 @@
 | --- | :------: | -------------------- | -------------- |
 | 1   | LOOKTAW | UI_Time bar          | 🔲 Todo        |
 | 2   | LOOKTAW | UI_Time inside       | 🔲 Todo        |
-| 3   | LOOKTAW | Animation scan       | 🔄IN PROGRESS  |
+| 3   | LOOKTAW | Animation scan       | ✅ Done        |
 | 4   | LOOKTAW | Animation scan pass  | 🔄IN PROGRESS  |
-| 5   | LOOKTAW | Animation scan fail  | 🔲 Todo        |
+| 5   | LOOKTAW | Animation scan fail  | 🔄IN PROGRESS  |
 | 6   | LOOKTAW | Micro_UI_Bar         | 🔲 Todo        |
 | 7   | LOOKTAW | Micro_UI_Pointer     | 🔲 Todo        |
 | 8   | LOOKTAW | Micro_UI_Target      | 🔲 Todo        |
