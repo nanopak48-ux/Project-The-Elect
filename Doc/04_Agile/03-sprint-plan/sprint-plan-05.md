@@ -35,7 +35,7 @@
 | 28 | UI             | UI_TOOL                          | KAOWNIEW | TODO          | Must   |             TBD |
 | 29 | UI             | Chemical Puzzle UI               | LOOKTAW  | 🔄IN PROGRESS | Must   |               2 |
 | 30 | ART            | Cut Scene                        | LOOKTAW  | TODO          | Should |             TBD |
-| 31 | UI             | Animation scan                   | LOOKTAW  | TODO          | Should |             TBD |
+| 31 | UI             | Animation scan                   | LOOKTAW  | 🔄IN PROGRESS | Should |             TBD |
 | 32 |                |                                  |          |               |        |                 |
 | 33 |                |                                  |          |               |        |                 |
 
@@ -54,8 +54,8 @@
 | --- | :------: | -------------------- | -------------- |
 | 1   | LOOKTAW | UI_Time bar          | 🔲 Todo        |
 | 2   | LOOKTAW | UI_Time inside       | 🔲 Todo        |
-| 3   | LOOKTAW | Animation scan       | 🔲 Todo        |
-| 4   | LOOKTAW | Animation scan pass  | 🔲 Todo        |
+| 3   | LOOKTAW | Animation scan       | 🔄IN PROGRESS  |
+| 4   | LOOKTAW | Animation scan pass  | 🔄IN PROGRESS  |
 | 5   | LOOKTAW | Animation scan fail  | 🔲 Todo        |
 | 6   | LOOKTAW | Micro_UI_Bar         | 🔲 Todo        |
 | 7   | LOOKTAW | Micro_UI_Pointer     | 🔲 Todo        |
