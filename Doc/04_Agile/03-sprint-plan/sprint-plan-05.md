@@ -15,15 +15,15 @@
 |  3 | CODING         | Tile Map Handler                 | PLUB     | 🔄IN PROGRESS | Must   |               5 |
 |  4 | CODING         | Investigation System             | PLUB     | 🔄IN PROGRESS | Must   |             TBD |
 |  5 | CODING         | SpriteFont                       | PLUB     | 🔄IN PROGRESS | Should |               1 |
-|  6 | CODING         | Gameplay: Scan                   | PLUB     | 🔄IN PROGRESS | Must   |               3 |
+|  6 | CODING         | Gameplay: Scan                   | PLUB     | ✅ Done       | Must   |               3 |
 |  7 | CODING         | Gameplay: Solution               | PLUB     | 🔄IN PROGRESS | Must   |             TBD |
 |  8 | CODING         | Gameplay: Lens's Skill Check     | PLUB     | 🔄IN PROGRESS | Must   |             TBD |
 |  9 | CODING         | Gameplay: Operating              | PLUB     | 🔄IN PROGRESS | Must   |             TBD |
-| 10 | AUDIO ENGINEER | SFX Gameplay: Scan               | PLUB     | 🔄IN PROGRESS | Should |             TBD |
-| 16 | AUDIO ENGINEER | SFX Gameplay: Solution           | PLUB     | 🔄IN PROGRESS | Should |             TBD |
-| 17 | AUDIO ENGINEER | SFX Gameplay: Lens's Skill Check | PLUB     | 🔄IN PROGRESS | Should |             TBD |
-| 18 | AUDIO ENGINEER | SFX Gameplay: Operating          | PLUB     | 🔄IN PROGRESS | Should |             TBD |
-| 19 | UI             | Microscope Puzzle UI             | LOOKTAW  | TODO          | Must   |               3 |
+| 10 | AUDIO ENGINEER | SFX Gameplay: Scan               | PLUB     | ✅ Done       | Should |               2 |
+| 16 | AUDIO ENGINEER | SFX Gameplay: Solution           | PLUB     | ✅ Done       | Should |               2 |
+| 17 | AUDIO ENGINEER | SFX Gameplay: Lens's Skill Check | PLUB     | ✅ Done       | Should |               2 |
+| 18 | AUDIO ENGINEER | SFX Gameplay: Operating          | PLUB     | ✅ Done       | Should |               2 |
+| 19 | UI             | Microscope Puzzle UI             | LOOKTAW  | 🔄IN PROGRESS | Must   |               5 |
 | 20 | UI             | Data room UI                     | KAOWNIEW | TODO          | Must   |             TBD |
 | 21 | LEVEL          | TaskAsset_CHEMEICAL              | KAOWNIEW | 🔄IN PROGRESS | Must   |             TBD |
 | 22 | LEVEL          | TaskAsset_DATA                   | KAOWNIEW | 🔄IN PROGRESS | Must   |             TBD |
@@ -33,9 +33,9 @@
 | 26 | UI             | UI_TASKBAR                       | KAOWNIEW | TODO          | Must   |             TBD |
 | 27 | UI             | Menu Screen UI                   | KAOWNIEW | 🔄IN PROGRESS | Must   |             TBD |
 | 28 | UI             | UI_TOOL                          | KAOWNIEW | TODO          | Must   |             TBD |
-| 29 | UI             | Chemical Puzzle UI               | LOOKTAW  | 🔄IN PROGRESS | Must   |               2 |
+| 29 | UI             | Chemical Puzzle UI               | LOOKTAW  | 🔄IN PROGRESS | Must   |               3 |
 | 30 | ART            | Cut Scene                        | LOOKTAW  | TODO          | Should |             TBD |
-| 31 | UI             | Animation scan                   | LOOKTAW  | ✅ Done       | Should |             TBD |
+| 31 | UI             | Animation scan                   | LOOKTAW  | ✅ Done       | Should |               4 |
 | 32 |                |                                  |          |               |        |                 |
 | 33 |                |                                  |          |               |        |                 |
 
@@ -57,9 +57,9 @@
 | 3   | LOOKTAW | Animation scan       | ✅ Done        |
 | 4   | LOOKTAW | Animation scan pass  | ✅ Done        |
 | 5   | LOOKTAW | Animation scan fail  | ✅ Done        |
-| 6   | LOOKTAW | Micro_UI_Bar         | 🔄 In Progress |
-| 7   | LOOKTAW | Micro_UI_Pointer     | 🔄 In Progress |
-| 8   | LOOKTAW | Micro_UI_Target      | 🔄 In Progress |
+| 6   | LOOKTAW | Micro_UI_Bar         | ✅ Done        |
+| 7   | LOOKTAW | Micro_UI_Pointer     | ✅ Done        |
+| 8   | LOOKTAW | Micro_UI_Target      | ✅ Done        |
 | 9   | LOOKTAW | Micro_UI_camera      | 🔄 In Progress |
 | 10  | KAOWNIEW | UI_TOOL              | 🔲 Todo        |
 | 11  | KAOWNIEW | Asset_Furniture      | 🔄 In Progress |
