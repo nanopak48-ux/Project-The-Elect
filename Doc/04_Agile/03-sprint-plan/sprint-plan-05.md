@@ -57,10 +57,10 @@
 | 3   | LOOKTAW | Animation scan       | ✅ Done        |
 | 4   | LOOKTAW | Animation scan pass  | ✅ Done        |
 | 5   | LOOKTAW | Animation scan fail  | ✅ Done        |
-| 6   | LOOKTAW | Micro_UI_Bar         | 🔲 Todo        |
-| 7   | LOOKTAW | Micro_UI_Pointer     | 🔲 Todo        |
-| 8   | LOOKTAW | Micro_UI_Target      | 🔲 Todo        |
-| 9   | LOOKTAW | Micro_UI_camera      | 🔲 Todo        |
+| 6   | LOOKTAW | Micro_UI_Bar         | 🔄 In Progress |
+| 7   | LOOKTAW | Micro_UI_Pointer     | 🔄 In Progress |
+| 8   | LOOKTAW | Micro_UI_Target      | 🔄 In Progress |
+| 9   | LOOKTAW | Micro_UI_camera      | 🔄 In Progress |
 | 10  | KAOWNIEW | UI_TOOL              | 🔲 Todo        |
 | 11  | KAOWNIEW | Asset_Furniture      | 🔄 In Progress |
 | 12  |   PLUB   | Dialogue System      | 🔄 In Progress |
