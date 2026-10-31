@@ -24,7 +24,7 @@
 | 17 | AUDIO ENGINEER | SFX Gameplay: Lens's Skill Check | PLUB     | ✅ Done       | Should |               2 |
 | 18 | AUDIO ENGINEER | SFX Gameplay: Operating          | PLUB     | ✅ Done       | Should |               2 |
 | 19 | UI             | Microscope Puzzle UI             | LOOKTAW  | ✅ Done       | Must   |               5 |
-| 20 | UI             | Data room UI                     | KAOWNIEW | TODO          | Must   |             TBD |
+| 20 | UI             | Data room UI                     | LOOKTAW  | TODO          | Must   |             TBD |
 | 21 | LEVEL          | TaskAsset_CHEMEICAL              | KAOWNIEW | 🔄IN PROGRESS | Must   |             TBD |
 | 22 | LEVEL          | TaskAsset_DATA                   | KAOWNIEW | 🔄IN PROGRESS | Must   |             TBD |
 | 23 | LEVEL          | Asset_Furniture                  | KAOWNIEW | 🔄IN PROGRESS | Must   |             TBD |
@@ -32,7 +32,7 @@
 | 25 | UI             | UI_SANITYBAR                     | KAOWNIEW | TODO          | Must   |             TBD |
 | 26 | UI             | UI_TASKBAR                       | KAOWNIEW | TODO          | Must   |             TBD |
 | 27 | UI             | Menu Screen UI                   | KAOWNIEW | 🔄IN PROGRESS | Must   |             TBD |
-| 28 | UI             | UI_TOOL                          | KAOWNIEW | TODO          | Must   |             TBD |
+| 28 | UI             | UI_TOOL                          | LOOKTAW  | 🔄IN PROGRESS | Must   |             TBD |
 | 29 | UI             | Chemical Puzzle UI               | LOOKTAW  | 🔄IN PROGRESS | Must   |               3 |
 | 30 | ART            | Cut Scene                        | LOOKTAW  | TODO          | Should |             TBD |
 | 31 | UI             | Animation scan                   | LOOKTAW  | ✅ Done       | Should |               4 |
@@ -61,7 +61,7 @@
 | 7   | LOOKTAW | Micro_UI_Pointer         | ✅ Done        |
 | 8   | LOOKTAW | Micro_UI_Target          | ✅ Done        |
 | 9   | LOOKTAW | Micro_UI_camera_Monster1 | ✅ Done        |
-| 10  | LOOKTAW | UI_TOOL                  | 🔲 Todo        |
+| 10  | LOOKTAW | UI_TOOL_Medical          | ✅ Done        |
 | 11  | KAOWNIEW | Asset_Furniture          | 🔄 In Progress |
 | 12  |   PLUB   | Dialogue System          | 🔄 In Progress |
 | 13  |   PLUB   | Bad Ending System        | 🔄 In Progress |
@@ -71,6 +71,7 @@
 | 17  | LOOKTAW | Good End Cut Scene       | 🔲 Todo        |
 | 18  | LOOKTAW | Bad End Cut Scene        | 🔲 Todo        |
 | 19  | LOOKTAW | Micro_UI_camera_Monster2 | ✅ Done        |
+| 20  | LOOKTAW | UI_TOOL_Flash Drive      |                |
 
 ## Daily Notes
 
