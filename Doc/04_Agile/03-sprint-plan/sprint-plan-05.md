@@ -71,7 +71,7 @@
 | 17  | LOOKTAW | Good End Cut Scene       | 🔲 Todo        |
 | 18  | LOOKTAW | Bad End Cut Scene        | 🔲 Todo        |
 | 19  | LOOKTAW | Micro_UI_camera_Monster2 | ✅ Done        |
-| 20  | LOOKTAW | UI_TOOL_Flash Drive      |                |
+| 20  | LOOKTAW | UI_TOOL_Flash Drive      | 🔄 In Progress |
 
 ## Daily Notes
 
