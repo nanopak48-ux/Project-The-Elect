@@ -52,8 +52,8 @@
 
 | SEQ | ASSIGNEE | TASK                     | Status         |
 | --- | :------: | ------------------------ | -------------- |
-| 1   | LOOKTAW | UI_Time bar              | 🔲 Todo        |
-| 2   | LOOKTAW | UI_Time inside           | 🔲 Todo        |
+| 1   | LOOKTAW | UI_Time bar              | ✅ Done        |
+| 2   | LOOKTAW | UI_Time inside           | ✅ Done        |
 | 3   | LOOKTAW | Animation scan           | ✅ Done        |
 | 4   | LOOKTAW | Animation scan pass      | ✅ Done        |
 | 5   | LOOKTAW | Animation scan fail      | ✅ Done        |
