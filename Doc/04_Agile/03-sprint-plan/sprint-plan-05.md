@@ -32,7 +32,7 @@
 | 25 | UI             | UI_SANITYBAR                     | KAOWNIEW | TODO          | Must   |             TBD |
 | 26 | UI             | UI_TASKBAR                       | KAOWNIEW | TODO          | Must   |             TBD |
 | 27 | UI             | Menu Screen UI                   | KAOWNIEW | 🔄IN PROGRESS | Must   |             TBD |
-| 28 | UI             | UI_TOOL                          | LOOKTAW  | 🔄IN PROGRESS | Must   |             TBD |
+| 28 | UI             | UI_TOOL                          | LOOKTAW  | ✅ Done       | Must   |             TBD |
 | 29 | UI             | Chemical Puzzle UI               | LOOKTAW  | 🔄IN PROGRESS | Must   |               3 |
 | 30 | ART            | Cut Scene                        | LOOKTAW  | TODO          | Should |             TBD |
 | 31 | UI             | Animation scan                   | LOOKTAW  | ✅ Done       | Should |               4 |
@@ -71,7 +71,7 @@
 | 17  | LOOKTAW | Good End Cut Scene       | 🔲 Todo        |
 | 18  | LOOKTAW | Bad End Cut Scene        | 🔲 Todo        |
 | 19  | LOOKTAW | Micro_UI_camera_Monster2 | ✅ Done        |
-| 20  | LOOKTAW | UI_TOOL_Flash Drive      | 🔄 In Progress |
+| 20  | LOOKTAW | UI_TOOL_Flash Drive      | ✅ Done        |
 
 ## Daily Notes
 
