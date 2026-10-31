@@ -61,7 +61,7 @@
 | 7   | LOOKTAW | Micro_UI_Pointer         | ✅ Done        |
 | 8   | LOOKTAW | Micro_UI_Target          | ✅ Done        |
 | 9   | LOOKTAW | Micro_UI_camera_Monster1 | ✅ Done        |
-| 10  | KAOWNIEW | UI_TOOL                  | 🔲 Todo        |
+| 10  | LOOKTAW | UI_TOOL                  | 🔲 Todo        |
 | 11  | KAOWNIEW | Asset_Furniture          | 🔄 In Progress |
 | 12  |   PLUB   | Dialogue System          | 🔄 In Progress |
 | 13  |   PLUB   | Bad Ending System        | 🔄 In Progress |
