@@ -10,7 +10,7 @@
 
 | ID | Department     | Task                             | Assignee | Status        | MoSCoW | Estimate (Hour) |
 | -: | -------------- | -------------------------------- | -------- | ------------- | ------ | --------------: |
-|  1 | DESIGN         | Story Timeline                   | PLUB     | ✅DONE        | Must   |             TBD |
+|  1 | DESIGN         | Story Timeline                   | PLUB     | 🔄IN PROGRESS | Must   |             TBD |
 |  2 | DESIGN         | Gameplay Detail                  | PLUB     | 🔄IN PROGRESS | Must   |               2 |
 |  3 | CODING         | Tile Map Handler                 | PLUB     | 🔄IN PROGRESS | Must   |               5 |
 |  4 | CODING         | Camera Movement                  | PLUB     | 🔄IN PROGRESS | Must   |               3 |
