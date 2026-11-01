@@ -32,7 +32,10 @@ namespace Project_The_Elect.source_code
 
         private const float StartingProgress = 21f;               // หลอดเริ่มต้น ให้มีโอกาสพลาดก่อนแพ้
         private const float BaseProgressPoint = 20f;              // โดน +20
-        private const float MissPenalty = BaseProgressPoint * 1f; // พลาด -4
+        private const float MissPenalty = BaseProgressPoint * 1f; // พลาด -20
+        private const int ScanFrameCount = 5;
+        private const int CellDisplaySize = 600;
+        private const float SuccessHoldDuration = 1.25f;
         //=====================================================================//
 
         //====================== CONFIG: ตำแหน่งบนหน้าจอ ======================//
@@ -43,6 +46,8 @@ namespace Project_The_Elect.source_code
 
         // ตัวชี้อยู่กึ่งกลางแนวตั้งของราง (ถ้าอยากชิดขอบบนแบบเดิม ให้เปลี่ยนเป็น => TrackY)
         private static int PointerY => TrackY + (BarHeight - PointerHeight) / 2 +10;
+        private static Rectangle CellDisplayRect => new(
+            (GameConfig.ScreenWidth - CellDisplaySize) / 2 ,80 +80,CellDisplaySize,CellDisplaySize);
         private const int BackdropMargin = 27;
         //=====================================================================//
 
@@ -56,6 +61,11 @@ namespace Project_The_Elect.source_code
         private Texture2D _barTexture;
         private Texture2D _pointerTexture;
         private Texture2D _targetTexture;
+        private Texture2D[] _cellFrames;
+        private readonly int _monsterIndex;
+        private int _clarityLevel;
+        private bool _isSuccessPending;
+        private float _successHoldRemaining;
 
         private float _pointerX;
         private float _targetX;
@@ -72,11 +82,13 @@ namespace Project_The_Elect.source_code
             SpriteBatch spriteBatch,
             OrthographicCamera camera,
             ContentManager content,
-            GameAudioManager audio)
+            GameAudioManager audio,
+            int monsterIndex)
         {
             _spriteBatch = spriteBatch;
             _content = content;
             _audio = audio;
+            _monsterIndex = monsterIndex >= 2 ? 2 : 1;
         }
 
         // ---------- Hitbox / สี่เหลี่ยมที่ใช้ซ้ำ ----------
@@ -104,6 +116,9 @@ namespace Project_The_Elect.source_code
             ResetResult();
 
             _progress = StartingProgress;
+            _clarityLevel = 1;
+            _isSuccessPending = false;
+            _successHoldRemaining = 0f;
             _pointerX = TrackX;
             SpawnTarget(false);
             _pointerSpeed = PointerIncrement;
@@ -117,6 +132,13 @@ namespace Project_The_Elect.source_code
             _pointerTexture = _content.Load<Texture2D>(texturePrefix + "01_pointer");
             _targetTexture = _content.Load<Texture2D>(texturePrefix + "02_traget");
 
+            _cellFrames = new Texture2D[ScanFrameCount];
+            string cellPrefix = $"texture/09_minigame/05_scan_cells/cell_Mon{_monsterIndex}/Micro_mon{_monsterIndex}_";
+            for (int i = 0; i < ScanFrameCount; i++)
+            {
+                _cellFrames[i] = _content.Load<Texture2D>(cellPrefix + i.ToString("00"));
+            }
+
             _audio.PlaySFX("startLens");
         }
 
@@ -124,18 +146,22 @@ namespace Project_The_Elect.source_code
         {
             if (IsClosed) return;
 
+            if (_isSuccessPending)
+            {
+                _successHoldRemaining -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (_successHoldRemaining <= 0f)
+                    Complete();
+                return;
+            }
+
             // ขยับเฉพาะ pointer ส่วนเป้าหมายจะอยู่กับที่จนกว่าจะกดโดน
             _pointerX = Bounce(_pointerX, ref _pointerSpeed, TrackX, TrackX + BarWidth - PointerWidth);
 
-            if (_progress >= 100f)
-            {
-                Complete();
-            }
         }
 
         public override void InputHandler(GameTime gameTime)
         {
-            if (IsClosed) return;
+            if (IsClosed || _isSuccessPending) return;
 
             KeyboardState currentKeyboardState = Keyboard.GetState();
             bool spacePressed = currentKeyboardState.IsKeyDown(Keys.Space)
@@ -145,12 +171,20 @@ namespace Project_The_Elect.source_code
             if (TargetHitbox.Intersects(PointerHitbox))
             {
                 _progress = MathHelper.Clamp(_progress + BaseProgressPoint, 0f, 100f);
+                _clarityLevel = Math.Min(_clarityLevel + 1, ScanFrameCount - 1);
                 _audio.PlaySFX("hitLens");
-                SpawnTarget(true);
+                if (_progress >= 100f)
+                {
+                    _isSuccessPending = true;
+                    _successHoldRemaining = SuccessHoldDuration;
+                }
+                else
+                    SpawnTarget(true);
             }
             else
             {
                 _audio.PlaySFX("errorLens");
+                _clarityLevel = Math.Max(_clarityLevel - 1, 0);
                 _progress = MathHelper.Clamp(_progress - MissPenalty, 0f, 100f);
                 if (_progress <= 0f)
                 {
@@ -162,12 +196,17 @@ namespace Project_The_Elect.source_code
         public override void Draw(GameTime gameTime)
         {
             MinigameBackdrop.Draw(_spriteBatch, MinigameBackdrop.Bounds);
+            _spriteBatch.Draw(_cellFrames[Math.Min(_clarityLevel, ScanFrameCount - 1)], CellDisplayRect, Color.White);
             _spriteBatch.Draw(_barTexture, TrackRect, Color.White);
-            DrawControlHint("[ Space bar ]");
-            _spriteBatch.Draw(_targetTexture, TargetRect, Color.White);
-            _spriteBatch.Draw(_pointerTexture, PointerRect, Color.White);
 
-            if (ShowDebugHitboxes)
+            if (!_isSuccessPending)
+            {
+                DrawControlHint("[ Space bar ]");
+                _spriteBatch.Draw(_targetTexture, TargetRect, Color.White);
+                _spriteBatch.Draw(_pointerTexture, PointerRect, Color.White);
+            }
+
+            if (ShowDebugHitboxes && !_isSuccessPending)
             {
                 _spriteBatch.DrawRectangle(TargetHitbox, Color.Purple);
                 _spriteBatch.DrawRectangle(PointerHitbox, Color.Orange);

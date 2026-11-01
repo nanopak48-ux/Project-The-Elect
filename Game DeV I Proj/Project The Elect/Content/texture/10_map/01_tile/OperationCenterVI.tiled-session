@@ -21,11 +21,11 @@
             "scaleInEditor": 1
         },
         "01_00_furniture.tsx": {
-            "scaleInDock": 0.75,
+            "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "01_00_monster.tsx": {
-            "scaleInDock": 1
+            "scaleInDock": 0.75
         },
         "01_00_taskAsset.tsx": {
             "scaleInDock": 0.5,
@@ -126,19 +126,31 @@
             }
         },
         "OperationCenterVI.tmx": {
-            "scale": 0.75,
-            "selectedLayer": 7,
+            "scale": 0.5,
+            "selectedLayer": 12,
             "viewCenter": {
-                "x": 3730,
-                "y": 2662.6666666666665
+                "x": 4484,
+                "y": 2552
             }
+        },
+        "ani_00_locker.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "ani_00_monster.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "ani_01_prop.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "animation_com_01.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
         }
     },
-    "frame.defaultDuration": 500,
+    "frame.defaultDuration": 1500,
     "last.externalTilesetPath": "C:/Users/user/Downloads/TEST",
     "last.imagePath": "C:/Users/user/source/repos/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/00_source",
     "map.fixedSize": false,
@@ -146,23 +158,26 @@
     "map.tileHeight": 64,
     "map.tileWidth": 64,
     "openFiles": [
-        "C:/Users/user/source/repos/26_10/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/OperationCenterVI.tmx",
-        "OperationCenterVI.tmx"
+        "OperationCenterVI.tmx",
+        "animation_com_01.tsx",
+        "ani_00_locker.tsx",
+        "ani_00_monster.tsx",
+        "ani_01_prop.tsx"
     ],
     "project": "OperationCenterVI.tiled-project",
     "recentFiles": [
+        "ani_01_prop.tsx",
+        "ani_00_monster.tsx",
+        "ani_00_locker.tsx",
         "animation_com_01.tsx",
-        "C:/Users/user/source/repos/26_10/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/OperationCenterVI.tmx",
         "OperationCenterVI.tmx",
+        "C:/Users/user/source/repos/26_10/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/OperationCenterVI.tmx",
         "01_00_furniture.tsx",
         "C:/Users/user/source/repos/26_10/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/01_00_monster.tsx",
         "C:/Users/user/source/repos/26_10/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/01_00_furniture.tsx",
         "C:/Users/user/source/repos/26_10/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/01_00_taskAsset.tsx",
         "C:/Users/user/source/repos/26_10/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/00_00_wall.tsx",
-        "C:/Users/user/source/repos/26_10/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/00_00_light.tsx",
-        "C:/Users/user/source/repos/26_10/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/00_00_floor.tsx",
-        "C:/Users/user/OneDrive/Desktop/5-10-2026/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/OperationCenterVI_copy.tmx",
-        "00_00_light.tsx"
+        "C:/Users/user/source/repos/26_10/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/00_00_light.tsx"
     ],
     "tileset.lastUsedFilter": "All Files (*)",
     "tileset.lastUsedFormat": "tsx",

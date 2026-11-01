@@ -11,6 +11,7 @@ namespace Project_The_Elect.source_code
         private readonly Texture2D _dialogueBackground;
         private readonly Texture2D _sanityBar;
         private readonly Texture2D _sanityBarInside;
+        private readonly ItemInventoryHUD _itemInventoryHUD;
         private float _noticeTime;
 
         public const int MaxSanity = 100;
@@ -37,6 +38,7 @@ namespace Project_The_Elect.source_code
             _dialogueBackground = content.Load<Texture2D>("texture/03_dialogue/01_dialogueBG2");
             _sanityBar = content.Load<Texture2D>("texture/04_play/00_sanitybar");
             _sanityBarInside = content.Load<Texture2D>("texture/04_play/01_sanitybarinside");
+            _itemInventoryHUD = new ItemInventoryHUD(content);
         }
 
         public void Start()
@@ -154,6 +156,7 @@ namespace Project_The_Elect.source_code
                 return false;
 
             MeatCollected = true;
+            HasScissors = false;
             ShowNotice("Meat collected");
             return true;
         }
@@ -261,7 +264,12 @@ namespace Project_The_Elect.source_code
         public void Draw(SpriteBatch spriteBatch)
         {
             DrawSanity(spriteBatch);
-            DrawDay(spriteBatch);
+            float dayCenterX = DrawDay(spriteBatch);
+            _itemInventoryHUD.Draw(
+                spriteBatch,
+                dayCenterX,
+                HasFlashDrive && !DataSubmitted,
+                HasScissors);
 
             if (!IsStarted)
                 return;
@@ -325,14 +333,16 @@ namespace Project_The_Elect.source_code
             DrawText(spriteBatch, sanityText, textX, textY, Color.White, textScale);
         }
 
-        private void DrawDay(SpriteBatch spriteBatch)
+        private float DrawDay(SpriteBatch spriteBatch)
         {
             const float rightMargin = 64f;
             const float y = 36f;
             const float scale = 1.2f;
             string dayText = $"DAY {Day}";
             float textWidth = _font.MeasureString(dayText).Width * scale;
-            DrawText(spriteBatch, dayText, GameConfig.ScreenWidth - rightMargin - textWidth, y, Color.White, scale);
+            float x = GameConfig.ScreenWidth - rightMargin - textWidth;
+            DrawText(spriteBatch, dayText, x, y, Color.White, scale);
+            return x + textWidth / 2f;
         }
         private void DrawTask(SpriteBatch spriteBatch, string text, bool complete, bool active, float x, ref float y)
         {

@@ -502,6 +502,32 @@
 /processorParam:Version=3.8.5.1
 /build:texture/04_play/01_sanitybarinside.png
 
+#begin texture/04_play/03_flashdrive.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/04_play/03_flashdrive.png
+
+#begin texture/04_play/04_tool.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/04_play/04_tool.png
+
 #begin texture/05_menu/01_menuBG.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1788,6 +1814,136 @@
 /processorParam:TextureFormat=Color
 /processorParam:Version=3.8.5.1
 /build:texture/09_minigame/04_lens/02_traget.png
+
+#begin texture/09_minigame/05_scan_cells/cell_Mon1/Micro_mon1_00.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/09_minigame/05_scan_cells/cell_Mon1/Micro_mon1_00.png
+
+#begin texture/09_minigame/05_scan_cells/cell_Mon1/Micro_mon1_01.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/09_minigame/05_scan_cells/cell_Mon1/Micro_mon1_01.png
+
+#begin texture/09_minigame/05_scan_cells/cell_Mon1/Micro_mon1_02.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/09_minigame/05_scan_cells/cell_Mon1/Micro_mon1_02.png
+
+#begin texture/09_minigame/05_scan_cells/cell_Mon1/Micro_mon1_03.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/09_minigame/05_scan_cells/cell_Mon1/Micro_mon1_03.png
+
+#begin texture/09_minigame/05_scan_cells/cell_Mon1/Micro_mon1_04.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/09_minigame/05_scan_cells/cell_Mon1/Micro_mon1_04.png
+
+#begin texture/09_minigame/05_scan_cells/cell_Mon2/Micro_mon2_00.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/09_minigame/05_scan_cells/cell_Mon2/Micro_mon2_00.png
+
+#begin texture/09_minigame/05_scan_cells/cell_Mon2/Micro_mon2_01.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/09_minigame/05_scan_cells/cell_Mon2/Micro_mon2_01.png
+
+#begin texture/09_minigame/05_scan_cells/cell_Mon2/Micro_mon2_02.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/09_minigame/05_scan_cells/cell_Mon2/Micro_mon2_02.png
+
+#begin texture/09_minigame/05_scan_cells/cell_Mon2/Micro_mon2_03.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/09_minigame/05_scan_cells/cell_Mon2/Micro_mon2_03.png
+
+#begin texture/09_minigame/05_scan_cells/cell_Mon2/Micro_mon2_04.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:texture/09_minigame/05_scan_cells/cell_Mon2/Micro_mon2_04.png
 
 #begin texture/10_map/01_tile/OperationCenterVI.tmx
 /importer:TiledTilemapImporter
