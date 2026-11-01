@@ -4,12 +4,12 @@
     {
       "character": "Unknown",
       "text": "เอาหล่ะนี้เป็นงานส่องชิ้นเนื้อ โดยแกจะต้องปรับกล้องจุลทรรศน์ให้ภาพมันชัดขึ้น",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Unknown",
-      "text": "แกจะต้องกด spacebar ตอน pointer ที่ขยับของแกตรงกับเป้าหมาย",
-      "voiceline": "none"
+      "text": "แกจะต้องกด [ Space bar ] ตอน pointer ที่ขยับของแกตรงกับเป้าหมาย",
+      "voiceline": "chap01_v03"
     }
   ]
 }

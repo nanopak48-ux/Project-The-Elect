@@ -4,12 +4,12 @@
     {
       "character": "Unknown",
       "text": "แกจะไปไหนไอ่โง่!! ฉันเริ่มเหนื่อยแล้วนะ",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "ฉันบอกว่าให้ไปหยิบกรรไกรแล้วก็ไปตัดชิ้นเนื้อไง",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     }
   ]
 }

@@ -4,17 +4,17 @@
     {
       "character": "Vier",
       "text": "บ้าเอ๋ย! ฉันเกลียดงานนี้",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "อย่ามาทำตัวสำออยไปหน่อยเลยไอ่บ้า",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "ไปทำงานต่อไปใน MICROSCOPE LAB และ CHEMISTRY LAB ได้แล้ว",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     }
   ]
 }

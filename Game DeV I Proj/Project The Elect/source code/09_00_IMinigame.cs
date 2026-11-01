@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Input;
 using System;
@@ -15,6 +16,23 @@ namespace Project_The_Elect.source_code
         Success,
         Failed,
         Cancelled
+    }
+
+    internal static class MinigameBackdrop
+    {
+        private static Texture2D _pixel;
+        public static Rectangle Bounds => new(56, 24, 1808, 1015);
+
+        public static void Draw(SpriteBatch spriteBatch, Rectangle bounds)
+        {
+            if (_pixel == null || _pixel.IsDisposed)
+            {
+                _pixel = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
+                _pixel.SetData(new[] { Color.White });
+            }
+
+            spriteBatch.Draw(_pixel, bounds, Color.Black * 0.45f);
+        }
     }
 
     public abstract class Minigame

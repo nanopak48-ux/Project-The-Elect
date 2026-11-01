@@ -4,12 +4,12 @@
     {
       "character": "Unknown",
       "text": "แกจะแบกกรรไกรแล้วเดินไปไหน",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "ฉันบอกให้ไปตัดชิ้นเนื้อไง เจ้าทึ่ม!",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     }
   ]
 }

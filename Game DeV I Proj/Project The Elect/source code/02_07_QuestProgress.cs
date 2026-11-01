@@ -261,13 +261,14 @@ namespace Project_The_Elect.source_code
         public void Draw(SpriteBatch spriteBatch)
         {
             DrawSanity(spriteBatch);
+            DrawDay(spriteBatch);
 
             if (!IsStarted)
                 return;
 
-            const float x = 1390f;
-            float y = 32f;
-            DrawText(spriteBatch, "QUEST", x, y, Color.White, 0.9f);
+            const float x = 32f;
+            float y = 115f;
+            DrawText(spriteBatch, "Tasks", x, y, Color.White, 0.9f);
             y += 38f;
 
             DrawTask(spriteBatch, "Get Flash Drive", HasFlashDrive, !HasFlashDrive, x, ref y);
@@ -295,15 +296,14 @@ namespace Project_The_Elect.source_code
             if (!string.IsNullOrEmpty(Notice))
                 DrawText(spriteBatch, Notice, x, y + 4f, Color.Orange, 0.65f);
         }
-
         private void DrawSanity(SpriteBatch spriteBatch)
         {
             const int x = 32;
             const int y = 36;
-            const int width = 360;
-            const int height = 26;
+            const int width = 720;
+            const int height = 52;
 
-            DrawText(spriteBatch, $"SANITY {Sanity}/{MaxSanity}  |  DAY {Day}  |  MONSTER {MonsterIndex}", x, y - 29, Color.White, 0.72f);
+
             int fillWidth = width * Sanity / MaxSanity;
             if (fillWidth > 0)
             {
@@ -316,10 +316,24 @@ namespace Project_The_Elect.source_code
 
             // Keep the bar outline above the fill and visible at every sanity level.
             spriteBatch.Draw(_sanityBar, new Rectangle(x, y, width, height), Color.White);
+
+            string sanityText = $"SANITY {Sanity}/{MaxSanity}";
+            const float textScale = 0.72f;
+            var textSize = _font.MeasureString(sanityText);
+            float textX = x + (width - textSize.Width * textScale) / 2f;
+            float textY = y + (height - textSize.Height * textScale) / 2f;
+            DrawText(spriteBatch, sanityText, textX, textY, Color.White, textScale);
         }
 
-        
-
+        private void DrawDay(SpriteBatch spriteBatch)
+        {
+            const float rightMargin = 64f;
+            const float y = 36f;
+            const float scale = 1.2f;
+            string dayText = $"DAY {Day}";
+            float textWidth = _font.MeasureString(dayText).Width * scale;
+            DrawText(spriteBatch, dayText, GameConfig.ScreenWidth - rightMargin - textWidth, y, Color.White, scale);
+        }
         private void DrawTask(SpriteBatch spriteBatch, string text, bool complete, bool active, float x, ref float y)
         {
             string prefix = complete ? "[DONE] " : active ? "> " : "[LOCKED] ";

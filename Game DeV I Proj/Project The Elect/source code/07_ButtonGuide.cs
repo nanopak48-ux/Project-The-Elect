@@ -79,7 +79,7 @@ namespace Project_The_Elect.source_code
             //SET DEFAULT FOR STATE CHANGE
                 if (!_addedDefaultBtn)
                 {
-                        _buttonDisplayTxtList.Add("SPACE BAR");
+                        _buttonDisplayTxtList.Add("[SPACE BAR]");
                         _buttonDisplayList.Add("ENTER");
                         _buttonDisplayList.Add("E");
                         _addedDefaultBtn = true;

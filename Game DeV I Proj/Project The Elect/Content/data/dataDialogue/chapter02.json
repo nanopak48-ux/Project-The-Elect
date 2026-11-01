@@ -4,57 +4,57 @@
     {
       "character": "Unknown",
       "text": "เอาหล่ะ เริ่มงานกันได้แล้วไอ่ทึ่ม",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Vier",
       "text": "ให้ฉันทำอะไรหล่ะ? แล้วที่นี่มันที่ไหนว่ะเนี้ย!",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "แกนี่มันอยากสอดรู้สอดเห็นตลอดเวลาเลยนะ",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "งานที่แกต้องทำก็แค่วิจัยสิ่งมีชีวิตที่แปลกๆ นิดหน่อยเท่านั้นเอง",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Vier",
       "text": "วิจัยหรอ? แกบ้ารึป่าวฉันเป็นแค่พนักงาน IT นะ",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "ไม่ต้องห่วงหรอก มันก็แค่งานคุมเครื่องง่ายๆที่ไอ่โง่แบบแกก็ทำได้",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Unknown",
       "text": "อย่าบ่นมาก แกนี่มันงอแงเก่งชะมัด",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "อย่างแรกที่แกต้องทำตอนนี้คือ ไปที่ห้องสแกนซ่ะ",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "อย่าลืมหยิบแฟรชไดรฟ์ในห้องแกไปด้วย สิ่งนั้นจำเป็นสำหรับการส่งงานวิจัย",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Vier",
       "text": "บ้าเอ้ย! แล้วฉันจะรู้ได้ไงว่าห้องอยู่ที่ไหน?",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
-      "text": "เห้อออ... ถ้าแกฉลาดและมีตาแกเดินไปเดี๋ยวก็รู้เอง ห้องมันจะมีผนังสีเขียวอยู่ไอ่ทึ่ม",
-      "voiceline": "none"
+      "text": "เห้อออ... ถ้าแกฉลาดและมีตาแกเดินไปเดี๋ยวก็รู้เอง ห้องมันจะมีผนังเป็นสีเขียวอยู่ไอ่ทึ่ม",
+      "voiceline": "chap01_v03"
     }
   ]
 }

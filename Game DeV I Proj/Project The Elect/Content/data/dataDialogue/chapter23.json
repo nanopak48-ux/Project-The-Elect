@@ -4,17 +4,17 @@
     {
       "character": "Unknown",
       "text": "ทำได้ดีนี่ อยู่ต่ออีกสักงานมั้ย?",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Vier",
       "text": "แกจะบ้าหรอ!",
-      "voiceline": "none"
+      "voiceline": "chap01_v01"
     },
     {
       "character": "Unknown",
       "text": "ฮ่าๆโทษที ไปหยิบกรรไกรแล้วไปตัดชิ้นเนื้อซ่ะ",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     }
   ]
 }

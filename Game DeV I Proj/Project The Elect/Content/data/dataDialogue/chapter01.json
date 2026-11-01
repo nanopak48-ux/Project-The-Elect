@@ -4,32 +4,32 @@
     {
       "character": "Vier",
       "text": "โอ้ย...ที่นี่ที่ไหนหน่อ...เจ็บหูจัง",
-      "voiceline": "chap01_v01"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "ตื่นแล้วสินะไอ่โง้",
-      "voiceline": "chap01_v02"
+      "voiceline": "chap01_v01"
     },
     {
       "character": "Vier",
       "text": "แกเป็นใคร แล้วทำไมฉันถึงมาอยู๋ที่นี่",
-      "voiceline": "chap01_v01"
-    },
-    {
-      "character": "Unknown",
-      "text": "ถามมากจังนะไอ่โง้",
       "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
+      "text": "ถามมากจังนะไอ่โง้",
+      "voiceline": "chap01_v01"
+    },
+    {
+      "character": "Unknown",
       "text": "เพราะความสอดรู้สอดเห็นของแก ดันไปเห็นสิ่งที่ไม่ควรเห็นเข้า แกเลยถูกจับมาที่นี่ไงไอ่ทึ่ม",
-      "voiceline": "chap01_v03"
+      "voiceline": "chap01_v04"
     },
     {
       "character": "Vier",
       "text": "อะไรกัน! แกเป็นใคร? แล้วพูดจากตรงไหนเนี้ย?",
-      "voiceline": "chap01_v01"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
@@ -49,7 +49,7 @@
     {
       "character": "Unknown",
       "text": "เข้าประเด่นเร็วดีนิไอ่โง้ แบบนี้ค่อยคุยกันง่ายหน่อย",
-      "voiceline": "chap01_v01"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
@@ -59,17 +59,17 @@
     {
       "character": "Vier",
       "text": "แล้วถ้าฉันไม่ทำหล่ะ",
-      "voiceline": "chap01_v02"
-    },
-    {
-      "character": "Unknown",
-      "text": "กูจะใช้ชิปควมคุมระบบประสาทฆ่ามึงตอนนี้เลย",
       "voiceline": "chap01_v01"
     },
     {
       "character": "Unknown",
+      "text": "กูจะใช้ชิปควมคุมระบบประสาทฆ่ามึงตอนนี้เลย",
+      "voiceline": "chap01_v02"
+    },
+    {
+      "character": "Unknown",
       "text": "แค่ทำงานง่ายๆ เล็กๆ น้อยๆ เพื่ออิสรภาพมันจะไปยากอะไร หรือว่าแกจะตายตรงนี้ไปเลย?",
-      "voiceline": "chap01_v03"
+      "voiceline": "chap01_v04"
     },
     {
       "character": "Vier",
@@ -79,7 +79,7 @@
     {
       "character": "Unknown",
       "text": "ดี! งั้นก็มาเริ่มงานของเรากันดีกว่า",
-      "voiceline": "chap01_v01"
+      "voiceline": "chap01_v02"
     }
   ]
 }

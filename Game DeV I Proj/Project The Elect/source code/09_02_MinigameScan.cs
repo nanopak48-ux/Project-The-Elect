@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
+using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.Input;
 using System;
 
@@ -16,7 +17,8 @@ namespace Project_The_Elect.source_code
     {
         //====================== CONFIG: ขนาดและความเร็ว ======================//
         private const int BarWidth = 1200;          // ความยาวรางแนวนอน
-        private const int BarHeight = 180;          // ความสูงราง (และความสูงของเป้า)
+        private const int BarHeight = 240; // ความสูงราง
+        private const int TargetHeight = 170; // ความสูงภาพเป้าตามขนาดต้นฉบับ
         private const int MinTargetWidth = 70;       // เป้าเล็กสุด (ยังมองเห็นชัด)
         private const int MaxTargetWidth = 140;      // เป้าใหญ่สุด (ไม่กินพื้นที่รางมากเกินไป)
 
@@ -28,8 +30,8 @@ namespace Project_The_Elect.source_code
         private const int BarHitboxPadding = 30;     // ยิ่งมาก เป้ายิ่งกดโดนง่าย
         private const int PointerHitboxPadding = 15; // ยิ่งมาก ตัวชี้ยิ่งกดโดนง่าย
 
-        private const float StartingProgress = 30f;               // หลอดเริ่มต้น ให้มีโอกาสพลาดก่อนแพ้
-        private const float BaseProgressPoint = 25f;              // โดน +20
+        private const float StartingProgress = 21f;               // หลอดเริ่มต้น ให้มีโอกาสพลาดก่อนแพ้
+        private const float BaseProgressPoint = 20f;              // โดน +20
         private const float MissPenalty = BaseProgressPoint * 1f; // พลาด -4
         //=====================================================================//
 
@@ -37,32 +39,23 @@ namespace Project_The_Elect.source_code
         // รางแนวนอน: กึ่งกลางจอตามแนวนอน, อยู่ที่ 1/4 ของความสูงจอ
         private static int TrackX => (GameConfig.ScreenWidth - BarWidth) / 2;
         private static int TrackY => GameConfig.ScreenHeight / 2 + 250;
+        private static int TargetY => TrackY + (BarHeight - TargetHeight) / 2 + 10;
 
         // ตัวชี้อยู่กึ่งกลางแนวตั้งของราง (ถ้าอยากชิดขอบบนแบบเดิม ให้เปลี่ยนเป็น => TrackY)
-        private static int PointerY => TrackY + (BarHeight - PointerHeight) / 2;
-
-        // แท่งความคืบหน้าแนวตั้งด้านซ้าย (ออกแบบไว้สำหรับจอสูง 1080)
-        private const int ProgressX = 47;
-        private const int ProgressY = 75;
-        private const int ProgressWidth = 120;
-        private const int ProgressHeight = 905;
-        private const int ProgressBorderThickness = 6;
-        private const int ProgressInnerWidth = ProgressWidth - ProgressBorderThickness * 2;
-        private const int ProgressInnerHeight = ProgressHeight - ProgressBorderThickness * 2;
+        private static int PointerY => TrackY + (BarHeight - PointerHeight) / 2 +10;
+        private const int BackdropMargin = 27;
         //=====================================================================//
 
-        /// <summary>เปิดเพื่อวาดกรอบ hitbox (ม่วง = เป้า, ส้ม = ตัวชี้) ตอนปรับความง่าย</summary>
         public bool ShowDebugHitboxes = false;
 
         private readonly SpriteBatch _spriteBatch;
         private readonly ContentManager _content;
         private readonly GameAudioManager _audio;
+        private BitmapFont _font;
 
         private Texture2D _barTexture;
         private Texture2D _pointerTexture;
         private Texture2D _targetTexture;
-        private Texture2D _barScoreTexture;
-        private Texture2D _barInsideTexture;
 
         private float _pointerX;
         private float _targetX;
@@ -89,14 +82,14 @@ namespace Project_The_Elect.source_code
         // ---------- Hitbox / สี่เหลี่ยมที่ใช้ซ้ำ ----------
 
         private Rectangle TrackRect => new(TrackX, TrackY, BarWidth, BarHeight);
-        private Rectangle TargetRect => new((int)_targetX, TrackY, _targetWidth, BarHeight);
+        private Rectangle TargetRect => new((int)_targetX, TargetY, _targetWidth, TargetHeight);
         private Rectangle PointerRect => new((int)_pointerX, PointerY, PointerWidth, PointerHeight);
 
         private Rectangle TargetHitbox => new(
             (int)_targetX - BarHitboxPadding,
-            TrackY,
+            TargetY,
             _targetWidth + BarHitboxPadding * 2,
-            BarHeight);
+            TargetHeight);
 
         private Rectangle PointerHitbox => new(
             (int)_pointerX - PointerHitboxPadding,
@@ -118,14 +111,13 @@ namespace Project_The_Elect.source_code
 
         public override void LoadContent()
         {
-            const string texturePrefix = "texture/09_minigame/01_scan/";
+            const string texturePrefix = "texture/09_minigame/04_lens/";
+            _font = _content.Load<BitmapFont>("font/fontGenshin");
             _barTexture = _content.Load<Texture2D>(texturePrefix + "00_bar");
             _pointerTexture = _content.Load<Texture2D>(texturePrefix + "01_pointer");
             _targetTexture = _content.Load<Texture2D>(texturePrefix + "02_traget");
-            _barScoreTexture = _content.Load<Texture2D>(texturePrefix + "03_barscore");
-            _barInsideTexture = _content.Load<Texture2D>(texturePrefix + "04_barinside");
 
-            _audio.PlaySFX("scan_start");
+            _audio.PlaySFX("startLens");
         }
 
         public override void Update(GameTime gameTime)
@@ -153,12 +145,12 @@ namespace Project_The_Elect.source_code
             if (TargetHitbox.Intersects(PointerHitbox))
             {
                 _progress = MathHelper.Clamp(_progress + BaseProgressPoint, 0f, 100f);
-                _audio.PlaySFX("scan_collision");
+                _audio.PlaySFX("hitLens");
                 SpawnTarget(true);
             }
             else
             {
-                _audio.PlaySFX("error_task");
+                _audio.PlaySFX("errorLens");
                 _progress = MathHelper.Clamp(_progress - MissPenalty, 0f, 100f);
                 if (_progress <= 0f)
                 {
@@ -169,30 +161,11 @@ namespace Project_The_Elect.source_code
 
         public override void Draw(GameTime gameTime)
         {
+            MinigameBackdrop.Draw(_spriteBatch, MinigameBackdrop.Bounds);
             _spriteBatch.Draw(_barTexture, TrackRect, Color.White);
+            DrawControlHint("[ Space bar ]");
             _spriteBatch.Draw(_targetTexture, TargetRect, Color.White);
             _spriteBatch.Draw(_pointerTexture, PointerRect, Color.White);
-
-            int fillHeight = (int)(_progress / 100f * ProgressInnerHeight);
-            int sourceY = ProgressInnerHeight - fillHeight;
-            if (fillHeight > 0)
-            {
-                _spriteBatch.Draw(
-                    _barInsideTexture,
-                    new Rectangle(
-                        ProgressX + ProgressBorderThickness,
-                        ProgressY + ProgressBorderThickness + sourceY,
-                        ProgressInnerWidth,
-                        fillHeight),
-                    new Rectangle(0, sourceY, ProgressInnerWidth, fillHeight),
-                    Color.White);
-            }
-
-            // Draw the transparent score-bar frame over the fill to keep its border clear.
-            _spriteBatch.Draw(
-                _barScoreTexture,
-                new Rectangle(ProgressX, ProgressY, ProgressWidth, ProgressHeight),
-                Color.White);
 
             if (ShowDebugHitboxes)
             {
@@ -201,6 +174,17 @@ namespace Project_The_Elect.source_code
             }
         }
 
+        private void DrawControlHint(string text)
+        {
+            const float scale = 0.8f;
+            var textSize = _font.MeasureString(text);
+            var position = new Vector2(
+                TrackRect.Center.X - textSize.Width * scale / 2f,
+                TrackRect.Top - textSize.Height * scale - 12f);
+
+            _spriteBatch.DrawString(_font, text, position + new Vector2(2f, 2f), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(_font, text, position, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+        }
         private void SpawnTarget(bool avoidPreviousPosition)
         {
             int previousPosition = (int)_targetX;

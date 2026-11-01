@@ -1,0 +1,20 @@
+{
+  "frameWidth": 912,
+  "frameHeight": 432,
+  "frameDurationSeconds": 0.1,
+  "resultDisplaySeconds": 1.5,
+  "successTexture": "texture/09_minigame/03_lensscan/scan_pass",
+  "failureTexture": "texture/09_minigame/03_lensscan/scan_fail",
+  "monsters": [
+    {
+      "monsterIndex": 1,
+      "framePrefix": "texture/09_minigame/03_lensscan/mon1/frame_",
+      "frameCount": 32
+    },
+    {
+      "monsterIndex": 2,
+      "framePrefix": "texture/09_minigame/03_lensscan/mon2/frame_",
+      "frameCount": 32
+    }
+  ]
+}

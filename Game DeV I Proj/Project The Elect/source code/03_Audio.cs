@@ -45,7 +45,16 @@ namespace Project_The_Elect.source_code
             "walkwhite1",
             "walkwhite2",
             "walkwhite3",
-            "walkwhite4"
+            "walkwhite4",
+            "startLens",
+            "hitLens",
+            "cutMon1",
+            "cutMon2",
+            "errorLens",
+            "selectKeypad",
+            "errorKeypad",
+            "selectKeypad2",
+
         };
         
         private string[] _bgmIndex = new string[]

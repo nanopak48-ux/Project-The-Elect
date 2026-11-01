@@ -4,17 +4,17 @@
     {
       "character": "Unknown",
       "text": "เอาหล่ะงานแรก ทำเหมือนที่แกทำเมื่อวาน",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "ทำการควบคุมเครื่องแสกนสิ่งมีชีวิต ",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
-      "text": "กดปุ่ม spacebar ค้างไว้เพื่อเป็นการประครองจุดไว้จนกว่าเครื่องจะทำงานเสร็จ",
-      "voiceline": "none"
+      "text": "กดปุ่ม [space bar] ค้างไว้เพื่อเป็นการประครองจุดไว้จนกว่าเครื่องจะทำงานเสร็จ",
+      "voiceline": "chap01_v03"
     }
   ]
 }

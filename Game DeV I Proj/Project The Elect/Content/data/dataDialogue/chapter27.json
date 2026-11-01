@@ -4,22 +4,22 @@
     {
       "character": "Unknown",
       "text": "นี้เป็นวันที่ 2 แล้วหวังว่าแกจะความจำดีขึ้นมาบ้างนะ",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "จำลำดับขวดที่แสดงขึ้นมาตรงกลางให้ดี ตาต้องไวใจต้องนิ่ง",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Unknown",
       "text": "จำให้ดีว่าเป็นสีไหนถ้าพลาดแกจะต้องเริ่มใหม่ทั้งหมด",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
-      "text": "กด ปุ่มซ้าย หรือ ปุ่มขวา เพื่อเลือกขวดตามลำดับแล้วกด Space เพื่อยืนยัน",
-      "voiceline": "none"
+      "text": "กด [ปุ่มซ้าย] หรือ [ปุ่มขวา] เพื่อเลือกขวดตามลำดับแล้วกด [Space bar] เพื่อยืนยัน",
+      "voiceline": "chap01_v04"
     }
   ]
 }

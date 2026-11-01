@@ -4,12 +4,12 @@
     {
       "character": "Unknown",
       "text": "แกไปทำบ้าอะไรมา? ทำไมสภาพเป็นแบบนี้เนี้ย",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "กลับไปนอนที่ห้องแกเถอะ ฉันสมเพช",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     }
   ]
 }

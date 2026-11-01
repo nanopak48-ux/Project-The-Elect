@@ -55,8 +55,8 @@ namespace Project_The_Elect.source_code
         private const int DarknessMaskHeight = 180;
         private const float DarknessLightRadius = 160f;
         private const float DarknessFalloff = 360f;
-        private const float DarknessAtPlayer = 0.10f;
-        private const float DarknessAtEdges = 0.35f;
+        private const float DarknessAtPlayer = 0.1f;
+        private const float DarknessAtEdges = 0.5f;
         private readonly Color[] _darknessMaskPixels = new Color[DarknessMaskWidth * DarknessMaskHeight];
         private Texture2D _darknessMask;
         private bool _isBlackout;
@@ -333,7 +333,6 @@ namespace Project_The_Elect.source_code
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix);
 
-            // 1. วาดแมพ
             _map.Draw(gameTime, _camera, "floor_white");
             _map.Draw(gameTime, _camera, "floor_black");
             _map.Draw(gameTime, _camera, "background");
@@ -432,11 +431,7 @@ namespace Project_The_Elect.source_code
             // --------------------------------------------------
 
             _spriteBatch.End();
-
-            if (!_minigame.IsPlaying && _searchDialogue?.IsActive != true)
-            {
-                DrawPlayerDarkness(transformMatrix);
-            }
+            DrawPlayerDarkness(transformMatrix);
 
             _spriteBatch.Begin();
             if (!_minigame.IsPlaying && _searchDialogue?.IsActive != true)
@@ -614,7 +609,7 @@ namespace Project_The_Elect.source_code
                                 _gameFlow.ShowQuestWarningDialogue(3);
                             else if (_questProgress.CollectScissors())
                             {
-                                // Keep this object registered so it can be collected after the daily reset.
+                                // Keep this object registered so it can be collected after the daily reset.p
                             }
                             break;
 
@@ -627,7 +622,7 @@ namespace Project_The_Elect.source_code
                                 ShowCompletedTaskDialogue();
                             else
                             {
-                                _audio.PlaySFX("error_task");
+                                _audio.PlaySFX(_questProgress.MonsterIndex >= 2 ? "cutMon2" : "cutMon1");
                                 BeginBlackout(MeatCutBlackoutDuration,
                                     () => _gameFlow.ShowQuestWarningDialogue(_questProgress.MonsterIndex >= 2 ? 24 : 15));
                             }
@@ -861,7 +856,7 @@ namespace Project_The_Elect.source_code
 
             Minigame minigame = machineName switch
             {
-                "LensMachine" => new MinigameLens(_spriteBatch, _camera, _content, _audio),
+                "LensMachine" => new MinigameLens(_spriteBatch, _camera, _content, _audio, _questProgress.MonsterIndex),
                 "ScanMachine" => new MinigameScan(_spriteBatch, _camera, _content, _audio),
                 "KeypadMachine" => new MinigameKeypad(_spriteBatch, _camera, _content, _audio),
                 _ => null

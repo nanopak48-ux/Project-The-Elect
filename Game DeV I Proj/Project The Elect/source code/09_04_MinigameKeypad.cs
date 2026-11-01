@@ -42,10 +42,6 @@ namespace Project_The_Elect.source_code
         private static readonly float[] AnswerDurations = { 5f, 10f, 15f };
         private static readonly int[] NumbersPerRound = { 3, 4, 5 };
         private static readonly string[] BottleColors = { "red", "green", "blue", "orage", "pink", "yellow" };
-        private const int FrameX = 72;
-        private const int FrameY = 40;
-        private const int FrameWidth = 1776;
-        private const int FrameHeight = 850;
         private const int CenterX = GameConfig.ScreenWidth / 2;
         private const int CenterY = 455;
         private const int SmallBottleWidth = 96;
@@ -54,13 +50,14 @@ namespace Project_The_Elect.source_code
         private const int LargeBottleHeight = 160;
         private const int PaletteSpacing = 180;
         private const int PaletteStartX = CenterX - (PaletteSpacing * (PaletteSize - 1)) / 2;
-        private const int PaletteY = 988;
+        private const int PaletteY = 948;
         private const int StatusY = 96;
         private const int StatusStartX = 1450;
         private const int StatusSpacing = 160;
         private const int StatusRadius = 28;
         private const int TimerX = 260;
-        private const int TimerY = 805;
+        private const int TimerY = 775;
+        private const int TimerLabelY = 725;
         private const int TimerWidth = 1400;
         private const int TimerHeight = 34;
 
@@ -211,9 +208,15 @@ namespace Project_The_Elect.source_code
             if (_phase == Phase.Answering)
             {
                 if (WasPressed(keyboard, Keys.Left))
+                {
                     _selectedColorIndex = (_selectedColorIndex + PaletteSize - 1) % PaletteSize;
+                    _audio.PlaySFX("selectKeypad2");
+                }
                 else if (WasPressed(keyboard, Keys.Right))
+                {
                     _selectedColorIndex = (_selectedColorIndex + 1) % PaletteSize;
+                    _audio.PlaySFX("selectKeypad2");
+                }
 
                 if (WasPressed(keyboard, Keys.Space))
                     ConfirmColor();
@@ -224,15 +227,12 @@ namespace Project_The_Elect.source_code
 
         public override void Draw(GameTime gameTime)
         {
-            _spriteBatch.DrawRectangle(
-                new Rectangle(FrameX, FrameY, FrameWidth, FrameHeight),
-                new Color(138, 61, 255),
-                4f);
-
+            MinigameBackdrop.Draw(_spriteBatch, MinigameBackdrop.Bounds);
             DrawStatusDots();
             DrawCenterCircle();
             DrawTimer();
             DrawPalette();
+            DrawControlGuide();
         }
 
         public override void Close()
@@ -276,6 +276,7 @@ namespace Project_The_Elect.source_code
         private void ShowNextColor()
         {
             _shownColorIndex = _sequence[_sequenceIndex];
+            _audio.PlaySFX("selectKeypad");
             SetPhase(Phase.ShowingColor);
         }
 
@@ -302,6 +303,7 @@ namespace Project_The_Elect.source_code
 
         private void BeginFailure()
         {
+            _audio.PlaySFX("error_task");
             _roundStatuses[_roundIndex] = RoundStatus.Failed;
             SetPhase(Phase.FailurePause);
         }
@@ -311,7 +313,7 @@ namespace Project_The_Elect.source_code
             for (int i = 0; i < RoundCount; i++)
             {
                 int centerX = StatusStartX + i * StatusSpacing;
-                var frame = new Rectangle(centerX - 32, StatusY - 32, 64, 64);
+                var frame = new Rectangle(centerX - 35, StatusY - 35, 70, 70);
                 _spriteBatch.Draw(_scorebarTexture, frame, Color.White);
 
                 Texture2D stateTexture = _roundStatuses[i] switch
@@ -323,7 +325,7 @@ namespace Project_The_Elect.source_code
 
                 if (stateTexture != null)
                 {
-                    var state = new Rectangle(centerX - 28, StatusY - 28, 64, 64);
+                    var state = new Rectangle(centerX - 35, StatusY - 35, 70, 70);
                     _spriteBatch.Draw(stateTexture, state, Color.White);
                 }
             }
@@ -364,7 +366,7 @@ namespace Project_The_Elect.source_code
                 remaining = 0f;
             }
 
-            _spriteBatch.DrawString(_font, "Time", new Vector2(GameConfig.ScreenWidth / 2f - 24f, 755f), Color.Black);
+            _spriteBatch.DrawString(_font, "Time", new Vector2(GameConfig.ScreenWidth / 2f - 24f, TimerLabelY), Color.Black);
             int fillWidth = (int)(TimerWidth * remaining);
             if (fillWidth > 0)
             {
@@ -397,6 +399,43 @@ namespace Project_The_Elect.source_code
             }
         }
 
+        private void DrawControlGuide()
+        {
+            if (_phase != Phase.Answering)
+                return;
+
+            const float scale = 0.65f;
+            string leftGuide = "[ <-- ]";
+            string rightGuide = "[ --> ]";
+            float centerY = PaletteY - 12f;
+
+            DrawCenteredGuideText(
+                leftGuide,
+                PaletteStartX - SmallBottleWidth / 2f - 12f - _font.MeasureString(leftGuide).Width * scale / 2f,
+                centerY,
+                scale);
+            DrawCenteredGuideText(
+                rightGuide,
+                PaletteStartX + (PaletteSize - 1) * PaletteSpacing + SmallBottleWidth / 2f + 12f + _font.MeasureString(rightGuide).Width * scale / 2f,
+                centerY,
+                scale);
+
+            int selectedBottleCenterX = PaletteStartX + _selectedColorIndex * PaletteSpacing;
+            string confirmGuide = "[ Space Bar ]";
+            DrawCenteredGuideText(
+                confirmGuide,
+                selectedBottleCenterX,
+                PaletteY + SmallBottleHeight / 2f + 1f,
+                scale);
+        }
+
+        private void DrawCenteredGuideText(string text, float centerX, float y, float scale)
+        {
+            var textSize = _font.MeasureString(text);
+            var position = new Vector2(centerX - textSize.Width * scale / 2f, y);
+            _spriteBatch.DrawString(_font, text, position + new Vector2(2f, 2f), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(_font, text, position, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+        }
         private void SetPhase(Phase phase)
         {
             _phase = phase;

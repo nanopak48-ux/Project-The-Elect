@@ -4,12 +4,12 @@
     {
       "character": "Unknown",
       "text": "ทำได้ดีมาก สำหรับครั้งแรกนะไอ่ไก่",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "ต่อไป ไปหยิบกรรไกรแล้วนำไปตัดชิ้นเนื้อมอนเตอร์ซ่ะ",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     }
   ]
 }

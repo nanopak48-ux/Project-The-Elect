@@ -4,12 +4,12 @@
     {
       "character": "Unknown",
       "text": "หมดเวลาสนุกแล้วหล่ะไอ่ทึ่ม",
-      "voiceline": "none"
+      "voiceline": "chap01_v01"
     },
     {
       "character": "Unknown",
       "text": "กลับไปนอนได้แล้ว",
-      "voiceline": "none"
+      "voiceline": "chap01_v01"
     }
   ]
 }

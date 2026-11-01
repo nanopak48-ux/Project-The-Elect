@@ -4,12 +4,12 @@
     {
       "character": "Unknown",
       "text": "ไอ่โง่ฉันบอกให้หยิบแฟรชไดรฟ์มาด้วยไง !!",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "กลับไปหยิบแฟรชไดรฟ์ที่ห้องนอนของแกซ่ะ",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     }
   ]
 }

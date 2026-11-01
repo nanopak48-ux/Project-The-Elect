@@ -4,12 +4,12 @@
     {
       "character": "Unknown",
       "text": "แกจะมาทำบ้าอะไรตรงนี้เนี้ย",
-      "voiceline": "none"
+      "voiceline": "chap01_v01"
     },
     {
       "character": "Unknown",
       "text": "แกต้องทำงานให้เสร็จทุกอย่างก่อนถึงจะมาส่งตรงนี้ได้",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     }
   ]
 }

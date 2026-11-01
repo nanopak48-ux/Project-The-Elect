@@ -3,18 +3,18 @@
   "dialogues": [
     {
       "character": "Unknown",
-      "text": "ฝันดีนะเจ้าทึ่ม ถึงฉันอาจจะพูดไม่ดีไปบ้างแต่ก็หวังดีตลอดนะ",
-      "voiceline": "none"
+      "text": "ฝันดีนะเจ้าทึ่ม ถึงฉันอาจจะพูดไม่ดีแต่แกอย่าไปใส่ใจเลย",
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "เอาหล่ะรีบนอนเถอะแล้วพรุ้งนี้แกก็จะได้อิสรภาพที่แกอยากได้คืน",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "โชคดีนะ",
-      "voiceline": "none"
+      "voiceline": "chap01_v01"
     }
   ]
 }

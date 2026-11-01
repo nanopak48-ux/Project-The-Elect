@@ -3,18 +3,33 @@
   "dialogues": [
     {
       "character": "Vier",
-      "text": "แหวะ.... น่าหยะแหยงชะมัด",
-      "voiceline": "none"
+      "text": "บ้าเอ๋ย! มันยังไม่ตายหรอเนี้ย",
+      "voiceline": "chap01_v01"
     },
     {
       "character": "Unknown",
-      "text": "แหม่ๆ ถือว่ามีความอดทนนะเนี้ย",
-      "voiceline": "none"
+      "text": "กลัวเป็นตุ้ดเลยนะไอ่อ่อน มันแค่ถูกฉีดยาชาไว้ยังไม่ตาย",
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
-      "text": "เอาหล่ะ ตอนนี้แกมีชิ้นเนื้อแล้วเอาไปตรวจใน MICROSCOPE LAB และ CHEMISTRY LAB ซ่ะ",
-      "voiceline": "none"
+      "text": "เอาหล่ะ ตอนนี้แกมีชิ้นเนื้อแล้ว",
+      "voiceline": "chap01_v01"
+    },
+    {
+      "character": "Unknown",
+      "text": "เอาชิ้นเนื้อไปตรวจใน MICROSCOPE LAB ผนังห้องจะเป็นสีฟ้า",
+      "voiceline": "chap01_v02"
+    },
+    {
+      "character": "Unknown",
+      "text": "และก็เอาชิ้นเนื้อไปตรวจสอบสารใน CHEMISTRY LAB ผนังห้องจะเป็นสีเหลีอง",
+      "voiceline": "chap01_v03"
+    },
+    {
+      "character": "Unknown",
+      "text": "จะทำอันไหนก่อนก็ได้แล้วแต่ความถนัดของแกนะไอ่ทึ่ม",
+      "voiceline": "chap01_v02"
     }
   ]
 }

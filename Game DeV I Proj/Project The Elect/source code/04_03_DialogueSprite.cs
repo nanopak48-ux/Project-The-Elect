@@ -83,7 +83,7 @@ namespace Project_The_Elect.source_code
             {
                 spr_profile = new Sprite(spr_dialogueprofile.GetRegion(dialogue.character));
                 previousCharacter = dialogue.character;
-                spr_profilePos = new Vector2(150, 500);
+                spr_profilePos = new Vector2(150 , 500);
                 EaseSpeed = 12;
                 EaseInActive = true;
             }

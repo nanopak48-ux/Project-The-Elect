@@ -4,12 +4,12 @@
     {
       "character": "Unknown",
       "text": "ขอบคุณที่เหนื่อยนะไอ่เอ๋อ นายทำได้ดีนะ",
-      "voiceline": "none"
+      "voiceline": "chap01_v02"
     },
     {
       "character": "Unknown",
       "text": "แล้วเจอกันพรุ่งนี้",
-      "voiceline": "none"
+      "voiceline": "chap01_v01"
     }
   ]
 }

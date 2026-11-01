@@ -4,12 +4,17 @@
     {
       "character": "Unknown",
       "text": "เอาหล่ะงานส่องชิ้นเนื้อ ทำแบบที่แกทำเมื่อวานคือปรับกล้องจุลทรรศน์ให้ภาพมันชัดขึ้น",
-      "voiceline": "none"
+      "voiceline": "chap01_v03"
     },
     {
       "character": "Unknown",
-      "text": "แกจะต้องกด spacebar ตอน pointer ที่ขยับของแกตรงกับเป้าหมายจนสามารถเห็นเซลล์อย่างชัดแจ๋ว",
-      "voiceline": "none"
+      "text": "แกจะต้องกด[space bar]ตอนpointerที่ขยับของแกตรงกับเป้าหมาย",
+      "voiceline": "chap01_v03"
+    },
+    {
+      "character": "Unknown",
+      "text": "ทำจนสามารถเห็นเซลล์อย่างชัดแจ๋ว",
+      "voiceline": "chap01_v02"
     }
   ]
 }
