@@ -69,37 +69,20 @@
 | 7   | LOOKTAW | Ui_Scan_Inside bar               | ✅ Done        |
 | 8   | LOOKTAW | Ui_Red lab flask                 | 🔄 In Progress |
 | 9   | LOOKTAW | Ui_Small Red lab flask           | 🔲 Todo        |
-| 10  |          |                                  |                |
-| 11  |          |                                  |                |
-| 12  |          |                                  |                |
-| 13  |          |                                  |                |
-| 14  |          |                                  |                |
-| 15  |          |                                  |                |
-| 16  |          |                                  |                |
-| 17  |          |                                  |                |
-| 18  |          | Gameplay: Solution               |                |
-| 19  |          | Gameplay: Lens's Skill Check     |                |
-| 20  |          | Gameplay: Operating              |                |
-| 21  |          | SFX Gameplay: Scan               |                |
-| 22  |          | SFX Gameplay: Solution           |                |
-| 23  |          | SFX Gameplay: Lens's Skill Check |                |
-| 24  |          | SFX Gameplay: Operating          |                |
-| 25  |          |                                  |                |
-| 26  | KAOWNIEW | Level Design (design only)       |                |
-| 27  | KAOWNIEW | Tilemap Draft                    |                |
-| 28  | KAOWNIEW | Wall & Floor Tileset (pixel)     |                |
-| 29  | KAOWNIEW | Main Interact Asset Design       |                |
-| 30  | KAOWNIEW | Main Interact Asset              |                |
-| 31  | KAOWNIEW |                                  |                |
-| 32  | KAOWNIEW | Utility Icon Design              |                |
-| 33  | KAOWNIEW | Health Bar Design                |                |
-| 34  |          |                                  |                |
-| 35  |          |                                  |                |
-| 36  |          |                                  |                |
-| 37  |          |                                  |                |
-| 38  |          |                                  |                |
-| 39  |          |                                  |                |
-| --- |   ---   | ---                              |                |
+| 10  |   PLUB   | Gameplay: Solution               | 🔄 In Progress |
+| 11  |   PLUB   | Gameplay: Lens's Skill Check     | 🔄 In Progress |
+| 12  |   PLUB   | Gameplay: Operating              | 🔄 In Progress |
+| 13  |   PLUB   | SFX Gameplay: Scan               | 🔲 Todo        |
+| 14  |   PLUB   | SFX Gameplay: Solution           | 🔲 Todo        |
+| 15  |   PLUB   | SFX Gameplay: Lens's Skill Check | 🔲 Todo        |
+| 16  |   PLUB   | SFX Gameplay: Operating          | 🔲 Todo        |
+| 17  | KAOWNIEW | Utility Icon Design              | 🔲 Todo        |
+| 18  | KAOWNIEW | Level Design (design only)       | 🔄 In Progress |
+| 19  | KAOWNIEW | Tilemap Draft                    | 🔄 In Progress |
+| 20  | KAOWNIEW | Wall & Floor Tileset (pixel)     | 🔄 In Progress |
+| 21  | KAOWNIEW | Main Interact Asset Design       | 🔄 In Progress |
+| 22  | KAOWNIEW | Main Interact Asset              | 🔄 In Progress |
+| 23  | KAOWNIEW | Health Bar Design                | 🔄 In Progress |
 |     |          |                                  |                |
 
 ## Daily Notes
