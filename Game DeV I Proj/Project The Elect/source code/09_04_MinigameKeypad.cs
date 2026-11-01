@@ -37,7 +37,9 @@ namespace Project_The_Elect.source_code
         private const float ReadyDelayDuration = 1f;
         private const float StartDelayDuration = 1f;
         private const float RoundPauseDuration = 0.8f;
-        private const float ResultPauseDuration = 0.7f;
+        private const float ResultPauseDuration = 1.5f;
+        private const int ResultImageWidth = 1520;
+        private const int ResultImageHeight = 642;
 
         private static readonly float[] AnswerDurations = { 5f, 10f, 15f };
         private static readonly int[] NumbersPerRound = { 3, 4, 5 };
@@ -60,6 +62,13 @@ namespace Project_The_Elect.source_code
         private const int TimerLabelY = 725;
         private const int TimerWidth = 1400;
         private const int TimerHeight = 34;
+        // ปรับ ResultImageWidth/Height หรือ ResultImageOffsetY เพื่อเปลี่ยนขนาด/ตำแหน่งภาพผลลัพธ์
+        private const int ResultImageOffsetY = 0;
+        private static Rectangle ResultImageRect => new(
+            (GameConfig.ScreenWidth - ResultImageWidth) / 2,
+            (GameConfig.ScreenHeight - ResultImageHeight) / 2 + ResultImageOffsetY,
+            ResultImageWidth,
+            ResultImageHeight);
 
         private readonly SpriteBatch _spriteBatch;
         private readonly ContentManager _content;
@@ -75,6 +84,8 @@ namespace Project_The_Elect.source_code
         private Texture2D _timeBarTexture;
         private Texture2D _timeInsideTexture;
         private Texture2D _bottleSelectTexture;
+        private Texture2D _resultPassTexture;
+        private Texture2D _resultFailTexture;
         private BitmapFont _font;
         private List<int> _sequence = new List<int>();
         private int _roundIndex;
@@ -127,6 +138,8 @@ namespace Project_The_Elect.source_code
             _timeBarTexture = _content.Load<Texture2D>(texturePrefix + "09_bartime");
             _timeInsideTexture = _content.Load<Texture2D>(texturePrefix + "10_timeinside");
             _bottleSelectTexture = _content.Load<Texture2D>(texturePrefix + "11_bottleselect");
+            _resultPassTexture = _content.Load<Texture2D>(texturePrefix + "12_pass");
+            _resultFailTexture = _content.Load<Texture2D>(texturePrefix + "13_fail");
         }
 
         public override void Update(GameTime gameTime)
@@ -228,6 +241,15 @@ namespace Project_The_Elect.source_code
         public override void Draw(GameTime gameTime)
         {
             MinigameBackdrop.Draw(_spriteBatch, MinigameBackdrop.Bounds);
+            if (_phase == Phase.FinalSuccessPause || _phase == Phase.FailurePause)
+            {
+                Texture2D resultTexture = _phase == Phase.FinalSuccessPause
+                    ? _resultPassTexture
+                    : _resultFailTexture;
+                _spriteBatch.Draw(resultTexture, ResultImageRect, Color.White);
+                return;
+            }
+
             DrawStatusDots();
             DrawCenterCircle();
             DrawTimer();

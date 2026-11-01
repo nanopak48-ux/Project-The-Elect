@@ -1,0 +1,21 @@
+{
+  "frameWidth": 912,
+  "frameHeight": 437,
+  "displayWidth": 912,
+  "displayHeight": 437,
+  "begin": {
+    "framePrefix": "texture/11_data_submission/Load_BEGIN/Load_BEGIN_",
+    "frameCount": 5,
+    "frameDurationSeconds": 0.3
+  },
+  "loading": {
+    "framePrefix": "texture/11_data_submission/Loading/Loading_",
+    "frameCount": 24,
+    "frameDurationSeconds": 0.1
+  },
+  "done": {
+    "framePrefix": "texture/11_data_submission/Load_DONE/Load_DONE_",
+    "frameCount": 5,
+    "frameDurationSeconds": 0.3
+  }
+}

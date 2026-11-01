@@ -68,6 +68,9 @@ namespace Project_The_Elect.source_code
         private Texture2D _targetTexture;
         private Texture2D _barScoreTexture;
         private Texture2D _barInsideTexture;
+        
+
+
         private float _pointerX;
         private float _targetX;
         private float _targetDirection;

@@ -8,6 +8,7 @@ using MonoGame.Extended.Input;
 using MonoGame.Extended.ViewportAdapters;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace Project_The_Elect.source_code
         private GraphicsDeviceManager _graphics;
         private GameWindow _window;
         private MinigameManager _minigame;
+        private DataSubmissionSequence _dataSubmissionSequence;
         private QuestProgress _questProgress;
         private MinigameResult _lastMinigameResult = MinigameResult.None;
         public MinigameResult LastMinigameResult => _lastMinigameResult;
@@ -40,6 +42,9 @@ namespace Project_The_Elect.source_code
         private readonly Dictionary<string, string> _searchEvidenceLayers = new Dictionary<string, string>();
         private BitmapFont _endingFont;
         private string _endingText;
+        private string _pendingEndingText;
+        private bool _isEndingDialogue;
+        private bool _isEndingSequence;
 
         private OrthographicCamera _camera;
         private Vector2 lookAtPos;
@@ -133,6 +138,13 @@ namespace Project_The_Elect.source_code
                 GameConfig.ScreenWidth,
                 GameConfig.ScreenHeight);
             _searchDialogue.DialogueEnded += OnSearchDialogueEnded;
+            _dataSubmissionSequence = new DataSubmissionSequence(
+                _content,
+                _spriteBatch,
+                _audio,
+                GameConfig.ScreenWidth,
+                GameConfig.ScreenHeight);
+            _dataSubmissionSequence.Completed += OnDataSubmissionSequenceCompleted;
             _endingFont = _content.Load<BitmapFont>("font/fontGenshin");
             _darknessMask = new Texture2D(_graphicDevice, DarknessMaskWidth, DarknessMaskHeight);
         }
@@ -163,8 +175,23 @@ namespace Project_The_Elect.source_code
                 return;
             }
 
+            if (_dataSubmissionSequence?.IsActive == true)
+            {
+                _map.Update(gameTime);
+                _dataSubmissionSequence.Update(gameTime);
+                _player.UpdateWithoutMovement(gameTime);
+                return;
+            }
+
             if (_searchDialogue?.IsActive == true)
             {
+                if (_isEndingSequence)
+                {
+                    _searchDialogue.Update(gameTime);
+                    _player.UpdateWithoutMovement(gameTime);
+                    return;
+                }
+
                 _map.Update(gameTime);
                 _searchDialogue.Update(gameTime);
                 _player.UpdateWithoutMovement(gameTime);
@@ -262,6 +289,18 @@ namespace Project_The_Elect.source_code
             if (_isBlackout || _pendingMinigameDialogueChapter != 0 || _pendingMinigame != null)
                 return;
 
+            if (_isEndingSequence)
+            {
+                _searchDialogue?.InputHandler(gameTime);
+                return;
+            }
+
+            if (_dataSubmissionSequence?.IsActive == true)
+            {
+                _dataSubmissionSequence.InputHandler(gameTime);
+                return;
+            }
+
             if (_searchDialogue?.IsActive == true)
             {
                 _searchDialogue.InputHandler(gameTime);
@@ -319,6 +358,7 @@ namespace Project_The_Elect.source_code
                     promptScale,
                     SpriteEffects.None,
                     0f);
+
                 _spriteBatch.End();
                 return;
             }
@@ -326,6 +366,15 @@ namespace Project_The_Elect.source_code
             if (_isBlackout)
             {
                 _graphics.GraphicsDevice.Clear(Color.Black);
+                return;
+            }
+
+            if (_isEndingSequence)
+            {
+                _graphics.GraphicsDevice.Clear(Color.Black);
+                _spriteBatch.Begin();
+                _searchDialogue?.Draw(gameTime);
+                _spriteBatch.End();
                 return;
             }
 
@@ -369,6 +418,7 @@ namespace Project_The_Elect.source_code
             if (_interactManager?.CurrentNearbyObject != null
                 && !_minigame.IsPlaying
                 && _searchDialogue?.IsActive != true
+                && _dataSubmissionSequence?.IsActive != true
                 && !_questProgress.HasDialogueMessage
                 && !_isBlackout)
             {
@@ -439,6 +489,7 @@ namespace Project_The_Elect.source_code
                 _questProgress.Draw(_spriteBatch);
             if (_minigame.IsPlaying) _minigame.Draw(gameTime);
             _searchDialogue?.Draw(gameTime);
+            _dataSubmissionSequence?.Draw();
             _spriteBatch.End();
         }
 
@@ -630,7 +681,7 @@ namespace Project_The_Elect.source_code
                             break;
 
                         case "DataSubmissionPoint":
-                            if (!_questProgress.TrySubmitData())
+                            if (!_questProgress.CanSubmitData)
                             {
                                 if (!_questProgress.DataSubmitted)
                                     _gameFlow.ShowQuestWarningDialogue(5);
@@ -639,7 +690,8 @@ namespace Project_The_Elect.source_code
                             }
                             else
                             {
-                                _gameFlow.ShowQuestWarningDialogue(_questProgress.MonsterIndex >= 2 ? 29 : 11);
+                                _player.Freeze();
+                                _dataSubmissionSequence.Start();
                             }
                             break;
 
@@ -709,6 +761,15 @@ namespace Project_The_Elect.source_code
 
         private void OnSearchDialogueEnded()
         {
+            if (_isEndingDialogue)
+            {
+                _isEndingDialogue = false;
+                _endingText = _pendingEndingText;
+                _pendingEndingText = null;
+                Console.WriteLine($"[Ending] {_endingText} ({_collectedSearchEvidence.Count} evidence collected)");
+                return;
+            }
+
             if (_activeSearchEvidence != null)
             {
                 string evidenceName = _activeSearchEvidence.Name;
@@ -718,6 +779,19 @@ namespace Project_The_Elect.source_code
             }
 
             _player.Unfreeze();
+        }
+
+        private void OnDataSubmissionSequenceCompleted()
+        {
+            if (!_questProgress.TrySubmitData())
+            {
+                _player.Unfreeze();
+                _gameFlow.ShowQuestWarningDialogue(_questProgress.DataSubmitted ? 11 : 5);
+                return;
+            }
+
+            int chapterIndex = _questProgress.MonsterIndex >= 2 ? 29 : 11;
+            _gameFlow.ShowQuestWarningDialogue(chapterIndex, () => _player.Unfreeze());
         }
 
         private void ShowCompletedTaskDialogue()
@@ -734,7 +808,7 @@ namespace Project_The_Elect.source_code
                 if (_questProgress.TrySleep())
                 {
                     if (isFinalMonsterSleep)
-                        ShowEnding();
+                        BeginEndingDialogue();
                     else if (_questProgress.MonsterIndex >= 2 && !_secondMonsterBriefingShown)
                     {
                         _secondMonsterBriefingShown = true;
@@ -773,11 +847,32 @@ namespace Project_The_Elect.source_code
             }
         }
 
-        private void ShowEnding()
+        private void BeginEndingDialogue()
         {
-            _endingText = _collectedSearchEvidence.Count > 6 ? "Good End" : "Bad End";
+            _isEndingSequence = true;
+            bool hasGoodEnding = _collectedSearchEvidence.Count > 6;
+            _pendingEndingText = hasGoodEnding ? "Good End" : "Bad End";
+            int searchIndex = hasGoodEnding ? 19 : 18;
+            string searchPath = Path.Combine(
+                AppContext.BaseDirectory,
+                _content.RootDirectory,
+                "data",
+                "dataSearch",
+                $"search{searchIndex:00}.json");
+
+            _isEndingDialogue = true;
             _player.Freeze();
-            Console.WriteLine($"[Ending] {_endingText} ({_collectedSearchEvidence.Count} evidence collected)");
+            try
+            {
+                _searchDialogue.Start(searchPath);
+            }
+            catch (Exception exception)
+            {
+                _isEndingDialogue = false;
+                _endingText = _pendingEndingText;
+                _pendingEndingText = null;
+                Console.WriteLine($"[Ending Dialogue Error] {exception.Message}");
+            }
         }
 
         private void BeginBlackout(float duration, Action afterBlackout = null)

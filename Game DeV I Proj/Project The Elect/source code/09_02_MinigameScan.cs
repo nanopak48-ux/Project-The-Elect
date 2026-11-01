@@ -35,7 +35,9 @@ namespace Project_The_Elect.source_code
         private const float MissPenalty = BaseProgressPoint * 1f; // พลาด -20
         private const int ScanFrameCount = 5;
         private const int CellDisplaySize = 600;
-        private const float SuccessHoldDuration = 1.25f;
+        private const float ResultDisplayDuration = 1.5f;
+        private const int ResultImageWidth = 1520;
+        private const int ResultImageHeight = 642;
         //=====================================================================//
 
         //====================== CONFIG: ตำแหน่งบนหน้าจอ ======================//
@@ -47,7 +49,14 @@ namespace Project_The_Elect.source_code
         // ตัวชี้อยู่กึ่งกลางแนวตั้งของราง (ถ้าอยากชิดขอบบนแบบเดิม ให้เปลี่ยนเป็น => TrackY)
         private static int PointerY => TrackY + (BarHeight - PointerHeight) / 2 +10;
         private static Rectangle CellDisplayRect => new(
-            (GameConfig.ScreenWidth - CellDisplaySize) / 2 ,80 +80,CellDisplaySize,CellDisplaySize);
+            (GameConfig.ScreenWidth - CellDisplaySize) / 2, 160, CellDisplaySize, CellDisplaySize);
+        // ปรับ ResultImageWidth/Height หรือ ResultImageOffsetY เพื่อเปลี่ยนขนาด/ตำแหน่งภาพผลลัพธ์
+        private const int ResultImageOffsetY = 0;
+        private static Rectangle ResultImageRect => new(
+            (GameConfig.ScreenWidth - ResultImageWidth) / 2,
+            (GameConfig.ScreenHeight - ResultImageHeight) / 2 + ResultImageOffsetY,
+            ResultImageWidth,
+            ResultImageHeight);
         private const int BackdropMargin = 27;
         //=====================================================================//
 
@@ -62,10 +71,13 @@ namespace Project_The_Elect.source_code
         private Texture2D _pointerTexture;
         private Texture2D _targetTexture;
         private Texture2D[] _cellFrames;
+        private Texture2D _scanPassTexture;
+        private Texture2D _scanFailTexture;
         private readonly int _monsterIndex;
         private int _clarityLevel;
-        private bool _isSuccessPending;
-        private float _successHoldRemaining;
+        private bool _isResultPending;
+        private bool _resultWasSuccess;
+        private float _resultDisplayRemaining;
 
         private float _pointerX;
         private float _targetX;
@@ -117,8 +129,9 @@ namespace Project_The_Elect.source_code
 
             _progress = StartingProgress;
             _clarityLevel = 1;
-            _isSuccessPending = false;
-            _successHoldRemaining = 0f;
+            _isResultPending = false;
+            _resultWasSuccess = false;
+            _resultDisplayRemaining = 0f;
             _pointerX = TrackX;
             SpawnTarget(false);
             _pointerSpeed = PointerIncrement;
@@ -131,6 +144,9 @@ namespace Project_The_Elect.source_code
             _barTexture = _content.Load<Texture2D>(texturePrefix + "00_bar");
             _pointerTexture = _content.Load<Texture2D>(texturePrefix + "01_pointer");
             _targetTexture = _content.Load<Texture2D>(texturePrefix + "02_traget");
+            // ใช้ภาพผลลัพธ์ที่มีอยู่ใน Content/texture/09_minigame/04_lens
+            _scanPassTexture = _content.Load<Texture2D>("texture/09_minigame/04_lens/03_pass");
+            _scanFailTexture = _content.Load<Texture2D>("texture/09_minigame/04_lens/04_fail");
 
             _cellFrames = new Texture2D[ScanFrameCount];
             string cellPrefix = $"texture/09_minigame/05_scan_cells/cell_Mon{_monsterIndex}/Micro_mon{_monsterIndex}_";
@@ -146,11 +162,16 @@ namespace Project_The_Elect.source_code
         {
             if (IsClosed) return;
 
-            if (_isSuccessPending)
+            if (_isResultPending)
             {
-                _successHoldRemaining -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (_successHoldRemaining <= 0f)
-                    Complete();
+                _resultDisplayRemaining -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (_resultDisplayRemaining <= 0f)
+                {
+                    if (_resultWasSuccess)
+                        Complete();
+                    else
+                        Fail();
+                }
                 return;
             }
 
@@ -161,7 +182,7 @@ namespace Project_The_Elect.source_code
 
         public override void InputHandler(GameTime gameTime)
         {
-            if (IsClosed || _isSuccessPending) return;
+            if (IsClosed || _isResultPending) return;
 
             KeyboardState currentKeyboardState = Keyboard.GetState();
             bool spacePressed = currentKeyboardState.IsKeyDown(Keys.Space)
@@ -175,8 +196,7 @@ namespace Project_The_Elect.source_code
                 _audio.PlaySFX("hitLens");
                 if (_progress >= 100f)
                 {
-                    _isSuccessPending = true;
-                    _successHoldRemaining = SuccessHoldDuration;
+                    BeginResultDisplay(success: true);
                 }
                 else
                     SpawnTarget(true);
@@ -188,7 +208,7 @@ namespace Project_The_Elect.source_code
                 _progress = MathHelper.Clamp(_progress - MissPenalty, 0f, 100f);
                 if (_progress <= 0f)
                 {
-                    Fail();
+                    BeginResultDisplay(success: false);
                 }
             }
         }
@@ -196,17 +216,21 @@ namespace Project_The_Elect.source_code
         public override void Draw(GameTime gameTime)
         {
             MinigameBackdrop.Draw(_spriteBatch, MinigameBackdrop.Bounds);
+            if (_isResultPending)
+            {
+                Texture2D resultTexture = _resultWasSuccess ? _scanPassTexture : _scanFailTexture;
+                _spriteBatch.Draw(resultTexture, ResultImageRect, Color.White);
+                return;
+            }
+
             _spriteBatch.Draw(_cellFrames[Math.Min(_clarityLevel, ScanFrameCount - 1)], CellDisplayRect, Color.White);
             _spriteBatch.Draw(_barTexture, TrackRect, Color.White);
 
-            if (!_isSuccessPending)
-            {
-                DrawControlHint("[ Space bar ]");
-                _spriteBatch.Draw(_targetTexture, TargetRect, Color.White);
-                _spriteBatch.Draw(_pointerTexture, PointerRect, Color.White);
-            }
+            DrawControlHint("[ Space bar ]");
+            _spriteBatch.Draw(_targetTexture, TargetRect, Color.White);
+            _spriteBatch.Draw(_pointerTexture, PointerRect, Color.White);
 
-            if (ShowDebugHitboxes && !_isSuccessPending)
+            if (ShowDebugHitboxes)
             {
                 _spriteBatch.DrawRectangle(TargetHitbox, Color.Purple);
                 _spriteBatch.DrawRectangle(PointerHitbox, Color.Orange);
@@ -235,6 +259,13 @@ namespace Project_The_Elect.source_code
                 position = _random.Next(TrackX, maxPosition + 1);
             } while (avoidPreviousPosition && position == previousPosition);
             _targetX = position;
+        }
+
+        private void BeginResultDisplay(bool success)
+        {
+            _isResultPending = true;
+            _resultWasSuccess = success;
+            _resultDisplayRemaining = ResultDisplayDuration;
         }
 
         private static float Bounce(float position, ref float speed, float min, float max)
