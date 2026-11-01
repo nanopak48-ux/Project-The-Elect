@@ -24,7 +24,7 @@
 | 17 | AUDIO ENGINEER | SFX Gameplay: Lens's Skill Check | PLUB     | ✅ Done       | Should |               2 |
 | 18 | AUDIO ENGINEER | SFX Gameplay: Operating          | PLUB     | ✅ Done       | Should |               2 |
 | 19 | UI             | Microscope Puzzle UI             | LOOKTAW  | ✅ Done       | Must   |               5 |
-| 20 | UI             | Data room UI                     | LOOKTAW  | 🔄IN PROGRESS | Must   |               3 |
+| 20 | UI             | Data room UI                     | LOOKTAW  | ✅ Done       | Must   |               5 |
 | 21 | LEVEL          | TaskAsset_CHEMEICAL              | KAOWNIEW | 🔄IN PROGRESS | Must   |             TBD |
 | 22 | LEVEL          | TaskAsset_DATA                   | KAOWNIEW | 🔄IN PROGRESS | Must   |             TBD |
 | 23 | LEVEL          | Asset_Furniture                  | KAOWNIEW | 🔄IN PROGRESS | Must   |             TBD |
@@ -72,7 +72,9 @@
 | 18  | LOOKTAW | Bad End Cut Scene        | 🔲 Todo        |
 | 19  | LOOKTAW | Micro_UI_camera_Monster2 | ✅ Done        |
 | 20  | LOOKTAW | UI_TOOL_Flash Drive      | ✅ Done        |
-| 21  | LOOKTAW | Data room UI             | 🔄 In Progress |
+| 21  | LOOKTAW | Begin Data  UI          | ✅ Done        |
+| 22  | LOOKTAW | Loading                  | ✅ Done        |
+| 23  | LOOKTAW | Done Loading             | ✅ Done        |
 
 ## Daily Notes
 
