@@ -339,6 +339,7 @@ namespace Project_The_Elect.source_code
             _map.Draw(gameTime, _camera, "wall_lower");
             _map.Draw(gameTime, _camera, "wall_upper");
             _map.Draw(gameTime, _camera, "wall_side");
+            _map.Draw(gameTime, _camera, "undermiddle");
             _map.Draw(gameTime, _camera, "middleground");
             _map.Draw(gameTime, _camera, "furniture");
             _map.Draw(gameTime, _camera, "foreground");
@@ -674,9 +675,12 @@ namespace Project_The_Elect.source_code
             try
             {
                 int searchIndex;
-                if (searchObject.Name == "SearchEmpty_Desk01")
+                if (searchObject.Name.StartsWith("SearchEmpty_Desk", StringComparison.Ordinal)
+                    && int.TryParse(searchObject.Name.Substring("SearchEmpty_Desk".Length), out int deskNumber)
+                    && deskNumber >= 1
+                    && deskNumber <= 9)
                 {
-                    searchIndex = 9;
+                    searchIndex = deskNumber + 8;
                 }
                 else if (searchObject.Name.StartsWith("SearchEvidence_Diary", StringComparison.Ordinal)
                     && int.TryParse(searchObject.Name.Substring("SearchEvidence_Diary".Length), out int evidenceNumber)
@@ -857,7 +861,7 @@ namespace Project_The_Elect.source_code
             Minigame minigame = machineName switch
             {
                 "LensMachine" => new MinigameLens(_spriteBatch, _camera, _content, _audio, _questProgress.MonsterIndex),
-                "ScanMachine" => new MinigameScan(_spriteBatch, _camera, _content, _audio),
+                "ScanMachine" => new MinigameScan(_spriteBatch, _camera, _content, _audio, _questProgress.MonsterIndex),
                 "KeypadMachine" => new MinigameKeypad(_spriteBatch, _camera, _content, _audio),
                 _ => null
             };

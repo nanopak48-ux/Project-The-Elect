@@ -10,4 +10,28 @@
    <frame tileid="16" duration="500"/>
   </animation>
  </tile>
+ <tile id="1">
+  <animation>
+   <frame tileid="1" duration="1000"/>
+   <frame tileid="5" duration="1000"/>
+   <frame tileid="13" duration="1000"/>
+   <frame tileid="13" duration="1000"/>
+  </animation>
+ </tile>
+ <tile id="2">
+  <animation>
+   <frame tileid="6" duration="1000"/>
+   <frame tileid="2" duration="1000"/>
+  </animation>
+ </tile>
+ <tile id="3">
+  <animation>
+   <frame tileid="7" duration="1000"/>
+   <frame tileid="7" duration="1000"/>
+   <frame tileid="11" duration="1000"/>
+   <frame tileid="3" duration="1000"/>
+   <frame tileid="3" duration="1000"/>
+   <frame tileid="3" duration="1000"/>
+  </animation>
+ </tile>
 </tileset>
