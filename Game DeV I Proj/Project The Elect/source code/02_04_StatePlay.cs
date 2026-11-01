@@ -37,12 +37,14 @@ namespace Project_The_Elect.source_code
         private GameMapManager _map;
         private InteractManager _interactManager;
         private SearchDialogueManager _searchDialogue;
+        private EndingChoiceManager _endingChoiceManager;
         private InteractableObject _activeSearchEvidence;
         private readonly HashSet<string> _collectedSearchEvidence = new HashSet<string>();
         private readonly Dictionary<string, string> _searchEvidenceLayers = new Dictionary<string, string>();
         private BitmapFont _endingFont;
         private string _endingText;
         private string _pendingEndingText;
+        private bool? _endingSuccessOverride;
         private bool _isEndingDialogue;
         private bool _isEndingSequence;
 
@@ -146,6 +148,12 @@ namespace Project_The_Elect.source_code
                 GameConfig.ScreenHeight);
             _dataSubmissionSequence.Completed += OnDataSubmissionSequenceCompleted;
             _endingFont = _content.Load<BitmapFont>("font/fontGenshin");
+            _endingChoiceManager = new EndingChoiceManager(
+                _spriteBatch,
+                _endingFont,
+                GameConfig.ScreenWidth,
+                GameConfig.ScreenHeight);
+            _endingChoiceManager.ChoiceSelected += OnEndingChoiceSelected;
             _darknessMask = new Texture2D(_graphicDevice, DarknessMaskWidth, DarknessMaskHeight);
         }
 
@@ -157,6 +165,12 @@ namespace Project_The_Elect.source_code
 
             if (_endingText != null)
                 return;
+
+            if (_endingChoiceManager?.IsActive == true)
+            {
+                _player.UpdateWithoutMovement(gameTime);
+                return;
+            }
 
             if (_isBlackout)
             {
@@ -283,6 +297,12 @@ namespace Project_The_Elect.source_code
                     _gameFlow.ChangeFlow(GameFlow.Home);
                 }
 
+                return;
+            }
+
+            if (_endingChoiceManager?.IsActive == true)
+            {
+                _endingChoiceManager.InputHandler();
                 return;
             }
 
@@ -491,6 +511,13 @@ namespace Project_The_Elect.source_code
             _searchDialogue?.Draw(gameTime);
             _dataSubmissionSequence?.Draw();
             _spriteBatch.End();
+
+            if (_endingChoiceManager?.IsActive == true)
+            {
+                _spriteBatch.Begin();
+                _endingChoiceManager.Draw();
+                _spriteBatch.End();
+            }
         }
 
         private void DrawPlayerDarkness(Matrix transformMatrix)
@@ -588,6 +615,23 @@ namespace Project_The_Elect.source_code
                 return;
             }
 
+            // TEST: collect every evidence object at once (without spending Sanity).
+            if (keyboardState.WasKeyPressed(Keys.G))
+            {
+                foreach (string evidenceName in _searchEvidenceLayers.Keys.ToList())
+                {
+                    _collectedSearchEvidence.Add(evidenceName);
+                    InteractableObject evidenceObject = _interactManager?.InteractObjects?
+                        .FirstOrDefault(mapObject => mapObject.Name == evidenceName);
+                    if (evidenceObject != null)
+                        _interactManager.RemoveObject(evidenceObject);
+                }
+
+                _questProgress.ShowNotice("TEST: all evidence collected");
+                Console.WriteLine($"[TEST] Collected {_collectedSearchEvidence.Count} evidence objects.");
+                return;
+            }
+
             if (keyboardState.WasKeyPressed(Keys.N))
             {
                 _questProgress.SkipNextObjective();
@@ -640,7 +684,7 @@ namespace Project_The_Elect.source_code
                         case "Bed":
                             if (_questProgress.DataSubmitted && _questProgress.MonsterIndex >= 2)
                             {
-                                _gameFlow.ShowQuestWarningDialogue(30, BeginSleepTransition);
+                                _gameFlow.ShowQuestWarningDialogue(30, BeginFinalSleepChoiceOrSleep);
                             }
                             else if (_questProgress.DataSubmitted && !_questProgress.IsSanityDepleted)
                             {
@@ -820,6 +864,35 @@ namespace Project_The_Elect.source_code
             });
         }
 
+        private void BeginFinalSleepChoiceOrSleep()
+        {
+            if (_collectedSearchEvidence.Count > 6)
+            {
+                _player.Freeze();
+                _endingChoiceManager.Start();
+                return;
+            }
+
+            // Evidence is insufficient, so the final choice is skipped and the ending is bad.
+            BeginSleepTransition();
+        }
+
+        private void OnEndingChoiceSelected(EndingChoiceOption choice)
+        {
+            _endingSuccessOverride = choice == EndingChoiceOption.PretendAndEscape;
+            BeginBlackout(SleepBlackoutDuration, () =>
+            {
+                if (choice == EndingChoiceOption.TrustAndSleep && !_questProgress.TrySleep())
+                {
+                    _endingSuccessOverride = null;
+                    _player.Unfreeze();
+                    return;
+                }
+
+                BeginEndingDialogue();
+            });
+        }
+
         private void RegisterSearchEvidenceLayers()
         {
             _searchEvidenceLayers.Clear();
@@ -850,7 +923,8 @@ namespace Project_The_Elect.source_code
         private void BeginEndingDialogue()
         {
             _isEndingSequence = true;
-            bool hasGoodEnding = _collectedSearchEvidence.Count > 6;
+            bool hasGoodEnding = _endingSuccessOverride ?? _collectedSearchEvidence.Count > 6;
+            _endingSuccessOverride = null;
             _pendingEndingText = hasGoodEnding ? "Good End" : "Bad End";
             int searchIndex = hasGoodEnding ? 19 : 18;
             string searchPath = Path.Combine(
