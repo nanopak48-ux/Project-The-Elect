@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.BitmapFonts;
@@ -27,6 +28,9 @@ namespace Project_The_Elect.source_code
         private readonly GameAudioManager _audio;
         private readonly GameFlowManager _gameFlow;
         private readonly Texture2D _pixel;
+        private readonly Texture2D _panelTexture;
+        private readonly Texture2D _selectedBarTexture;
+        private readonly Texture2D _volumeSliderTexture;
         private readonly int _screenWidth;
         private readonly int _screenHeight;
         private KeyboardState _previousKeyboardState;
@@ -36,6 +40,7 @@ namespace Project_The_Elect.source_code
         public bool IsOpen { get; private set; }
 
         public SettingsMenu(
+            ContentManager content,
             SpriteBatch spriteBatch,
             BitmapFont font,
             GameAudioManager audio,
@@ -49,6 +54,9 @@ namespace Project_The_Elect.source_code
             _gameFlow = gameFlow;
             _screenWidth = screenWidth;
             _screenHeight = screenHeight;
+            _panelTexture = content.Load<Texture2D>("texture/01_home/04_settingsPanel");
+            _selectedBarTexture = content.Load<Texture2D>("texture/01_home/05_settingsSelectBar");
+            _volumeSliderTexture = content.Load<Texture2D>("texture/01_home/06_settingsVolumeSlider");
             _pixel = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
             _pixel.SetData(new[] { Color.White });
         }
@@ -138,9 +146,8 @@ namespace Project_The_Elect.source_code
             int panelX = (_screenWidth - PanelWidth) / 2;
             int panelY = (_screenHeight - PanelHeight) / 2;
             var panel = new Rectangle(panelX, panelY, PanelWidth, PanelHeight);
-            _spriteBatch.Draw(_pixel, panel, new Color((byte)5, (byte)18, (byte)25, (byte)248));
-            _spriteBatch.Draw(_pixel, new Rectangle(panelX, panelY, PanelWidth, 5), Color.Cyan);
-            DrawCenteredText("SETTINGS", panelY + 42, 1.3f, Color.Cyan);
+            _spriteBatch.Draw(_panelTexture, panel, Color.White);
+            DrawCenteredText("SETTINGS", panelY + 42, 1.3f, Color.White);
 
             for (int i = 0; i < Options.Length; i++)
                 DrawRow(i, panelX, panelY);
@@ -155,8 +162,7 @@ namespace Project_The_Elect.source_code
             bool selected = index == _selectedIndex;
             if (selected)
             {
-                _spriteBatch.Draw(_pixel, row, new Color((byte)0, (byte)54, (byte)64, (byte)180));
-                DrawBorder(row, Color.Cyan, 2);
+                _spriteBatch.Draw(_selectedBarTexture, row, Color.White);
             }
 
             if (index < 4)
@@ -165,10 +171,21 @@ namespace Project_The_Elect.source_code
                     selected ? Color.Cyan : Color.White);
                 Rectangle slider = GetSliderBounds(index);
                 _spriteBatch.Draw(_pixel, slider, Color.DarkSlateGray);
-                int fillWidth = (int)(slider.Width * GetVolume(index));
+                int knobTravel = Math.Max(0, slider.Width - slider.Height);
+                int fillWidth = (int)Math.Round(knobTravel * GetVolume(index));
                 if (fillWidth > 0)
-                    _spriteBatch.Draw(_pixel, new Rectangle(slider.X, slider.Y, fillWidth, slider.Height), Color.Cyan);
-                DrawBorder(slider, Color.LightGray, 2);
+                {
+                    var source = new Rectangle(0, 0, fillWidth, _volumeSliderTexture.Height);
+                    var destination = new Rectangle(slider.X, slider.Y, fillWidth, slider.Height);
+                    _spriteBatch.Draw(_volumeSliderTexture, destination, source, Color.White);
+                }
+
+                int handleSize = slider.Height;
+                int handleX = slider.X + fillWidth;
+                var handleSource = new Rectangle(
+                    _volumeSliderTexture.Width - handleSize, 0, handleSize, _volumeSliderTexture.Height);
+                var handleDestination = new Rectangle(handleX, slider.Y, handleSize, slider.Height);
+                _spriteBatch.Draw(_volumeSliderTexture, handleDestination, handleSource, Color.White);
                 DrawLeftText($"{(int)Math.Round(GetVolume(index) * 100f)}%", slider.Right + 24,
                     row.Y + 17, 0.68f, Color.White);
             }
@@ -232,14 +249,6 @@ namespace Project_The_Elect.source_code
             int panelY = (_screenHeight - PanelHeight) / 2;
             return new Rectangle(panelX + 585, panelY + RowStartY + index * RowSpacing + 22,
                 SliderWidth, 18);
-        }
-
-        private void DrawBorder(Rectangle rectangle, Color color, int thickness)
-        {
-            _spriteBatch.Draw(_pixel, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width, thickness), color);
-            _spriteBatch.Draw(_pixel, new Rectangle(rectangle.X, rectangle.Bottom - thickness, rectangle.Width, thickness), color);
-            _spriteBatch.Draw(_pixel, new Rectangle(rectangle.X, rectangle.Y, thickness, rectangle.Height), color);
-            _spriteBatch.Draw(_pixel, new Rectangle(rectangle.Right - thickness, rectangle.Y, thickness, rectangle.Height), color);
         }
 
         private void DrawCenteredText(string text, float y, float scale, Color color)

@@ -9,9 +9,10 @@ namespace Project_The_Elect.source_code
     public class StateHome : IGameState
     {
         private const int ButtonWidth = 760;
-        private const int ButtonHeight = 110;
-        private const int ButtonStartY = 420;
-        private const int ButtonSpacing = 170;
+        private const int ButtonHeight = 88;
+        private const int ButtonStartY = 570;
+        private const int ButtonSpacing = 100;
+        private const float ButtonLeftMarginRatio = 0.03f;
 
         private readonly SpriteBatch _spriteBatch;
         private readonly GameAudioManager _audio;
@@ -21,7 +22,7 @@ namespace Project_The_Elect.source_code
         private readonly SettingsMenu _settingsMenu;
         private readonly string[] _menuOptions = { "PLAY", "SETTINGS", "EXIT" };
         private Texture2D _background;
-        private Texture2D _pixel;
+        private Texture2D _selectionBar;
         private BitmapFont _font;
         private KeyboardState _previousKeyboardState;
         private MouseState _previousMouseState;
@@ -42,11 +43,10 @@ namespace Project_The_Elect.source_code
             _previousMouseState = Mouse.GetState();
 
             _background = content.Load<Texture2D>("texture/01_home/01_homeBG");
+            _selectionBar = content.Load<Texture2D>("texture/01_home/03_homeSelectBar");
             _font = content.Load<BitmapFont>("font/fontGenshin");
-            _pixel = new Texture2D(_spriteBatch.GraphicsDevice, 1, 1);
-            _pixel.SetData(new[] { Color.White });
             _settingsMenu = new SettingsMenu(
-                _spriteBatch, _font, _audio, _gameFlow, _screenWidth, _screenHeight);
+                content, _spriteBatch, _font, _audio, _gameFlow, _screenWidth, _screenHeight);
         }
 
         public void Update(GameTime gameTime)
@@ -146,31 +146,26 @@ namespace Project_The_Elect.source_code
         {
             Rectangle bounds = GetButtonBounds(index);
             bool selected = index == _selectedIndex;
-            Color fill = selected
-                ? new Color((byte)5, (byte)55, (byte)66, (byte)238)
-                : new Color((byte)8, (byte)20, (byte)27, (byte)220);
-            Color border = selected ? Color.Cyan : Color.DarkSlateGray;
+            if (selected)
+                _spriteBatch.Draw(_selectionBar, bounds, Color.White);
 
-            _spriteBatch.Draw(_pixel, bounds, fill);
-            _spriteBatch.Draw(_pixel, new Rectangle(bounds.X, bounds.Y, bounds.Width, 4), border);
-            _spriteBatch.Draw(_pixel, new Rectangle(bounds.X, bounds.Bottom - 4, bounds.Width, 4), border);
-            _spriteBatch.Draw(_pixel, new Rectangle(bounds.X, bounds.Y, 4, bounds.Height), border);
-            _spriteBatch.Draw(_pixel, new Rectangle(bounds.Right - 4, bounds.Y, 4, bounds.Height), border);
-
-            string label = (selected ? ">  " : "   ") + _menuOptions[index];
+            string label = _menuOptions[index];
             var size = _font.MeasureString(label);
-            const float scale = 1.15f;
+            const float scale = 1.7f;
             var position = new Vector2(
-                (_screenWidth - size.Width * scale) / 2f,
+                bounds.X + 24,
                 bounds.Y + (bounds.Height - size.Height * scale) / 2f);
-            _spriteBatch.DrawString(_font, label, position, selected ? Color.Cyan : Color.White,
+            Color textColor = selected ? new Color(238, 250, 248) : Color.White;
+            _spriteBatch.DrawString(_font, label, position + new Vector2(3, 3), new Color(0, 0, 0, 170),
+                0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(_font, label, position, textColor,
                 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
         }
 
         private Rectangle GetButtonBounds(int index)
         {
             return new Rectangle(
-                (_screenWidth - ButtonWidth) / 2,
+                (int)(_screenWidth * ButtonLeftMarginRatio),
                 ButtonStartY + index * ButtonSpacing,
                 ButtonWidth,
                 ButtonHeight);

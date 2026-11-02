@@ -22,6 +22,7 @@ namespace Project_The_Elect.source_code
         private readonly GameAudioManager _audio;
         private readonly SettingsMenu _settingsMenu;
         private readonly Texture2D _pixel;
+        private readonly Texture2D _selectionBar;
         private readonly BitmapFont _font;
         private readonly string[] _options = { "RESUME", "SETTINGS", "RETURN TO HOME" };
         private KeyboardState _previousKeyboardState;
@@ -40,10 +41,11 @@ namespace Project_The_Elect.source_code
             _spriteBatch = spriteBatch;
             _audio = audioManager;
             _font = content.Load<BitmapFont>("font/fontGenshin");
+            _selectionBar = content.Load<Texture2D>("texture/01_home/03_homeSelectBar");
             _pixel = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
             _pixel.SetData(new[] { Color.White });
             _settingsMenu = new SettingsMenu(
-                _spriteBatch, _font, _audio, _gameFlow, GameConfig.ScreenWidth, GameConfig.ScreenHeight);
+                content, _spriteBatch, _font, _audio, _gameFlow, GameConfig.ScreenWidth, GameConfig.ScreenHeight);
             _previousKeyboardState = Keyboard.GetState();
             _previousMouseState = Mouse.GetState();
 
@@ -169,24 +171,22 @@ namespace Project_The_Elect.source_code
         {
             Rectangle bounds = GetRowBounds(index);
             bool selected = index == _selectedIndex;
-            Color fill = selected
-                ? new Color((byte)0, (byte)60, (byte)72, (byte)245)
-                : new Color((byte)10, (byte)25, (byte)32, (byte)235);
-            Color border = selected ? Color.Cyan : Color.DarkSlateGray;
+            if (selected)
+            {
+                var highlight = new Rectangle(bounds.X, bounds.Y + 10, bounds.Width, bounds.Height - 20);
+                _spriteBatch.Draw(_selectionBar, highlight, Color.White);
+            }
 
-            _spriteBatch.Draw(_pixel, bounds, fill);
-            _spriteBatch.Draw(_pixel, new Rectangle(bounds.X, bounds.Y, bounds.Width, 4), border);
-            _spriteBatch.Draw(_pixel, new Rectangle(bounds.X, bounds.Bottom - 4, bounds.Width, 4), border);
-            _spriteBatch.Draw(_pixel, new Rectangle(bounds.X, bounds.Y, 4, bounds.Height), border);
-            _spriteBatch.Draw(_pixel, new Rectangle(bounds.Right - 4, bounds.Y, 4, bounds.Height), border);
-
-            string label = (selected ? ">  " : "   ") + _options[index];
+            string label = _options[index];
             var size = _font.MeasureString(label);
-            const float scale = 0.9f;
+            const float scale = 1.7f;
             var position = new Vector2(
-                (GameConfig.ScreenWidth - size.Width * scale) / 2f,
+                bounds.X + 24,
                 bounds.Y + (bounds.Height - size.Height * scale) / 2f);
-            _spriteBatch.DrawString(_font, label, position, selected ? Color.Cyan : Color.White,
+            Color textColor = selected ? new Color(238, 250, 248) : Color.White;
+            _spriteBatch.DrawString(_font, label, position + new Vector2(3, 3), new Color(0, 0, 0, 170),
+                0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(_font, label, position, textColor,
                 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
         }
 

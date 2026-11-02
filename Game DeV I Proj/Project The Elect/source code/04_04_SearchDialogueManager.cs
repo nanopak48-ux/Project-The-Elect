@@ -27,6 +27,7 @@ namespace Project_The_Elect.source_code
 
         private ChapterData _searchData;
         private int _dialogueIndex;
+        private int _dialogueEndIndexExclusive;
         private int _visibleCharacterCount;
         private string[] _currentTextElements = Array.Empty<string>();
         private double _characterTimer;
@@ -38,6 +39,7 @@ namespace Project_The_Elect.source_code
         private static readonly Vector2 CharacterPosition = new Vector2(230f, 730f);
 
         public bool IsActive { get; private set; }
+        public int CurrentDialogueIndex => _dialogueIndex;
 
         /// <summary>Raised after the last search dialogue line is dismissed.</summary>
         public event Action DialogueEnded;
@@ -66,15 +68,26 @@ namespace Project_The_Elect.source_code
         /// <summary>Loads a search JSON file and starts displaying its dialogue.</summary>
         public void Start(string jsonPath)
         {
+            Start(jsonPath, 0, int.MaxValue);
+        }
+
+        /// <summary>Loads a contiguous range of lines from a search JSON file.</summary>
+        public void Start(string jsonPath, int startIndex, int lineCount)
+        {
             string json = File.ReadAllText(jsonPath);
             _searchData = JsonSerializer.Deserialize<ChapterData>(json);
 
             if (_searchData?.dialogues == null || _searchData.dialogues.Count == 0)
                 throw new InvalidDataException($"Search dialogue file has no dialogue lines: {jsonPath}");
+            if (startIndex < 0 || startIndex >= _searchData.dialogues.Count || lineCount <= 0)
+                throw new ArgumentOutOfRangeException(nameof(startIndex), "The requested search dialogue range is invalid.");
 
-            _dialogueIndex = 0;
+            _dialogueIndex = startIndex;
+            _dialogueEndIndexExclusive = (int)Math.Min(
+                _searchData.dialogues.Count,
+                (long)startIndex + lineCount);
             _visibleCharacterCount = 0;
-            _currentTextElements = ThaiTextRenderer.SplitTextElements(_searchData.dialogues[0].text);
+            _currentTextElements = ThaiTextRenderer.SplitTextElements(_searchData.dialogues[_dialogueIndex].text);
             _thaiDialogueRenderer.SetText(string.Empty);
             _characterTimer = 0;
             _previousKeyboardState = Keyboard.GetState();
@@ -121,7 +134,7 @@ namespace Project_The_Elect.source_code
                     _characterTimer = 0;
                     _thaiDialogueRenderer.SetText(GetVisibleText());
                 }
-                else if (_dialogueIndex < _searchData.dialogues.Count - 1)
+                else if (_dialogueIndex + 1 < _dialogueEndIndexExclusive)
                 {
                     _dialogueIndex++;
                     _visibleCharacterCount = 0;

@@ -1,5 +1,5 @@
 {
-    "activeFile": "OperationCenterVI.tmx",
+    "activeFile": "animated_monitor.tsx",
     "expandedProjectPaths": [
         "."
     ],
@@ -20,15 +20,18 @@
             "scaleInDock": 0.75,
             "scaleInEditor": 1
         },
+        "00_01_storage.tsx": {
+            "scaleInDock": 1
+        },
         "01_00_furniture.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 0.75,
             "scaleInEditor": 1
         },
         "01_00_monster.tsx": {
             "scaleInDock": 0.75
         },
         "01_00_taskAsset.tsx": {
-            "scaleInDock": 0.5,
+            "scaleInDock": 0.75,
             "scaleInEditor": 1
         },
         "C:/Users/user/Downloads/01_00_taskAsset.tsx": {
@@ -125,13 +128,21 @@
                 "y": 2027.2727272727273
             }
         },
+        "Gemini_Generated_Image_1dpgi61dpgi61dpg.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 0.5
+        },
         "OperationCenterVI.tmx": {
             "scale": 0.5,
-            "selectedLayer": 12,
+            "selectedLayer": 13,
             "viewCenter": {
-                "x": 4484,
-                "y": 2552
+                "x": 4626,
+                "y": 3314
             }
+        },
+        "all.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "ani_00_locker.tsx": {
             "scaleInDock": 1,
@@ -145,9 +156,20 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "animated_00_cam.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "animated_monitor.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "animation_com_01.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
+        },
+        "prop_00.tsx": {
+            "scaleInDock": 1
         }
     },
     "frame.defaultDuration": 1500,
@@ -162,22 +184,24 @@
         "animation_com_01.tsx",
         "ani_00_locker.tsx",
         "ani_00_monster.tsx",
-        "ani_01_prop.tsx"
+        "ani_01_prop.tsx",
+        "all.tsx",
+        "animated_monitor.tsx"
     ],
     "project": "OperationCenterVI.tiled-project",
     "recentFiles": [
-        "ani_01_prop.tsx",
-        "ani_00_monster.tsx",
-        "ani_00_locker.tsx",
-        "animation_com_01.tsx",
         "OperationCenterVI.tmx",
+        "animation_com_01.tsx",
+        "ani_00_locker.tsx",
+        "ani_00_monster.tsx",
+        "ani_01_prop.tsx",
+        "all.tsx",
+        "animated_monitor.tsx",
+        "animated_00_cam.tsx",
+        "Gemini_Generated_Image_1dpgi61dpgi61dpg.tsx",
         "C:/Users/user/source/repos/26_10/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/OperationCenterVI.tmx",
         "01_00_furniture.tsx",
-        "C:/Users/user/source/repos/26_10/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/01_00_monster.tsx",
-        "C:/Users/user/source/repos/26_10/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/01_00_furniture.tsx",
-        "C:/Users/user/source/repos/26_10/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/01_00_taskAsset.tsx",
-        "C:/Users/user/source/repos/26_10/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/00_00_wall.tsx",
-        "C:/Users/user/source/repos/26_10/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/00_00_light.tsx"
+        "C:/Users/user/source/repos/26_10/nanopak48-ux/Project-The-Elect/Game DeV I Proj/Project The Elect/Content/texture/10_map/01_tile/01_00_monster.tsx"
     ],
     "tileset.lastUsedFilter": "All Files (*)",
     "tileset.lastUsedFormat": "tsx",

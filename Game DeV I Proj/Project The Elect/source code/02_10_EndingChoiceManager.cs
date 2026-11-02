@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -24,6 +25,8 @@ namespace Project_The_Elect.source_code
         private readonly SpriteBatch _spriteBatch;
         private readonly BitmapFont _font;
         private readonly Texture2D _pixel;
+        private readonly Texture2D _panelTexture;
+        private readonly Texture2D _optionTexture;
         private readonly int _screenWidth;
         private readonly int _screenHeight;
         private KeyboardState _previousKeyboardState;
@@ -32,12 +35,14 @@ namespace Project_The_Elect.source_code
         public bool IsActive { get; private set; }
         public event Action<EndingChoiceOption> ChoiceSelected;
 
-        public EndingChoiceManager(SpriteBatch spriteBatch, BitmapFont font, int screenWidth, int screenHeight)
+        public EndingChoiceManager(ContentManager content, SpriteBatch spriteBatch, BitmapFont font, int screenWidth, int screenHeight)
         {
             _spriteBatch = spriteBatch;
             _font = font;
             _screenWidth = screenWidth;
             _screenHeight = screenHeight;
+            _panelTexture = content.Load<Texture2D>("texture/03_dialogue/03_final_panel");
+            _optionTexture = content.Load<Texture2D>("texture/03_dialogue/04_trust_sleep");
             _pixel = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
             _pixel.SetData(new[] { Color.White });
         }
@@ -86,32 +91,30 @@ namespace Project_The_Elect.source_code
                 _pixel,
                 new Rectangle(0, 0, _screenWidth, _screenHeight),
                 new Color((byte)0, (byte)0, (byte)0, (byte)75));
-            _spriteBatch.Draw(_pixel, panel, new Color((byte)5, (byte)18, (byte)25, (byte)175));
-            _spriteBatch.Draw(_pixel, new Rectangle(panelX, panelY, PanelWidth, 5), Color.Cyan);
+            _spriteBatch.Draw(_panelTexture, panel, Color.White);
 
-            DrawCentered("FINAL DECISION", panelY + 44, 1.35f, Color.Cyan);
+            DrawCentered("FINAL DECISION", panelY + 44, 1.35f, Color.White);
             DrawCentered("What will you do?", panelY + 125, 0.8f, Color.White);
 
             DrawOption(0, panelY + 220, "Trust them and go to sleep");
             DrawOption(1, panelY + 220 + OptionHeight + OptionGap, "Pretend to sleep and escape");
 
-            DrawCentered("Use UP / DOWN to choose, then press SPACE", panelY + PanelHeight - 54, 0.58f, Color.LightGray);
+            DrawCentered("Use UP / DOWN to choose, then press SPACE", panelY + PanelHeight - 95, 0.58f, Color.LightGray);
         }
 
         private void DrawOption(int index, int y, string label)
         {
             int x = (_screenWidth - OptionWidth) / 2;
             var bounds = new Rectangle(x, y, OptionWidth, OptionHeight);
-            Color fill = index == _selectedIndex
-                ? new Color((byte)0, (byte)80, (byte)92, (byte)195)
-                : new Color((byte)15, (byte)32, (byte)40, (byte)185);
-            Color border = index == _selectedIndex ? Color.Cyan : Color.DarkSlateGray;
-
-            _spriteBatch.Draw(_pixel, bounds, fill);
-            _spriteBatch.Draw(_pixel, new Rectangle(bounds.X, bounds.Y, bounds.Width, 3), border);
-            _spriteBatch.Draw(_pixel, new Rectangle(bounds.X, bounds.Bottom - 3, bounds.Width, 3), border);
-            _spriteBatch.Draw(_pixel, new Rectangle(bounds.X, bounds.Y, 3, bounds.Height), border);
-            _spriteBatch.Draw(_pixel, new Rectangle(bounds.Right - 3, bounds.Y, 3, bounds.Height), border);
+            _spriteBatch.Draw(_optionTexture, bounds, Color.White);
+            if (index == _selectedIndex)
+            {
+                const int selectionBorder = 4;
+                _spriteBatch.Draw(_pixel, new Rectangle(bounds.X, bounds.Y, bounds.Width, selectionBorder), Color.White);
+                _spriteBatch.Draw(_pixel, new Rectangle(bounds.X, bounds.Bottom - selectionBorder, bounds.Width, selectionBorder), Color.White);
+                _spriteBatch.Draw(_pixel, new Rectangle(bounds.X, bounds.Y, selectionBorder, bounds.Height), Color.White);
+                _spriteBatch.Draw(_pixel, new Rectangle(bounds.Right - selectionBorder, bounds.Y, selectionBorder, bounds.Height), Color.White);
+            }
 
             string text = (index == _selectedIndex ? ">  " : "   ") + label;
             var size = _font.MeasureString(text);
@@ -119,7 +122,7 @@ namespace Project_The_Elect.source_code
             var position = new Vector2(
                 (_screenWidth - size.Width * scale) / 2f,
                 bounds.Y + (bounds.Height - size.Height * scale) / 2f);
-            _spriteBatch.DrawString(_font, text, position, index == _selectedIndex ? Color.Cyan : Color.White,
+            _spriteBatch.DrawString(_font, text, position, Color.White,
                 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
         }
 

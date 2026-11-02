@@ -17,6 +17,22 @@ namespace Project_The_Elect.source_code
 {
     public class StatePlay : IGameState, IOverlayBackgroundState
     {
+        private enum BadEndingStage
+        {
+            None,
+            Intro,
+            Injection,
+            TransitionToAftermath,
+            Aftermath
+        }
+
+        private enum GoodEndingStage
+        {
+            None,
+            LeadIn,
+            Cutscene
+        }
+
         private GameStateManager _gameState;
         private GameFlowManager _gameFlow;
         private SpriteBatch _spriteBatch;
@@ -37,6 +53,13 @@ namespace Project_The_Elect.source_code
         private GameMapManager _map;
         private InteractManager _interactManager;
         private SearchDialogueManager _searchDialogue;
+        private BadEndingCutscene _badEndingCutscene;
+        private GoodEndingCutscene _goodEndingCutscene;
+        private BadEndingStage _badEndingStage;
+        private GoodEndingStage _goodEndingStage;
+        private int _goodEndingDialogueIndex = -1;
+        private string _badEndingDialoguePath;
+        private string _goodEndingDialoguePath;
         private EndingChoiceManager _endingChoiceManager;
         private InteractableObject _activeSearchEvidence;
         private readonly HashSet<string> _collectedSearchEvidence = new HashSet<string>();
@@ -140,6 +163,8 @@ namespace Project_The_Elect.source_code
                 GameConfig.ScreenWidth,
                 GameConfig.ScreenHeight);
             _searchDialogue.DialogueEnded += OnSearchDialogueEnded;
+            _badEndingCutscene = new BadEndingCutscene(_content);
+            _goodEndingCutscene = new GoodEndingCutscene(_content);
             _dataSubmissionSequence = new DataSubmissionSequence(
                 _content,
                 _spriteBatch,
@@ -149,6 +174,7 @@ namespace Project_The_Elect.source_code
             _dataSubmissionSequence.Completed += OnDataSubmissionSequenceCompleted;
             _endingFont = _content.Load<BitmapFont>("font/fontGenshin");
             _endingChoiceManager = new EndingChoiceManager(
+                _content,
                 _spriteBatch,
                 _endingFont,
                 GameConfig.ScreenWidth,
@@ -201,6 +227,13 @@ namespace Project_The_Elect.source_code
             {
                 if (_isEndingSequence)
                 {
+                    if (_badEndingStage == BadEndingStage.Injection)
+                        _badEndingCutscene.Update(gameTime);
+                    if (_goodEndingStage == GoodEndingStage.Cutscene)
+                    {
+                        UpdateGoodEndingFrameForDialogue();
+                        _goodEndingCutscene.Update(gameTime);
+                    }
                     _searchDialogue.Update(gameTime);
                     _player.UpdateWithoutMovement(gameTime);
                     return;
@@ -393,7 +426,11 @@ namespace Project_The_Elect.source_code
             if (_isEndingSequence)
             {
                 _graphics.GraphicsDevice.Clear(Color.Black);
-                _spriteBatch.Begin();
+                _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                if (_badEndingStage == BadEndingStage.Injection)
+                    _badEndingCutscene.Draw(_spriteBatch, GameConfig.ScreenWidth, GameConfig.ScreenHeight);
+                if (_goodEndingStage == GoodEndingStage.Cutscene)
+                    _goodEndingCutscene.Draw(_spriteBatch, GameConfig.ScreenWidth, GameConfig.ScreenHeight);
                 _searchDialogue?.Draw(gameTime);
                 _spriteBatch.End();
                 return;
@@ -405,6 +442,7 @@ namespace Project_The_Elect.source_code
 
             _map.Draw(gameTime, _camera, "floor_white");
             _map.Draw(gameTime, _camera, "floor_black");
+            _map.Draw(gameTime, _camera, "downfurniture");
             _map.Draw(gameTime, _camera, "background");
             _map.Draw(gameTime, _camera, "wall_lower");
             _map.Draw(gameTime, _camera, "wall_upper");
@@ -413,9 +451,11 @@ namespace Project_The_Elect.source_code
             _map.Draw(gameTime, _camera, "middleground");
             _map.Draw(gameTime, _camera, "furniture");
             _map.Draw(gameTime, _camera, "foreground");
+            _map.Draw(gameTime, _camera, "upperground");
             _map.Draw(gameTime, _camera, "stuff");
+            _map.Draw(gameTime, _camera, "props");
             _map.Draw(gameTime, _camera, "light");
-          
+
             string monsterLayer = $"mon{_questProgress.MonsterIndex}";
             if (_map.HasLayer(monsterLayer))
                 _map.Draw(gameTime, _camera, monsterLayer);
@@ -436,7 +476,8 @@ namespace Project_The_Elect.source_code
             // 2. วาดตัวละคร
             _player.Draw();
 
-            if (_interactManager?.CurrentNearbyObject != null
+            if (_interactManager?
+                .CurrentNearbyObject != null
                 && !_minigame.IsPlaying
                 && _searchDialogue?.IsActive != true
                 && _dataSubmissionSequence?.IsActive != true
@@ -806,12 +847,56 @@ namespace Project_The_Elect.source_code
 
         private void OnSearchDialogueEnded()
         {
+            if (_badEndingStage != BadEndingStage.None)
+            {
+                switch (_badEndingStage)
+                {
+                    case BadEndingStage.Intro:
+                        _badEndingStage = BadEndingStage.Injection;
+                        _badEndingCutscene.Start();
+                        _searchDialogue.Start(_badEndingDialoguePath, 4, 2);
+                        return;
+
+                    case BadEndingStage.Injection:
+                        _badEndingStage = BadEndingStage.TransitionToAftermath;
+                        BeginBlackout(0.6f, () =>
+                        {
+                            _badEndingStage = BadEndingStage.Aftermath;
+                            _searchDialogue.Start(_badEndingDialoguePath, 6, 6);
+                        });
+                        return;
+
+                    case BadEndingStage.Aftermath:
+                        _badEndingStage = BadEndingStage.None;
+                        FinishEndingDialogue();
+                        return;
+                }
+            }
+
+            if (_goodEndingStage != GoodEndingStage.None)
+            {
+                switch (_goodEndingStage)
+                {
+                    case GoodEndingStage.LeadIn:
+                        _goodEndingStage = GoodEndingStage.Cutscene;
+                        _goodEndingDialogueIndex = -1;
+                        UpdateGoodEndingFrameForDialogue(9);
+                        _searchDialogue.Start(_goodEndingDialoguePath, 9, 11);
+                        return;
+
+                    case GoodEndingStage.Cutscene:
+                        _goodEndingStage = GoodEndingStage.None;
+                        _goodEndingDialoguePath = null;
+                        _goodEndingDialogueIndex = -1;
+                        FinishEndingDialogue();
+                        return;
+                }
+            }
+
             if (_isEndingDialogue)
             {
                 _isEndingDialogue = false;
-                _endingText = _pendingEndingText;
-                _pendingEndingText = null;
-                Console.WriteLine($"[Ending] {_endingText} ({_collectedSearchEvidence.Count} evidence collected)");
+                FinishEndingDialogue();
                 return;
             }
 
@@ -921,6 +1006,32 @@ namespace Project_The_Elect.source_code
             }
         }
 
+        private void UpdateGoodEndingFrameForDialogue()
+        {
+            UpdateGoodEndingFrameForDialogue(_searchDialogue.CurrentDialogueIndex);
+        }
+
+        private void UpdateGoodEndingFrameForDialogue(int dialogueIndex)
+        {
+            if (_goodEndingDialogueIndex == dialogueIndex)
+                return;
+
+            _goodEndingDialogueIndex = dialogueIndex;
+            (int firstFrame, int lastFrame) = dialogueIndex switch
+            {
+                9 or 10 => (0, 3),
+                11 => (4, 5),
+                12 => (5, 5),
+                13 => (6, 7),
+                14 => (8, 19),
+                15 => (20, 24),
+                16 => (24, 25),
+                _ => (25, 25)
+            };
+
+            _goodEndingCutscene.SetLoopRange(firstFrame, lastFrame);
+        }
+
         private void BeginEndingDialogue()
         {
             _isEndingSequence = true;
@@ -935,19 +1046,45 @@ namespace Project_The_Elect.source_code
                 "dataSearch",
                 $"search{searchIndex:00}.json");
 
-            _isEndingDialogue = true;
             _player.Freeze();
             try
             {
-                _searchDialogue.Start(searchPath);
+                if (hasGoodEnding)
+                {
+                    _isEndingDialogue = false;
+                    _badEndingStage = BadEndingStage.None;
+                    _goodEndingStage = GoodEndingStage.LeadIn;
+                    _goodEndingDialoguePath = searchPath;
+                    _searchDialogue.Start(searchPath, 0, 9);
+                }
+                else
+                {
+                    _goodEndingStage = GoodEndingStage.None;
+                    _goodEndingDialoguePath = null;
+                    _isEndingDialogue = false;
+                    _badEndingStage = BadEndingStage.Intro;
+                    _badEndingDialoguePath = searchPath;
+                    _searchDialogue.Start(searchPath, 0, 4);
+                }
             }
             catch (Exception exception)
             {
                 _isEndingDialogue = false;
+                _badEndingStage = BadEndingStage.None;
+                _goodEndingStage = GoodEndingStage.None;
+                _goodEndingDialoguePath = null;
                 _endingText = _pendingEndingText;
                 _pendingEndingText = null;
                 Console.WriteLine($"[Ending Dialogue Error] {exception.Message}");
             }
+        }
+
+        private void FinishEndingDialogue()
+        {
+            _endingText = _pendingEndingText;
+            _pendingEndingText = null;
+            _badEndingDialoguePath = null;
+            Console.WriteLine($"[Ending] {_endingText} ({_collectedSearchEvidence.Count} evidence collected)");
         }
 
         private void BeginBlackout(float duration, Action afterBlackout = null)
