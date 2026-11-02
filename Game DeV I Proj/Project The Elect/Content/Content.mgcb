@@ -342,35 +342,40 @@
 /processorParam:Version=3.8.5.1
 /build:font/fontGenshin_1.png
 
+#begin font/fontGenshin_2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:font/fontGenshin_2.png
+
 #begin font/fontGenshin.fnt
 /importer:BitmapFontImporter
 /processor:BitmapFontProcessor
 /processorParam:Version=6.1.1.0
 /build:font/fontGenshin.fnt
 
-#begin font/IBMPlexSansThai.spritefont
+#begin font/NotoSerifThai-SemiBold.ttf
+/importer:FontImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/processorParam:Version=3.8.5.1
+/build:font/NotoSerifThai-SemiBold.ttf
+
+#begin font/NotoSerifThaiDialogue.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /processorParam:Version=3.8.5.1
-/build:font/IBMPlexSansThai.spritefont
-
-#begin font/IBMPlexSansThaiLooped-SemiBold.ttf
-/importer:FontImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/processorParam:Version=3.8.5.1
-/build:font/IBMPlexSansThaiLooped-SemiBold.ttf
-
-#begin font/zh-cn.ttf
-/importer:FontImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/processorParam:Version=3.8.5.1
-/build:font/zh-cn.ttf
+/build:font/NotoSerifThaiDialogue.spritefont
 
 #begin texture/01_home/01_homeBG.png
 /importer:TextureImporter

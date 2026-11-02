@@ -40,6 +40,7 @@ namespace Project_The_Elect
         private GameWindow _window;
         public GameFlow CurrentFlow { get; private set; }
         private bool _chapter02DialogueStarted;
+        public event Action ExitRequested;
 
         public GameFlowManager(
             GameStateManager _stateManager,
@@ -66,6 +67,19 @@ namespace Project_The_Elect
             //ChangeFlow((GameFlow)((int)GameFlow.Chapter01 + 1));
             //ChangeFlow((CurrentFlow + 1));
             ChangeFlow(GameFlow.Play);
+        }
+
+        public void RequestExit()
+        {
+            ExitRequested?.Invoke();
+        }
+
+        public bool IsFullScreen => _graphics.IsFullScreen;
+
+        public void ToggleFullScreen()
+        {
+            _graphics.IsFullScreen = !_graphics.IsFullScreen;
+            _graphics.ApplyChanges();
         }
 
         public bool TryStartChapter02Dialogue()

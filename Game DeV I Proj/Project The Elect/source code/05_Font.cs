@@ -14,37 +14,36 @@ namespace Project_The_Elect.source_code
     public class GameTextManager
     {
         public SpriteFont MainFont { get; private set; }
-        //public BitmapFont DialogueFont { get; private set; }
-        //public BitmapFont ProfileFont { get; private set; }
 
         private SpriteBatch _spriteBatch;
 
         private Vector2 _profilePos;
 
         private Vector2 _dialoguePos;
-        private float _dialogueScale = 1.2f;
         private float _profileScale = 2.0f;
 
-        private List<char> _dialogueline = new List<char>();
+        private string[] _dialogueElements = Array.Empty<string>();
         private int _dialogueCharIndex = 0;
 
-        private List<char> _dialoguedisplay = new List<char>();
+        private readonly StringBuilder _dialoguedisplay = new StringBuilder();
 
         private bool _isPlayingTextAnim = false;
 
         private DialogueData _dialogueData;
 
-        private BitmapFont DialogueFont;
+        private SpriteFont DialogueFont;
         private BitmapFont ProfileFont;
+        private readonly ThaiTextRenderer _thaiDialogueRenderer;
 
         public GameTextManager(ContentManager content, SpriteBatch spriteBatch)
         {
             _spriteBatch = spriteBatch;
-            //ProfileFont = content.Load<SpriteFont>("font/zh-cn");
-            //DialogueFont = content.Load<BitmapFont>("font/fontGenshin");
-
-            DialogueFont = content.Load<BitmapFont>("font/fontGenshin");
-            ProfileFont = DialogueFont;
+            DialogueFont = content.Load<SpriteFont>("font/NotoSerifThaiDialogue");
+            ProfileFont = content.Load<BitmapFont>("font/fontGenshin");
+            string thaiFontPath = System.IO.Path.Combine(
+                AppContext.BaseDirectory,
+                "Content", "font", "NotoSerifThai-SemiBold.ttf");
+            _thaiDialogueRenderer = ThaiTextRenderer.GetShared(_spriteBatch.GraphicsDevice, thaiFontPath);
 
             _dialoguePos = new Vector2(270, 820);
         }
@@ -54,13 +53,10 @@ namespace Project_The_Elect.source_code
             if (isNextDialogue)
             {
                 _dialoguePos = new Vector2(230, 820);
-                _dialogueline.Clear();
                 _dialoguedisplay.Clear();
                 _dialogueCharIndex = 0;
-                foreach (char c in current.text)
-                {
-                    _dialogueline.Add(c);
-                }
+                _dialogueElements = ThaiTextRenderer.SplitTextElements(current.text);
+                _thaiDialogueRenderer.SetText(string.Empty);
                 _isPlayingTextAnim = true;
                 string profileName = current.character.ToUpper();
                 float profileNameWidth = ProfileFont.MeasureString(profileName).Width * _profileScale;
@@ -73,11 +69,11 @@ namespace Project_The_Elect.source_code
 
             if (_isPlayingTextAnim)
             {
-                if (_dialogueCharIndex < current.text.Length)
+                if (_dialogueCharIndex < _dialogueElements.Length)
                 {
-                    _dialoguedisplay.Add(_dialogueline[0]);
-                    _dialogueline.RemoveAt(0);
+                    _dialoguedisplay.Append(_dialogueElements[_dialogueCharIndex]);
                     _dialogueCharIndex++;
+                    _thaiDialogueRenderer.SetText(_dialoguedisplay.ToString());
                 }
                 else
                 {
@@ -89,8 +85,17 @@ namespace Project_The_Elect.source_code
         public void DrawDialogue(GameTime gametime, DialogueData current)
         {
             //DRAW TEXT 
-            _spriteBatch.DrawString(DialogueFont, new string(_dialoguedisplay.ToArray()), _dialoguePos, Color.White, 0f, Vector2.Zero, _dialogueScale, SpriteEffects.None, 0f);
-            _spriteBatch.DrawString(ProfileFont, current.character.ToUpper(), _profilePos, Color.White, 0f, Vector2.Zero, _profileScale, SpriteEffects.None, 0f);
+            _thaiDialogueRenderer.Draw(_spriteBatch, _dialoguePos);
+            _spriteBatch.DrawString(
+                ProfileFont,
+                current.character.ToUpperInvariant(),
+                _profilePos,
+                Color.White,
+                0f,
+                Vector2.Zero,
+                _profileScale,
+                SpriteEffects.None,
+                0f);
 
         }
 

@@ -327,13 +327,14 @@ namespace Project_The_Elect.source_code
                 return;
             }
 
-            CheckEscape();
-
             if (_minigame.IsPlaying)
             {
                 _minigame.InputHandler(gameTime);
                 return;
             }
+
+            if (!_questProgress.HasDialogueMessage)
+                CheckEscape();
 
             InputHandlerMinigame();
         }
@@ -1132,7 +1133,7 @@ namespace Project_The_Elect.source_code
 
             if (keyboardState.WasKeyPressed(Keys.Escape))
             {
-                _gameState.StatePush(new StateMenu(_content, _gameState, _spriteBatch, _audio));
+                _gameState.StatePush(new StateMenu(_content, _gameState, _gameFlow, _spriteBatch, _audio));
             }
         }
     }
