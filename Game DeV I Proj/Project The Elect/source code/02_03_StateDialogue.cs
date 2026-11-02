@@ -132,7 +132,6 @@ namespace Project_The_Elect
             MouseState currentMouseState = Mouse.GetState();
 
             bool spacePressed = currentKeyboardState.IsKeyDown(Keys.Space) && _previousKeyboardState.IsKeyUp(Keys.Space);
-            bool keyEscapePressed = currentKeyboardState.IsKeyDown(Keys.Escape) && _previousKeyboardState.IsKeyUp(Keys.Escape);
             bool mouseClicked = currentMouseState.LeftButton == ButtonState.Pressed && _previousMouseState.LeftButton == ButtonState.Released;
             bool keyDownPresed = currentKeyboardState.IsKeyDown(Keys.Down) && _previousKeyboardState.IsKeyUp(Keys.Down);
             bool keyUpPressed = currentKeyboardState.IsKeyDown(Keys.Up) && _previousKeyboardState.IsKeyUp(Keys.Up);
@@ -160,19 +159,14 @@ namespace Project_The_Elect
                 }
             }
 
-            if (keyEscapePressed)
-            {
-                _gameStateManager.StatePush(new StateMenu(contentManager, _gameStateManager, _spriteBatch, _audioManager));
-            }
-
             if (keyUpPressed)
             {
-                _audioManager.VolumeControl(10f, 0);
+                _audioManager.VolumeControl(0.05f, 0f);
             }
 
             if (keyDownPresed)
             {
-                _audioManager.VolumeControl(-10f, 0);
+                _audioManager.VolumeControl(-0.05f, 0f);
             }
 
 

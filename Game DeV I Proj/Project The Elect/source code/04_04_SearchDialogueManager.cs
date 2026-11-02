@@ -1,10 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.BitmapFonts;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended.BitmapFonts;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 
 namespace Project_The_Elect.source_code
@@ -18,7 +19,8 @@ namespace Project_The_Elect.source_code
         private readonly ContentManager _content;
         private readonly SpriteBatch _spriteBatch;
         private readonly GameAudioManager _audio;
-        private readonly BitmapFont _dialogueFont;
+        private readonly ThaiTextRenderer _thaiDialogueRenderer;
+        private readonly BitmapFont _nameFont;
         private readonly Texture2D _dialogueBackground;
         private readonly int _screenWidth;
         private readonly int _screenHeight;
@@ -26,12 +28,12 @@ namespace Project_The_Elect.source_code
         private ChapterData _searchData;
         private int _dialogueIndex;
         private int _visibleCharacterCount;
+        private string[] _currentTextElements = Array.Empty<string>();
         private double _characterTimer;
         private KeyboardState _previousKeyboardState;
 
         private const double CharacterIntervalSeconds = 0.02;
-        private const float DialogueScale = 1.2f;
-        private const float CharacterScale = 2.0f;
+        private const float NameFontScale = 2f;
         private static readonly Vector2 DialoguePosition = new Vector2(230f, 820f);
         private static readonly Vector2 CharacterPosition = new Vector2(230f, 730f);
 
@@ -54,7 +56,11 @@ namespace Project_The_Elect.source_code
             _screenHeight = screenHeight;
 
             _dialogueBackground = _content.Load<Texture2D>("texture/03_dialogue/01_dialogueBG3");
-            _dialogueFont = _content.Load<BitmapFont>("font/fontGenshin");
+            string thaiFontPath = Path.Combine(
+                AppContext.BaseDirectory,
+                "Content", "font", "NotoSerifThai-SemiBold.ttf");
+            _thaiDialogueRenderer = ThaiTextRenderer.GetShared(_spriteBatch.GraphicsDevice, thaiFontPath);
+            _nameFont = _content.Load<BitmapFont>("font/fontGenshin");
         }
 
         /// <summary>Loads a search JSON file and starts displaying its dialogue.</summary>
@@ -68,6 +74,8 @@ namespace Project_The_Elect.source_code
 
             _dialogueIndex = 0;
             _visibleCharacterCount = 0;
+            _currentTextElements = ThaiTextRenderer.SplitTextElements(_searchData.dialogues[0].text);
+            _thaiDialogueRenderer.SetText(string.Empty);
             _characterTimer = 0;
             _previousKeyboardState = Keyboard.GetState();
             IsActive = true;
@@ -85,14 +93,15 @@ namespace Project_The_Elect.source_code
             if (current == null)
                 return;
 
-            if (_visibleCharacterCount >= current.text.Length)
+            if (_visibleCharacterCount >= _currentTextElements.Length)
                 return;
 
             _characterTimer += gameTime.ElapsedGameTime.TotalSeconds;
-            while (_characterTimer >= CharacterIntervalSeconds && _visibleCharacterCount < current.text.Length)
+            while (_characterTimer >= CharacterIntervalSeconds && _visibleCharacterCount < _currentTextElements.Length)
             {
                 _visibleCharacterCount++;
                 _characterTimer -= CharacterIntervalSeconds;
+                _thaiDialogueRenderer.SetText(GetVisibleText());
             }
         }
 
@@ -106,15 +115,18 @@ namespace Project_The_Elect.source_code
             {
                 _audio.PlaySFX("skipdia");
                 DialogueData current = CurrentDialogue;
-                if (current != null && _visibleCharacterCount < current.text.Length)
+                if (current != null && _visibleCharacterCount < _currentTextElements.Length)
                 {
-                    _visibleCharacterCount = current.text.Length;
+                    _visibleCharacterCount = _currentTextElements.Length;
                     _characterTimer = 0;
+                    _thaiDialogueRenderer.SetText(GetVisibleText());
                 }
                 else if (_dialogueIndex < _searchData.dialogues.Count - 1)
                 {
                     _dialogueIndex++;
                     _visibleCharacterCount = 0;
+                    _currentTextElements = ThaiTextRenderer.SplitTextElements(CurrentDialogue.text);
+                    _thaiDialogueRenderer.SetText(string.Empty);
                     _characterTimer = 0;
                     PlayCurrentVoiceline();
                 }
@@ -149,28 +161,23 @@ namespace Project_The_Elect.source_code
             if (!string.IsNullOrWhiteSpace(current.character))
             {
                 _spriteBatch.DrawString(
-                    _dialogueFont,
+                    _nameFont,
                     current.character.ToUpperInvariant(),
                     CharacterPosition,
                     Color.White,
                     0f,
                     Vector2.Zero,
-                    CharacterScale,
+                    NameFontScale,
                     SpriteEffects.None,
                     0f);
             }
 
-            string visibleText = current.text.Substring(0, _visibleCharacterCount);
-            _spriteBatch.DrawString(
-                _dialogueFont,
-                visibleText,
-                DialoguePosition,
-                Color.White,
-                0f,
-                Vector2.Zero,
-                DialogueScale,
-                SpriteEffects.None,
-                0f);
+            _thaiDialogueRenderer.Draw(_spriteBatch, DialoguePosition);
+        }
+
+        private string GetVisibleText()
+        {
+            return string.Concat(_currentTextElements.Take(_visibleCharacterCount));
         }
 
         private DialogueData CurrentDialogue =>
@@ -184,5 +191,6 @@ namespace Project_The_Elect.source_code
         {
             _audio.PlayVoicelines(_dialogueIndex);
         }
+
     }
 }

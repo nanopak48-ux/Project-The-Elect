@@ -19,6 +19,7 @@ namespace Project_The_Elect.source_code
 {
     public class GameAudioManager
     {
+        private float volume_master = 1f;
         private float volume_bgm = 0.8f;
         private float volume_sfx = 0.5f;
         private const float FootstepBlackVolumeScale = 0.35f;
@@ -75,8 +76,14 @@ namespace Project_The_Elect.source_code
         private string prefix;
 
         private bool _isvoicelinePlaying = false;
+        private bool _isBgmLow;
         private readonly Random _footstepRandom = new Random();
         private string _lastFootstepSfx;
+
+        public float MasterVolume => volume_master;
+        public float BackgroundMusicVolume => volume_bgm;
+        public float SoundEffectsVolume => volume_sfx;
+        public float DialogueVolume => volume_vc;
 
         public void LoadContent(ContentManager content)
         {
@@ -134,7 +141,7 @@ namespace Project_The_Elect.source_code
         {
             if (bgmIndex >= 0 && bgmIndex < _BGM.Count)
             {
-                MediaPlayer.Volume = volume_bgm;
+                ApplyBgmVolume();
                 MediaPlayer.Play(_BGM[bgmIndex]);
                 MediaPlayer.IsRepeating = true;
             }
@@ -142,8 +149,8 @@ namespace Project_The_Elect.source_code
 
         public void LowBGM(bool decision)
         {
-            if (decision) MediaPlayer.Volume = 0.05f;
-            else MediaPlayer.Volume = volume_bgm;
+            _isBgmLow = decision;
+            ApplyBgmVolume();
 
         }
 
@@ -153,7 +160,7 @@ namespace Project_The_Elect.source_code
             if (voicelineIndex < 0 || voicelineIndex >= _Voicelines.Count || _Voicelines[voicelineIndex] == null) return;
 
             _currentVoiceline = _Voicelines[voicelineIndex].CreateInstance();
-            _currentVoiceline.Volume = volume_vc;
+            _currentVoiceline.Volume = volume_master * volume_vc;
             _currentVoiceline.Play();
         }
 
@@ -163,7 +170,7 @@ namespace Project_The_Elect.source_code
             if (index != -1)
             {
                 SoundEffectInstance sfx = _SFX[index].CreateInstance();
-                sfx.Volume = volume_sfx;
+                sfx.Volume = volume_master * volume_sfx;
                 sfx.Play();
             }
         }
@@ -191,17 +198,47 @@ namespace Project_The_Elect.source_code
             if (index >= 0 && index < _SFX.Count)
             {
                 float volumeScale = surface == "black" ? FootstepBlackVolumeScale : FootstepWhiteVolumeScale;
-                _SFX[index].Play(volume_sfx * volumeScale, 0f, 0f);
+                _SFX[index].Play(volume_master * volume_sfx * volumeScale, 0f, 0f);
                 _lastFootstepSfx = sfxName;
             }
         }
 
+        public void SetMasterVolume(float value)
+        {
+            volume_master = MathHelper.Clamp(value, 0f, 1f);
+            ApplyBgmVolume();
+            if (_currentVoiceline != null)
+                _currentVoiceline.Volume = volume_master * volume_vc;
+        }
+
+        public void SetBackgroundMusicVolume(float value)
+        {
+            volume_bgm = MathHelper.Clamp(value, 0f, 1f);
+            ApplyBgmVolume();
+        }
+
+        public void SetSoundEffectsVolume(float value)
+        {
+            volume_sfx = MathHelper.Clamp(value, 0f, 1f);
+        }
+
+        public void SetDialogueVolume(float value)
+        {
+            volume_vc = MathHelper.Clamp(value, 0f, 1f);
+            if (_currentVoiceline != null)
+                _currentVoiceline.Volume = volume_master * volume_vc;
+        }
+
         public void VolumeControl(float bgmVolume, float sfxVolume)
         {
-            volume_bgm += bgmVolume;
-            volume_sfx += sfxVolume;
-            volume_vc += sfxVolume;
-            MediaPlayer.Volume = volume_bgm;
+            SetBackgroundMusicVolume(volume_bgm + bgmVolume);
+            SetSoundEffectsVolume(volume_sfx + sfxVolume);
+        }
+
+        private void ApplyBgmVolume()
+        {
+            float channelVolume = _isBgmLow ? Math.Min(volume_bgm, 0.05f) : volume_bgm;
+            MediaPlayer.Volume = MathHelper.Clamp(volume_master * channelVolume, 0f, 1f);
         }
     }
 }

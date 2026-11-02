@@ -55,7 +55,7 @@ namespace Project_The_Elect
             _audioManager.LoadContent(Content);
 
             _gameFlow = new GameFlowManager(StateManager, _spriteBatch, Content, _audioManager, _graphics, Window);
-            _gameFlow = new GameFlowManager(StateManager, _spriteBatch, Content, _audioManager, _graphics, Window);
+            _gameFlow.ExitRequested += Exit;
             _gameFlow.ChangeFlow(GameFlow.Home);
         }
 
@@ -77,6 +77,9 @@ namespace Project_The_Elect
             StateManager.Update(gameTime);
 
             StateManager.InputHandler(gameTime);
+
+            // Keep the cursor out of the gameplay view; menu states still support mouse input.
+            IsMouseVisible = StateManager.CurrentState is StateHome or StateMenu;
 
             StateManager.AudioHandler(gameTime);
 
